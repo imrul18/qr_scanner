@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\User;
 
 class StaterkitController extends Controller
 {
@@ -13,7 +14,26 @@ class StaterkitController extends Controller
         $breadcrumbs = [
             ['link' => "home", 'name' => "Home"], ['name' => "Index"]
         ];
-        return view('/content/home', ['breadcrumbs' => $breadcrumbs]);
+        return view('content.home', ['breadcrumbs' => $breadcrumbs]);
+    }
+
+    public function homeNew()
+    {
+        $user = User::with('refer')->with('orders', function ($q) {
+            $q->with('seller')->latest()->take(5);
+        })->find(auth()->user()->id);
+        $result = User::buildTree($user->ref_code);
+        $countAllNodes = User::countAllNodes($user->ref_code);
+        $self = $user;
+        $self['children'] = $result;
+        $tree = [$self];
+        $userList = User::all();
+        $order = [];
+        //total orders amount
+        // $order['total_amount'] = Order::sum('total_price');
+        //total RP amount of orders
+        // $order['total_rp_amount'] = Order::sum('repurchase_price');
+        return view('pages.users.profile', compact('user', 'tree', 'countAllNodes', 'userList', 'order'));
     }
 
     // Layout collapsed menu

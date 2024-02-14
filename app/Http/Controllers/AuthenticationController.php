@@ -2,29 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
-    public function login()
+    public function loginPage()
     {
         $pageConfigs = ['blankPage' => true];
-        return view('/pages/auth/login', ['pageConfigs' => $pageConfigs]);
+        return view('pages.auth.login', ['pageConfigs' => $pageConfigs]);
     }
 
-    public function loginConfirm(Request $request)
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required'
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->route('home');
+            if (Auth::user()->status != 1) {
+                return redirect()->route('login')
+                    ->with('loginError', 'Account is deactived')->withInput();
+            }
+            return redirect()->route('dashboard');
         }
         return redirect()->route('login')
-            ->with('error', 'Invalid login credentials')->withInput();
+            ->with('loginError', 'Invalid login credentials')->withInput();
     }
 
     public function logout(Request $request)

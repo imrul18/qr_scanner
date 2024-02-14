@@ -2,12 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\GlobalSetting;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Random;
 
 class DatabaseSeeder extends Seeder
 {

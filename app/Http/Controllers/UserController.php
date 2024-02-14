@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Random;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    public function userList(Request $request)
     {
         $users = User::query();
         if ($request->has('search')) {
@@ -20,12 +19,12 @@ class UserController extends Controller
         return view('pages.users.list', compact('users', 'request'));
     }
 
-    public function userAdd()
+    public function userAddPage()
     {
         return view('pages.users.add');
     }
 
-    public function store(Request $request)
+    public function userAdd(Request $request)
     {
         $request->validate([
             'name' => 'required|min:3',
@@ -37,30 +36,31 @@ class UserController extends Controller
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
         if ($user) {
-            return redirect('/users');
+            return redirect()->route('user-list-page')->with('success', 'User added successfully!');
         }
         return redirect()->back()->with('error', 'Something wents wrong!')->withInput();
     }
 
-    public function userEdit($user_id)
+    public function userEditPage($user_id)
     {
         $user = User::find($user_id);
         return view('pages.users.edit', compact('user'));
     }
 
-    public function update(Request $request)
+    public function userEdit(Request $request, string $id)
     {
         $request->validate([
             'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email',
             'type' => 'required',
             'status' => 'required',
         ]);
-        $data = $request->only(['name', 'email', 'type']);
-        $data['password'] = Hash::make($request->password);
-        $user = User::create($data);
+        $data = $request->only(['name', 'type', 'status']);
+        if ($request->has('password') && $request->password != null) {
+            $data['password'] = Hash::make($request->password);
+        }
+        $user = User::find($id)->update($data);
         if ($user) {
-            return redirect('/users');
+            return redirect()->route('user-list-page')->with('success', 'User update successfully!');
         }
         return redirect()->back()->with('error', 'Something wents wrong!')->withInput();
     }
@@ -68,6 +68,9 @@ class UserController extends Controller
     public function userDelete($user_id)
     {
         $user = User::find($user_id)->delete();
-        return redirect()->back();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Something wents wrong!');
+        }
+        return redirect()->route('user-list-page')->with('success', 'User delete successfully!');
     }
 }

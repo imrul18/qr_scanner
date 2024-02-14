@@ -1,10 +1,10 @@
 {
     "menu": [
         {
-            "url": "/",
+            "url": "",
             "name": "Dashboard",
             "icon": "home",
-            "slug": "dashboard"
+            "slug": ""
         },
         {
             "url": "users",
@@ -14,30 +14,11 @@
             "access": [1]
         },
         {
-            "url": "orders",
-            "name": "Orders",
-            "icon": "shopping-cart",
-            "slug": "orders"
-        },
-        {
-            "name": "Setting",
-            "icon": "settings",
-            "slug": "settings",
-            "submenu": [
-                {
-                    "url": "settings/global",
-                    "name": "Global",
-                    "icon": "circle",
-                    "slug": "setting/global"
-                },
-                {
-                    "url": "settings/manual",
-                    "name": "Manual",
-                    "icon": "circle",
-                    "slug": "setting/manual"
-                }
-            ],
-            "access": [1]
+            "url": "events",
+            "name": "Events",
+            "icon": "book-open",
+            "slug": "events",
+            "access": [1, 2]
         }
     ]
 }
