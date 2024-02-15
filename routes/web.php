@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('edit-event/{id}', [EventController::class, 'eventEdit'])->name('event-edit');
     Route::post('delete-event/{id}', [EventController::class, 'eventDelete'])->name('event-delete');
     Route::get('view-event/{id}', [EventController::class, 'eventViewPage'])->name('event-view-page');
+    Route::get('view-event-ticket/{id}', [EventController::class, 'eventTicketViewPage'])->name('event-ticket-view-page');
+    Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
 });
 
 // Route Components

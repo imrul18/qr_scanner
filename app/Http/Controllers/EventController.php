@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventTicket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class EventController extends Controller
             $events = $events->where('name', 'like', '%' . $request->search . '%');
         }
         $events = $events->paginate('10');
-        return view('pages.events.list', compact('events', 'request'));
+        return view('pages.events.list', compact('events'));
     }
 
     public function eventAddPage()
@@ -67,9 +68,46 @@ class EventController extends Controller
         return redirect()->route('event-list-page')->with('success', 'Event delete successfully!');
     }
 
-    public function eventViewPage($id)
+    public function eventViewPage(Request $request, $id)
     {
+        $event = Event::with('tickets')->find($id);
+
+        $tickets = $event->tickets();
+        if ($request->has('search')) {
+            $tickets = $tickets->where('name', 'like', '%' . $request->search . '%');
+        }
+        $tickets = $tickets->paginate('10');
+
+        return view('pages.events.view', compact('event', 'tickets'));
+    }
+
+    public function eventTicketViewPage($id)
+    {
+        $ticket = EventTicket::find($id);
+        return view('pages.events.ticket_view', compact('ticket'));
+    }
+
+    public function TicketUpload(Request $request, $id)
+    {
+        $request->validate([
+            'tickets_file' => 'required|file|mimes:csv|max:2048',
+        ]);
+        $file = $request->file('tickets_file');
         $event = Event::find($id);
-        return view('pages.events.view', compact('event'));
+
+        $file = fopen($file, 'r');
+        $header = fgetcsv($file);
+        while ($row = fgetcsv($file)) {
+            $event->tickets()->create([
+                'uuid' => strtoupper(uniqid()),
+                'name' => $row[0],
+                'price' => $row[1],
+                // 'count' => $row[2],
+                'status' => 1,
+            ]);
+        }
+        fclose($file);
+
+        return redirect()->back()->with('success', 'Ticket uploaded successfully!');
     }
 }

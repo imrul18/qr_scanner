@@ -5,7 +5,7 @@
 @section('content')
     <section id="basic-horizontal-layouts">
         <div class="row">
-            <div class="col-md-12 col-12">
+            <div class="col-md-6 col-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">View event</h4>
@@ -22,29 +22,6 @@
                             <div class="col-8">{{ config('status.status')[$event->status] }}</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12">
-                <div class="card">
-                    <form class="box text-center" method="post" action="{{ route('ticket-upload', $event->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div id="drop_zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="openFileExplorer()">
-                            <p id="file_name">Drag & Drop files here or click here to choose files</p>
-                            <input type="file" id="file_input" name="tickets_file" accept=".csv"
-                                onchange="handleFiles(this.files)">
-
-                        </div>
-                        @error('tickets_file')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                        <button type="reset" class="btn btn-danger" onclick="resetForm()">Reset</button>
-                        <button type="submit" class="btn btn-primary">Upload Tickets CSV file</button>
-                    </form>
-
-                    <video id="reader" width="300"></video>
-                    <div id="result"></div>
-
                 </div>
             </div>
         </div>
@@ -66,7 +43,6 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>UUID</th>
                                     <th>Name</th>
                                     <th>
                                         <div class="d-flex justify-content-center">Status</div>
@@ -86,12 +62,8 @@
                                 @foreach ($tickets as $ticket)
                                     <tr>
                                         <td>
-                                            <span class="fw-bold">{{ $ticket->uuid }}</span>
-                                        </td>
-                                        <td>
                                             <span class="fw-bold">{{ $ticket->name }}</span>
                                         </td>
-
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 {{ config('status.status')[$ticket->status] }}
@@ -107,10 +79,10 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}>
+                                                <a class="" href={{ route('ticket-view-page', $ticket->id) }}>
                                                     <i data-feather="eye" class="me-50"></i>
                                                 </a>
-                                                <a class="" href={{ route('event-edit-page', $ticket->id) }}>
+                                                <a class="" href={{ route('ticket-edit-page', $ticket->id) }}>
                                                     <i data-feather="edit-2" class="me-50"></i>
                                                 </a>
                                                 <a class="delete-button" data-item-id="{{ $ticket->id }}" href="#">
@@ -148,84 +120,3 @@
         </div>
     </section>
 @endsection
-
-@push('page-style')
-    <style>
-        #drop_zone {
-            /* width: 100%; */
-            height: 100px;
-            margin: 20px;
-            border: 2px dashed #ccc;
-            border-radius: 5px;
-            justify-self: center;
-            text-align: center;
-
-            padding: 20px;
-            cursor: pointer;
-        }
-
-        #file_input {
-            display: none;
-        }
-    </style>
-
-    @push('page-script')
-        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
-        <script>
-            function allowDrop(event) {
-                event.preventDefault();
-            }
-
-            function drop(event) {
-                event.preventDefault();
-                var data = event.dataTransfer;
-                var files = data.files;
-                handleFiles(files);
-            }
-
-            function handleFiles(files) {
-                document.getElementById('file_input').files = files;
-                document.getElementById('file_name').innerText = files[0].name;
-            }
-
-            function openFileExplorer() {
-                document.getElementById('file_input').click();
-            }
-
-            function resetForm() {
-                document.getElementById('file_name').innerText = 'Drag & Drop files here or click here to choose files';
-                document.getElementById('file_input').value = '';
-            }
-
-
-            let scanner = new Instascan.Scanner({
-                video: document.getElementById('preview')
-            });
-            scanner.addListener('scan', function(content) {
-                alert('Scanned: ' + content);
-                // You can handle the scanned QR code here
-            });
-            Instascan.Camera.getCameras().then(function(cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
-                }
-            }).catch(function(e) {
-                requestCameraPermission();
-            });
-
-            async function requestCameraPermission() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: true
-                    });
-                    // Camera access granted
-                    console.log("Camera access granted");
-                } catch (error) {
-                    // Camera access denied or error occurred
-                    console.error('Error accessing camera:', error);
-                }
-            }
-        </script>
