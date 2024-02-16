@@ -11,7 +11,7 @@
                         <h4 class="card-title">Add new user</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form form-horizontal" action="/users" method="POST">
+                        <form class="form form-horizontal" action="{{ route('user-add') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -51,7 +51,9 @@
                                             <select class="hide-search form-select" id="select2-hide-search" name="type"
                                                 value={{ old('type') }}>
                                                 @foreach (config('status.type') as $type => $status)
-                                                    <option value="{{ $type }}">{{ $status }}</option>
+                                                    @if ($type != 1)
+                                                        <option value="{{ $type }}">{{ $status }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             @error('type')
@@ -80,13 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-9 offset-sm-3">
-                                    @if (session('error'))
-                                        <div class="text-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
                                     <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
                                 </div>
                             </div>
                         </form>

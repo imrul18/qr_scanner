@@ -5,8 +5,8 @@ use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -22,18 +22,37 @@ use App\Http\Controllers\UserController;
 
 
 
-Route::get('login', [AuthenticationController::class, 'login'])->name('login');
-Route::post('login', [AuthenticationController::class, 'loginConfirm'])->name('loginConfirm');
+Route::get('login', [AuthenticationController::class, 'loginPage'])->name('login-page');
+Route::post('login', [AuthenticationController::class, 'login'])->name('login');
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('event/ticket/{uuid}', [EventController::class, 'showTicket'])->name('show_ticket');
 
-    // Users
-    Route::apiResource('users', UserController::class);
-    Route::get('new-user', [UserController::class, 'userAdd']);
-    Route::get('edit-user/{id}', [UserController::class, 'userEdit']);
-    Route::get('delete-user/{id}', [UserController::class, 'userDelete']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('scanner-page');
+    });
+
+    Route::get('users', [UserController::class, 'userList'])->name('user-list-page');
+    Route::get('new-user', [UserController::class, 'userAddPage'])->name('user-add-page');
+    Route::post('new-user', [UserController::class, 'userAdd'])->name('user-add');
+    Route::get('edit-user/{id}', [UserController::class, 'userEditPage'])->name('user-edit-page');
+    Route::post('edit-user/{id}', [UserController::class, 'userEdit'])->name('user-edit');
+    Route::post('delete-user/{id}', [UserController::class, 'userDelete'])->name('user-delete');
+
+    Route::get('events', [EventController::class, 'eventList'])->name('event-list-page');
+    Route::get('new-event', [EventController::class, 'eventAddPage'])->name('event-add-page');
+    Route::post('new-event', [EventController::class, 'eventAdd'])->name('event-add');
+    Route::get('edit-event/{id}', [EventController::class, 'eventEditPage'])->name('event-edit-page');
+    Route::post('edit-event/{id}', [EventController::class, 'eventEdit'])->name('event-edit');
+    Route::post('delete-event/{id}', [EventController::class, 'eventDelete'])->name('event-delete');
+    Route::get('view-event/{id}', [EventController::class, 'eventViewPage'])->name('event-view-page');
+    Route::get('view-event-ticket/{id}', [EventController::class, 'eventTicketViewPage'])->name('event-ticket-view-page');
+    Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
+
+    Route::get('scanner', [ScanController::class, 'scannerPage'])->name('scanner-page');
+    Route::get('ticket-details/{uuid}', [ScanController::class, 'ticketDetails'])->name('ticket-details');
+    Route::post('ticket-scan', [ScanController::class, 'ticketScan'])->name('ticket-scan');
 });
 
 // Route Components

@@ -11,7 +11,8 @@
                         <h4 class="card-title">Add new user</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form form-horizontal" action={{ '/users/' . $user->id }} method="PUT">
+                        <form class="form form-horizontal" action={{ route('user-edit', $user->id) }} method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1 row">
@@ -34,7 +35,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="email" id="email-id" class="form-control" name="email"
-                                                placeholder="Email" value="{{ $user->email }}" />
+                                                placeholder="Email" value="{{ $user->email }}" disabled />
                                             @error('email')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -49,9 +50,11 @@
                                         <div class="col-sm-9">
                                             <select class="hide-search form-select" id="select2-hide-search" name="type">
                                                 @foreach (config('status.type') as $type => $status)
-                                                    <option value="{{ $type }}"
-                                                        {{ $user->type == $type ? 'selected' : '' }}>{{ $status }}
-                                                    </option>
+                                                    @if ($type != 1)
+                                                        <option value="{{ $type }}"
+                                                            {{ $user->type == $type ? 'selected' : '' }}>{{ $status }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             @error('type')
@@ -86,7 +89,7 @@
                                             <label class="col-form-label" for="status">Status</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <select class="hide-search form-select" id="select2-hide-search" name="type">
+                                            <select class="hide-search form-select" id="select3-hide-search" name="status">
                                                 @foreach (config('status.status') as $status_id => $status_name)
                                                     <option value="{{ $status_id }}"
                                                         {{ $user->status == $status_id ? 'selected' : '' }}>
@@ -107,7 +110,6 @@
                                         </div>
                                     @endif
                                     <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
                                 </div>
                             </div>
                         </form>

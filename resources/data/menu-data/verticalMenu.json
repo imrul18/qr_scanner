@@ -1,12 +1,6 @@
 {
     "menu": [
         {
-            "url": "/",
-            "name": "Dashboard",
-            "icon": "home",
-            "slug": "dashboard"
-        },
-        {
             "url": "users",
             "name": "Users",
             "icon": "users",
@@ -14,30 +8,18 @@
             "access": [1]
         },
         {
-            "url": "orders",
-            "name": "Orders",
-            "icon": "shopping-cart",
-            "slug": "orders"
+            "url": "events",
+            "name": "Events",
+            "icon": "book-open",
+            "slug": "events",
+            "access": [1, 2]
         },
         {
-            "name": "Setting",
-            "icon": "settings",
-            "slug": "settings",
-            "submenu": [
-                {
-                    "url": "settings/global",
-                    "name": "Global",
-                    "icon": "circle",
-                    "slug": "setting/global"
-                },
-                {
-                    "url": "settings/manual",
-                    "name": "Manual",
-                    "icon": "circle",
-                    "slug": "setting/manual"
-                }
-            ],
-            "access": [1]
+            "url": "scanner",
+            "name": "QR Scanner",
+            "icon": "camera",
+            "slug": "scanner",
+            "access": [1, 2, 3]
         }
     ]
 }

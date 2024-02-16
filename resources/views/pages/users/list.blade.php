@@ -7,12 +7,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body d-flex justify-content-between">
-                    <a href="/new-user"><button type="button" class="btn btn-gradient-primary">Add User</button></a>
-                    <form action="/users" method="GET" class="d-flex">
+                    <a href="{{ route('user-add-page') }}"><button type="button" class="btn btn-gradient-primary">Add
+                            User</button></a>
+                    <form action="{{ route('user-list-page') }}" method="GET" class="d-flex">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floating-label1" placeholder="Search"
-                                name="search" />
-                            {{-- <label for="floating-label1">Search</label> --}}
+                                name="search" value="{{ Request::get('search') }}">
                         </div>
                         <button type="submit" class="btn btn-gradient-primary">Search</button>
                     </form>
@@ -25,7 +25,9 @@
                                 <th>Email</th>
                                 <th>
                                     <div class="d-flex justify-content-center">Type</div>
-
+                                </th>
+                                <th>
+                                    <div class="d-flex justify-content-center">Status</div>
                                 </th>
                                 <th>
                                     <div class="d-flex justify-content-center">Updated at</div>
@@ -51,18 +53,23 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            {{ date('h:m A - d M Y', strtotime($user->updated_at)) }}</div>
+                                            {{ config('status.status')[$user->status] }}
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            {{ date('h:m A - d M Y', strtotime($user->created_at)) }}</div>
+                                            {{ date('h:i A - d M Y', strtotime($user->updated_at)) }}</div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <a class="" href={{ '/edit-user/' . $user->id }}>
+                                            {{ date('h:i A - d M Y', strtotime($user->created_at)) }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <a class="" href={{ route('user-edit-page', $user->id) }}>
                                                 <i data-feather="edit-2" class="me-50"></i>
                                             </a>
-                                            <a class="" href={{ '/delete-user/' . $user->id }}>
+                                            <a class="delete-button" data-item-id="{{ $user->id }}" href="#">
                                                 <i data-feather="trash" class="me-50"></i>
                                             </a>
                                         </div>
@@ -95,5 +102,61 @@
             </div>
         </div>
     </div>
-    <!-- Hoverable rows end -->
+@endsection
+
+@section('vendor-script')
+    <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function() {
+                const itemId = $(this).data('item-id');
+                Swal.fire({
+                    title: 'Are you confirm to delete?',
+                    // text: "",
+                    html: "<br /> <b class='text-danger'>You won't be able to revert this!</b>",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Confirm',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-outline-danger ms-1'
+                    },
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: "delete-user/" + itemId,
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: 'User has been deleted.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function(result) {
+                                    if (result?.value) {
+                                        location.reload();
+                                    }
+                                });
+                            },
+                            error: function(response) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        })
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

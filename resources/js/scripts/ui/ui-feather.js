@@ -2,7 +2,7 @@
     File Name: ui-feather.js
     Description: Feather Icons
     ----------------------------------------------------------------------------------------
-    Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
+    Item Name: QR Scanner  - Vuejs, HTML & Laravel Admin Dashboard Template
     Author: PIXINVENT
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/

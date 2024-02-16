@@ -3,62 +3,24 @@
 @section('title', 'Home')
 
 @section('content')
-<!-- Kick start -->
-<div class="card">
-  <div class="card-header">
-    <h4 class="card-title">Kick start your next project 🚀</h4>
-  </div>
-  <div class="card-body">
-    <div class="card-text">
-      <p>
-        Getting start with your project custom requirements using a ready template which is quite difficult and time
-        taking process, Vuexy Admin provides useful features to kick start your project development with no efforts !
-      </p>
-      <ul>
-        <li>
-          Vuexy Admin provides you getting start pages with different layouts, use the layout as per your custom
-          requirements and just change the branding, menu &amp; content.
-        </li>
-        <li>
-          Every components in Vuexy Admin are decoupled, it means use use only components you actually need! Remove
-          unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-<!--/ Kick start -->
-
-<!-- Page layout -->
-<div class="card">
-  <div class="card-header">
-    <h4 class="card-title">What is page layout?</h4>
-  </div>
-  <div class="card-body">
-    <div class="card-text">
-      <p>
-        Starter kit includes pages with different layouts, useful for your next project to start development process
-        from scratch with no time.
-      </p>
-      <ul>
-        <li>Each layout includes required only assets only.</li>
-        <li>
-          Select your choice of layout from starter kit, customize it with optional changes like colors and branding,
-          add required dependency only.
-        </li>
-      </ul>
-      <div class="alert alert-primary" role="alert">
-        <div class="alert-body">
-          <strong>Info:</strong> Please check the &nbsp;<a
-            class="text-primary"
-            href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layouts.html#layout-collapsed-menu"
-            target="_blank"
-            >Layout documentation</a
-          >&nbsp; for more layout options i.e collapsed menu, without menu, empty & blank.
+    <div class="card">
+        <div class="card-header">
+            <h4>🖋️ কর্পোরেট জবে বিশেষ করে ব্যাংকিং পেশায় পার্সোনাল স্কিল ডেভেলপমেন্ট টেকনিক :</h4>
         </div>
-      </div>
+        <div class="card-body">
+            <ul style="list-style-type: none;">
+                <li>১. কথা হজম করতে শিখুন! এইটা অনেক বড় গুণ!আপনাকে জীবনে জিততে সহায়তা করবে।</li>
+                <li>২. কখনও তর্কে জিততে যাবেন না! এটা সময়ের অপচয়।</li>
+                <li>৩. আপনার প্রতিপক্ষকে জিতিয়ে দিন! আপনার প্রতিপক্ষ যদি খুশী হয় সে জিতে গেছে ভেবে মনে মনে আপনি একটু হাসুন।</li>
+                <li>৪. মনে রাখবেন, কখনও কখনও জিততে হলে হারতে হবে! আর আপনার আজকের এই হারই আপনাকে বড় জয় এনে দিবে।</li>
+                <li>৫. হারতে শিখুন! সব জায়গায় জিততে নেই!  এই হারাটাই আপনার জেতা, আর জোর করে জেতা,,,এটা বোকামি।</li>
+                <li>৬. মনে রাখবেন, কথায় কাজ হবে না! তাই কাজ শুরু করুন নিরবে! আপনার কাজই কথা বলবে।</li>
+                <li>৭. আপনাকে যারা বিশ্বাস করে না, তাদের চিন্তা বাদ দিন! নিজেকে বিশ্বাস করুন! নিজের প্রতি বিশ্বাস আপনাকে সবার মাঝে বিশ্বাসী করে তুলবে।</li>
+                <li>৮. আপনি অনেক কিছু পারেন! কি দরকার বলে বেড়ানোর!  কাজ করুন! যার প্রয়োজন সে আপনাকে এমনেই খুঁজে বের করবে।</li>
+                <li>৯. মনে রাখবেন, চিতা বাঘ কখনও কুকুরের সাথে দৌড় প্রতিযোগিতা করে না! কুকুরদের জিততে দিন! আপনি যে চিতা বাঘ তা বোঝানোর জন্য সঠিক সময়ের অপেক্ষায় থাকুন।</li>
+                <li>১০. নিজের প্রয়োজনেই তর্ক এড়িয়ে চলুন! আর নিরবে কাজ করুন! আপনার কাজই কথা বলবে।</li>
+                <li>১১. বিনয়ী হতে শিখুন, বিনয়ী হতে পারলে আপনি বিশ্ব জয় করতে পারবেন।</li>
+            </ul>
+        </div>
     </div>
-  </div>
-</div>
-<!--/ Page layout -->
 @endsection
