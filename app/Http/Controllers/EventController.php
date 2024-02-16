@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Event;
 use App\Models\EventTicket;
+
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
-use Illuminate\Http\Request;
+use Imagick;
+use ImagickDraw;
+
+use Chiiya\LaravelPasses\PassBuilder;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -87,13 +94,21 @@ class EventController extends Controller
     {
         $ticket = EventTicket::with('history')->find($id);
 
+
         $data = url('/event/ticket/' . $ticket->uuid);
         $renderer = new ImageRenderer(
             new RendererStyle(200),
             new ImagickImageBackEnd()
         );
         $writer = new Writer($renderer);
-        $qrCode = $writer->writeString($data);
+        $qrCodeImage = $writer->writeString($data);
+        $qr = new Imagick();
+        $draw = new ImagickDraw();
+        $qr->readImageBlob($qrCodeImage);
+        $textMetrics = $qr->queryFontMetrics($draw, $ticket->uuid);
+        $textWidth = $textMetrics['textWidth'];
+        $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, $ticket->uuid);
+        $qrCode = $qr->getImageBlob();
 
         return view('pages.events.ticket_view', compact('ticket', 'qrCode'));
     }
@@ -123,17 +138,34 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Ticket uploaded successfully!');
     }
 
-    public function showTicket($uuid)
+    public function ExportQrCode($id)
     {
-        $ticket = EventTicket::where('uuid', $uuid)->first();
-        if (!$ticket) {
-            $error = 'Invalid ticket!';
-            return view('pages.events.show_ticket', compact('error'));
+        $event = Event::find($id);
+        $tickets = $event->tickets;
+        $zip = new \ZipArchive();
+        $zipFileName = 'qrcode_' . $event->name . '.zip';
+        if ($zip->open($zipFileName, \ZipArchive::CREATE) === TRUE) {
+            foreach ($tickets as $ticket) {
+                $data = url('/event/ticket/' . $ticket->uuid);
+                $renderer = new ImageRenderer(
+                    new RendererStyle(200),
+                    new ImagickImageBackEnd()
+                );
+                $writer = new Writer($renderer);
+                $qrCodeImage = $writer->writeString($data);
+                $qr = new Imagick();
+                $draw = new ImagickDraw();
+                $qr->readImageBlob($qrCodeImage);
+                $textMetrics = $qr->queryFontMetrics($draw, $ticket->uuid);
+                $textWidth = $textMetrics['textWidth'];
+                $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, $ticket->uuid);
+                $qrCode = $qr->getImageBlob();
+                $fileName = $ticket->uuid . '.png';
+                Storage::disk('local')->put('public/qrcode/' . $fileName, $qrCode);
+                $zip->addFile(storage_path('app/public/qrcode/' . $fileName), $fileName);
+            }
+            $zip->close();
         }
-        if (!auth()->check()) {
-            return view('pages.events.show_ticket', compact('ticket'));
-        } else {
-            return redirect()->route('scanner-page', 'uuid=' . $ticket->uuid);
-        }
+        return response()->download($zipFileName)->deleteFileAfterSend(true);
     }
 }

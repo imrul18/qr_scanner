@@ -6,6 +6,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PublicTicketController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 
@@ -26,7 +27,8 @@ Route::get('login', [AuthenticationController::class, 'loginPage'])->name('login
 Route::post('login', [AuthenticationController::class, 'login'])->name('login');
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::get('event/ticket/{uuid}', [EventController::class, 'showTicket'])->name('show_ticket');
+Route::get('event/ticket/{uuid}', [PublicTicketController::class, 'showTicket'])->name('show_ticket');
+Route::post('add-to-wallet', [PublicTicketController::class, 'addToWallet'])->name('add-to-wallet');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
@@ -47,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('edit-event/{id}', [EventController::class, 'eventEdit'])->name('event-edit');
     Route::post('delete-event/{id}', [EventController::class, 'eventDelete'])->name('event-delete');
     Route::get('view-event/{id}', [EventController::class, 'eventViewPage'])->name('event-view-page');
+    Route::get('export-ticket/{id}', [EventController::class, 'ExportQrCode'])->name('export-qr-code');
     Route::get('view-event-ticket/{id}', [EventController::class, 'eventTicketViewPage'])->name('event-ticket-view-page');
     Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
 

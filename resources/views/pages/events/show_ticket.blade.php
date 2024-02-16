@@ -17,7 +17,7 @@
                     </a>
 
                     <h4 class="card-title mb-1">Welcome to QR Scanner! 👋</h4>
-                    <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+                    <p class="card-text mb-2">This is your ticket details</p>
 
                     <div>
                         @if (isset($error))
@@ -40,9 +40,23 @@
                                 <div class="col-1">:</div>
                                 <div class="col-6">{{ config('status.status')[$ticket->status] }}</div>
                             </div>
-                            <div>
-
+                            <div class="row mt-2">
+                                <div class="col-6 text-center">
+                                    {{-- add image named add-to-google which is in currernt directory --}}
+                                    <img src="{{ asset('./images/pages/add-to-google-wallet.png') }}" height="40"
+                                        class="cursor-pointer" alt="Add to Google Wallet" onclick="addToGoogle()" />
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="{{ asset('./images/pages/add-to-apple-wallet.png') }}" height="40"
+                                        class="cursor-pointer" alt="Add to Apple Wallet" onclick="addToApple()" />
+                                </div>
                             </div>
+                            <form action="{{ route('add-to-wallet') }}" method="POST">
+                                @csrf
+                                <input type="text" name="uuid" value="{{ $ticket->uuid }}" hidden />
+                                <input type="text" name="method" id="method" value="" hidden />
+                                <button type="submit" hidden></button>
+                            </form>
                         @endif
                     </div>
                 </div>
@@ -53,8 +67,20 @@
 
 @section('vendor-script')
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+    <script async crossorigin src="https://applepay.cdn-apple.com/jsapi/v1.1.0/apple-pay-sdk.js"></script>
 @endsection
 
 @section('page-script')
-    <script src="{{ asset(mix('js/scripts/pages/auth-login.js')) }}"></script>
+    <script>
+        function addToGoogle() {
+            console.log("🚀 ~ addToGoogle ~ uuid:")
+            document.getElementById('method').value = 'google';
+            document.querySelector('form').submit();
+        }
+
+        function addToApple() {
+            document.getElementById('method').value = 'apple';
+            document.querySelector('form').submit();
+        }
+    </script>
 @endsection

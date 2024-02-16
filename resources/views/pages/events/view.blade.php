@@ -48,13 +48,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body d-flex justify-content-end">
-                        <form action="{{ route('event-view-page', $event->id) }}" method="GET" class="d-flex">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="floating-label1" placeholder="Search"
-                                    name="search" value="{{ Request::get('search') }}">
-                            </div>
-                            <button type="submit" class="btn btn-gradient-primary">Search</button>
-                        </form>
+                        <a href="{{ route('export-qr-code', $event->id) }}" class="btn btn-primary">Export</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
