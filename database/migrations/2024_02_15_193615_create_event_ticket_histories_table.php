@@ -13,15 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_tickets', function (Blueprint $table) {
+        Schema::create('event_ticket_histories', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->integer('event_id');
-            $table->string('name');
-            $table->decimal('price', 10, 2);
-            $table->integer('total_ticket');
-            $table->integer('remaining_ticket');
-            $table->enum('status', [1, 2])->default(1)->comment('1=Active,2=Inactive');
+            $table->integer('event_ticket_id');
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_tickets');
+        Schema::dropIfExists('event_ticket_histories');
     }
 };

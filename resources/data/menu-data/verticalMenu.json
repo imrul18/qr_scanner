@@ -1,12 +1,6 @@
 {
     "menu": [
         {
-            "url": "",
-            "name": "Dashboard",
-            "icon": "home",
-            "slug": ""
-        },
-        {
             "url": "users",
             "name": "Users",
             "icon": "users",
@@ -19,6 +13,13 @@
             "icon": "book-open",
             "slug": "events",
             "access": [1, 2]
+        },
+        {
+            "url": "scanner",
+            "name": "QR Scanner",
+            "icon": "camera",
+            "slug": "scanner",
+            "access": [1, 2, 3]
         }
     ]
 }

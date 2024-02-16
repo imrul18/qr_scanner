@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventTicket;
-use App\Models\User;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class EventController extends Controller
 {
@@ -74,7 +76,7 @@ class EventController extends Controller
 
         $tickets = $event->tickets();
         if ($request->has('search')) {
-            $tickets = $tickets->where('name', 'like', '%' . $request->search . '%');
+            $tickets = $tickets->where('uuid', 'like', '%' . $request->search . '%');
         }
         $tickets = $tickets->paginate('10');
 
@@ -83,8 +85,17 @@ class EventController extends Controller
 
     public function eventTicketViewPage($id)
     {
-        $ticket = EventTicket::find($id);
-        return view('pages.events.ticket_view', compact('ticket'));
+        $ticket = EventTicket::with('history')->find($id);
+
+        $data = url('/event/ticket/' . $ticket->uuid);
+        $renderer = new ImageRenderer(
+            new RendererStyle(200),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrCode = $writer->writeString($data);
+
+        return view('pages.events.ticket_view', compact('ticket', 'qrCode'));
     }
 
     public function TicketUpload(Request $request, $id)
@@ -102,12 +113,27 @@ class EventController extends Controller
                 'uuid' => strtoupper(uniqid()),
                 'name' => $row[0],
                 'price' => $row[1],
-                // 'count' => $row[2],
+                'total_ticket' => $row[2],
+                'remaining_ticket' => $row[2],
                 'status' => 1,
             ]);
         }
         fclose($file);
 
         return redirect()->back()->with('success', 'Ticket uploaded successfully!');
+    }
+
+    public function showTicket($uuid)
+    {
+        $ticket = EventTicket::where('uuid', $uuid)->first();
+        if (!$ticket) {
+            $error = 'Invalid ticket!';
+            return view('pages.events.show_ticket', compact('error'));
+        }
+        if (!auth()->check()) {
+            return view('pages.events.show_ticket', compact('ticket'));
+        } else {
+            return redirect()->route('scanner-page', 'uuid=' . $ticket->uuid);
+        }
     }
 }

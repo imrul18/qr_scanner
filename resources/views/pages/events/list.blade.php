@@ -49,11 +49,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            {{ date('h:m A - d M Y', strtotime($event->updated_at)) }}</div>
+                                            {{ date('h:i A - d M Y', strtotime($event->updated_at)) }}</div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            {{ date('h:m A - d M Y', strtotime($event->created_at)) }}</div>
+                                            {{ date('h:i A - d M Y', strtotime($event->created_at)) }}</div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">

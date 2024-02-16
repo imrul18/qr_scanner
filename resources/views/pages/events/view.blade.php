@@ -41,20 +41,14 @@
                         <button type="reset" class="btn btn-danger" onclick="resetForm()">Reset</button>
                         <button type="submit" class="btn btn-primary">Upload Tickets CSV file</button>
                     </form>
-
-                    <video id="reader" width="300"></video>
-                    <div id="result"></div>
-
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-body d-flex justify-content-between">
-                        <a href="{{ route('event-add-page') }}"><button type="button" class="btn btn-gradient-primary">Add
-                                Ticket</button></a>
-                        <form action="{{ route('event-list-page') }}" method="GET" class="d-flex">
+                    <div class="card-body d-flex justify-content-end">
+                        <form action="{{ route('event-view-page', $event->id) }}" method="GET" class="d-flex">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="floating-label1" placeholder="Search"
                                     name="search" value="{{ Request::get('search') }}">
@@ -68,18 +62,12 @@
                                 <tr>
                                     <th>UUID</th>
                                     <th>Name</th>
-                                    <th>
-                                        <div class="d-flex justify-content-center">Status</div>
-                                    </th>
-                                    <th>
-                                        <div class="d-flex justify-content-center">Updated at</div>
-                                    </th>
-                                    <th>
-                                        <div class="d-flex justify-content-center">Created at</div>
-                                    </th>
-                                    <th>
-                                        <div class="d-flex justify-content-center">Action</div>
-                                    </th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Remaining</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Updated at</th>
+                                    <th class="text-center">Created at</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,30 +79,21 @@
                                         <td>
                                             <span class="fw-bold">{{ $ticket->name }}</span>
                                         </td>
-
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                {{ config('status.status')[$ticket->status] }}
-                                            </div>
+                                        <td class="text-center">{{ $ticket->total_ticket }}</td>
+                                        <td class="text-center">{{ $ticket->remaining_ticket }}</td>
+                                        <td class="text-center">
+                                            {{ config('status.status')[$ticket->status] }}
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                {{ date('h:m A - d M Y', strtotime($ticket->updated_at)) }}</div>
+                                        <td class="text-center">
+                                            {{ date('h:i A - d M Y', strtotime($ticket->updated_at)) }}
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                {{ date('h:m A - d M Y', strtotime($ticket->created_at)) }}</div>
+                                        <td class="text-center">
+                                            {{ date('h:i A - d M Y', strtotime($ticket->created_at)) }}
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
+                                        <td class="text-center">
+                                            <div>
                                                 <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}>
                                                     <i data-feather="eye" class="me-50"></i>
-                                                </a>
-                                                <a class="" href={{ route('event-edit-page', $ticket->id) }}>
-                                                    <i data-feather="edit-2" class="me-50"></i>
-                                                </a>
-                                                <a class="delete-button" data-item-id="{{ $ticket->id }}" href="#">
-                                                    <i data-feather="trash" class="me-50"></i>
                                                 </a>
                                             </div>
                                         </td>
@@ -170,8 +149,6 @@
     </style>
 
     @push('page-script')
-        <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
         <script>
             function allowDrop(event) {
                 event.preventDefault();
@@ -196,36 +173,5 @@
             function resetForm() {
                 document.getElementById('file_name').innerText = 'Drag & Drop files here or click here to choose files';
                 document.getElementById('file_input').value = '';
-            }
-
-
-            let scanner = new Instascan.Scanner({
-                video: document.getElementById('preview')
-            });
-            scanner.addListener('scan', function(content) {
-                alert('Scanned: ' + content);
-                // You can handle the scanned QR code here
-            });
-            Instascan.Camera.getCameras().then(function(cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
-                }
-            }).catch(function(e) {
-                requestCameraPermission();
-            });
-
-            async function requestCameraPermission() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: true
-                    });
-                    // Camera access granted
-                    console.log("Camera access granted");
-                } catch (error) {
-                    // Camera access denied or error occurred
-                    console.error('Error accessing camera:', error);
-                }
             }
         </script>
