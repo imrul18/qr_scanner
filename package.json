@@ -10,7 +10,8 @@
         "production": "mix --production"
     },
     "dependencies": {
-        "bootstrap": "~5.1.0"
+        "bootstrap": "~5.1.0",
+        "webpack": "^5.90.2"
     },
     "devDependencies": {
         "axios": "^0.25",

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hmi-proj",
+  "private_key_id": "339c7ac473a5835c839ead4ce098e0a0f112abba",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCqMPPOPuJgnRjB\najAgQzufZqn0Qg8YtZfAhBOydl2qHr8HLcwbvNkoRlun722woIAO5vhRHb9bYwBC\n46XcaMr5LvLSVaYYW1oBuxlNa+Tvr+C5kJUmkVbuSImSQAo/4qgcxErn4iMp0dP+\n28rHU+hYyMSI3RFBTjTqyMUC1KhZqfK54sXNK1nkI2GFqLwBpJzO3BDAlySWDYVI\nZG513nNDTC6ag8GI7INjk0pfOk2NnXwkgjQlPXIn1J6krk6bedZEbfrwL9i8fyBY\nHe8F0vZiY7XPaymQuBwCAqje9bBLx8D1OVLy66/6sxWetT9WdSI0lVa5pHEexAZw\nvflywyJZAgMBAAECggEAA0zZYB2iYyWOC4DFInhbSXSCsCywa+toNWtPkc2EyciN\n2L71GcaYNBU6hW+kTLatX7Hv4mwgFU6+pw1mCSJJE/rqlNSPWM07WhQ9jIhJPgfx\nj3eeb3XbCITZ52mcKUVPuuW9iXCTplBzesTap5yDbBFR6lDVxafqvnDFN+Wqxrj3\nnrweVHb408tI11Rjgn7g+AUev+Z7jWuRAj61/uYbBG6lZmXWj/7fLzbZJYD/bvje\nHv3rUB60Ne1rGL5+ZfTxf2GFiaRahhUS/RbMjRcbIBk+Naeq/y2HjPbYcTLBRJX3\n25OiJpuzz796uhdoMCH5QpXN+tli5X3uJveNYRGb9wKBgQDpffekGIWaW2IBsQhV\ngdTMedpgmnAd6QwnsuzhnTa6X5ZQFG6I9m83e1Jlsus66nNrYfv8WjMfa44m96+9\n+CMeWPQMxm17H7zSAG65eonLvgmuvV1SU2VADCUQLYmcRQmqNuKKu4zs+FBByl1a\ncI77ZReEyC0CcGrEdCw6L/9pWwKBgQC6mN6pqaQ+5J/OkUPNfkoyhauvVtI6brxR\nkaD/trESl0wUGUGDRha52BB5b0a5vXWFQWzO7zIkaSd5WvSZNZWcfevUNhGzX2Zm\ne5V/Oixq5QH3+54ta8A66IYwcAxD99r5QbcGnWWX6R0Q8/n3MBCCfRaigY78OBHR\nO6WWLPo9WwKBgQDEuIzchIyL8FIyeqU65ZgUbtW+bl/n02GaUPWjYIGrpL1P2ucG\nHhq19AEIDiaCDOYRowxbIOPRpRyvWB+JPnbYKrnzyXqUMbk0dYjUXJmcPxCJWKI3\nqmuz+od/id5W+xOZhYR4vmuNe+iihY0BlbPhutqF1OGXHH/X5MkefTID4QKBgQCa\nFnjw9CSsxxDsfOrXu+07kUS4U2LhW+ZpGXAxGkVZS9VIV57Q78T+jNz12p017q0o\ncGGQ9NecV7WAMksAZc55X0aqhEfTrvkZsf4/BOP/FcOta3wwl+UzACcnwq9uRTPv\nV4Pzk3B8pMUa5c5KgMdxaiiR45kW0JpuBOp1fAjdNwKBgQCee42ob8XJOhVqoJZE\nDPfUvIV/BrdXHzP9uE5A6XoXfhqhPh5lmzFfsN5yWsCGnQ+uyo1oRYv6TOzM4ukO\n+N+U7VFwpF2IuJMqK7QD3o/DRbLvIOhGi9SyGcOrJYEGeTHHFhAwdYFH5G1mXp70\nQ5vIXEbyeAjb88R1cxnFGcbaDw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "wallet-user@hmi-proj.iam.gserviceaccount.com",
+  "client_id": "103858994781892555924",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wallet-user%40hmi-proj.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
