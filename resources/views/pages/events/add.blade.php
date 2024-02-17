@@ -11,80 +11,117 @@
                         <h4 class="card-title">Add new event</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form form-horizontal" action="{{ route('event-add') }}" method="POST">
+                        <form class="form form-horizontal" action="{{ route('event-add') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="first-name">Name</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <input type="text" id="first-name" class="form-control" name="name"
-                                                placeholder="Name" value="{{ old('name') }}" />
-                                            @error('name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Name</label> <span class="text-danger">*</span>
                                 </div>
-                                {{-- <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="email-id">Email</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <input type="email" id="email-id" class="form-control" name="email"
-                                                placeholder="Email" value="{{ old('email') }}" />
-                                            @error('email')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="type">Type</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <select class="hide-search form-select" id="select2-hide-search" name="type"
-                                                value={{ old('type') }}>
-                                                @foreach (config('status.type') as $type => $status)
-                                                    @if ($type != 1)
-                                                        <option value="{{ $type }}">{{ $status }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            @error('type')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="password">Password</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="input-group input-group-merge form-password-toggle">
-                                                <input class="form-control form-control-merge" id="login-password"
-                                                    type="password" name="password" placeholder="············"
-                                                    aria-describedby="login-password" tabindex="2" />
-                                                <span class="input-group-text cursor-pointer"><i
-                                                        data-feather="eye"></i></span>
-                                            </div>
-                                            @error('password')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="name" placeholder="Name"
+                                        value="{{ old('name') }}" />
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Name (Arabic)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="name_arabic"
+                                        placeholder="Name (Arabic)" value="{{ old('name_arabic') }}" />
+                                    @error('name_arabic')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Date</label> <span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="date" placeholder="Date"
+                                        value="{{ old('date') }}" />
+                                    @error('date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Date (Arabic)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="date_arabic"
+                                        placeholder="Date (Arabic)" value="{{ old('date_arabic') }}" />
+                                    @error('date_arabic')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Venue</label> <span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="venue" placeholder="Venue"
+                                        value="{{ old('venue') }}" />
+                                    @error('venue')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Venue (Arabic)</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="venue_arabic"
+                                        placeholder="Vanue (Arabic)" value="{{ old('venue_arabic') }}" />
+                                    @error('venue_arabic')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="logo" placeholder="logo"
+                                        value="{{ old('logo') }}" onchange="readURL(this, '#logo')" />
+                                    @error('logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="logo" src="#" alt="logo" class="rounded-circle" height="40"
+                                        width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Logo (Arabic)</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="logo_arabic" placeholder="logo Arabic"
+                                        value="{{ old('logo_arabic') }}" onchange="readURL(this, '#logo_arabic')" />
+                                    @error('logo_arabic')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="logo_arabic" src="#" alt="logo Arabic" class="rounded-circle"
+                                        height="40" width="40" />
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -92,3 +129,23 @@
         </div>
     </section>
 @endsection
+
+@push('page-script')
+    <script>
+        function readURL(input, id) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $(id).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#logo").change(function() {
+            readURL(this, '#logo');
+        });
+
+        $("#logo_arabic").change(function() {
+            readURL(this, '#logo_arabic');
+        });
+    </script>

@@ -10,7 +10,7 @@ return [
 
     //user status
     'status' => [
-        1 => "Active",
-        2 => "Inactive"
+        1 => "Active (نشيط)",
+        2 => "Inactive (غير نشط)"
     ]
 ];
