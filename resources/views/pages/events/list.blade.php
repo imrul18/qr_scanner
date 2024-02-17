@@ -21,52 +21,70 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>
-                                    <div class="d-flex justify-content-center">Status</div>
-                                </th>
-                                <th>
-                                    <div class="d-flex justify-content-center">Updated at</div>
-                                </th>
-                                <th>
-                                    <div class="d-flex justify-content-center">Created at</div>
-                                </th>
-                                <th>
-                                    <div class="d-flex justify-content-center">Action</div>
-                                </th>
+                                <th class="text-center"> Logo </th>
+                                <th> Name </th>
+                                <th class="text-center"> Date </th>
+                                <th> Vanue </th>
+                                <th class="text-center"> Status </th>
+                                <th class="text-center"> Last Update </th>
+                                <th class="text-center"> Action </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($events as $event)
                                 <tr>
+                                    <td class="text-center">
+                                        @if ($event->logo)
+                                            <a href="{{ asset('storage/event/' . $event->logo) }}" target="_new"><img
+                                                    src="{{ asset('storage/event/' . $event->logo) }}" alt="event logo"
+                                                    class="rounded-circle" height="40" width="40" /></a>
+                                        @endif
+                                        @if ($event->logo_arabic)
+                                            <a href="{{ asset('storage/event/' . $event->logo_arabic) }}"
+                                                target="_new"><img
+                                                    src="{{ asset('storage/event/' . $event->logo_arabic) }}"
+                                                    alt="event logo" class="rounded-circle" height="40"
+                                                    width="40" /></a>
+                                        @endif
+                                    </td>
+
                                     <td>
-                                        <span class="fw-bold">{{ $event->name }}</span>
+                                        <span class="fw-bold">
+                                            {{ $event->name }} <br />
+                                            {{ $event->name_arabic }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fw-bold">
+                                            {{ $event->date }} <br />
+                                            {{ $event->date_arabic }}
+                                        </span>
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center">
+                                        <span>
+                                            {{ $event->venue }} <br />
+                                            {{ $event->venue_arabic }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span
+                                            class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
                                             {{ config('status.status')[$event->status] }}
-                                        </div>
+                                        </span>
+                                    <td class="text-center">
+                                        {{ date('h:i A', strtotime($event->updated_at)) }} <br />
+                                        {{ date('d M Y', strtotime($event->updated_at)) }}
                                     </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ date('h:i A - d M Y', strtotime($event->updated_at)) }}</div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ date('h:i A - d M Y', strtotime($event->created_at)) }}</div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <a class="" href={{ route('event-view-page', $event->id) }}>
-                                                <i data-feather="eye" class="me-50"></i>
-                                            </a>
-                                            <a class="" href={{ route('event-edit-page', $event->id) }}>
-                                                <i data-feather="edit-2" class="me-50"></i>
-                                            </a>
-                                            <a class="delete-button" data-item-id="{{ $event->id }}" href="#">
-                                                <i data-feather="trash" class="me-50"></i>
-                                            </a>
-                                        </div>
+                                    <td class="text-center">
+                                        <a class="" href={{ route('event-view-page', $event->id) }}>
+                                            <i data-feather="eye" class="me-50"></i>
+                                        </a>
+                                        <a class="" href={{ route('event-edit-page', $event->id) }}>
+                                            <i data-feather="edit-2" class="me-50"></i>
+                                        </a>
+                                        <a class="delete-button" data-item-id="{{ $event->id }}" href="#">
+                                            <i data-feather="trash" class="me-50"></i>
+                                        </a>
                                     </td>
 
                                 </tr>

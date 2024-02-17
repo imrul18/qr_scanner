@@ -12,11 +12,15 @@ class EventTicket extends Model
     protected $fillable = [
         'uuid',
         'event_id',
-        'name',
-        'price',
+        'name_guest',
+        'name_guest_arabic',
+        'guest_category',
+        'guest_category_arabic',
+        'access_permitted',
+        'access_permitted_arabic',
+
         'total_ticket',
         'remaining_ticket',
-        'status'
     ];
 
     public function event()

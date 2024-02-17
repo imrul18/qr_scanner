@@ -17,11 +17,15 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->integer('event_id');
-            $table->string('name');
-            $table->decimal('price', 10, 2);
+            $table->string('name_guest');
+            $table->string('name_guest_arabic')->nullable();
+            $table->string('guest_category');
+            $table->string('guest_category_arabic')->nullable();
+            $table->string('access_permitted');
+            $table->string('access_permitted_arabic')->nullable();
+
             $table->integer('total_ticket');
             $table->integer('remaining_ticket');
-            $table->enum('status', [1, 2])->default(1)->comment('1=Active,2=Inactive');
             $table->timestamps();
         });
     }

@@ -38,8 +38,24 @@ class EventController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3',
+            'date' => 'required',
+            'venue' => 'required',
         ]);
-        $data = $request->only(['name']);
+        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic']);
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['logo'] = $fileName;
+        }
+        if ($request->hasFile('logo_arabic')) {
+            $file = $request->file('logo_arabic');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['logo_arabic'] = $fileName;
+        }
+
+
         $event = Event::create($data);
         if ($event) {
             return redirect()->route('event-list-page')->with('success', 'Event added successfully!');
