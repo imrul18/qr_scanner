@@ -6,25 +6,25 @@
     <section id="basic-horizontal-layouts">
         <div class="card py-5">
             <div class="text-center">
-
                 <h1>QR Scanner</h1>
+                <div class="d-flex justify-content-center my-2">
+                    <div style="width: 300">
+                        <select class="hide-search form-select" name="event_id" id="event_id">
+                            <option value="{{ null }}" selected>Select an Event</option>
+                            @foreach ($events as $event)
+                                <option value="{{ $event->id }}">
+                                    {{ $event->name . ' ( ' . $event->name_arabic . ' )' }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <video id="preview" width="300" height="200"></video>
-                <div class="py-2">
-                    <form action="{{ route('ticket-scan') }}" method="POST">
+                <div>
+                    <form id="ticket-scan" action="{{ route('ticket-scan') }}" method="POST">
                         @csrf
-                        <div id="success" hidden>
-                            <input type="hidden" name="uuid" id="uuid">
-                            <div>Name: <span id="name"></span></div>
-                            <div>Total Ticket: <span id="total"></span></div>
-                            <div>Remaining Ticket: <span id="remaining"></span></div>
-                        </div>
-                        <div id="error" hidden class="text-center">
-                            <div class="text-danger" id="error_message"></div>
-                        </div>
-                        <div id="result" hidden>
-                            <button class="btn btn-primary" id="check_in" hidden>Check In</button>
-                            <button type="reset" class="btn btn-danger" onclick="ScanAgain()">Scan Again</button>
-                        </div>
+                        <input type="hidden" name="content" id="content" />
+                        <button type="submit" hidden></button>
                     </form>
                 </div>
             </div>
@@ -51,17 +51,8 @@
                 });
 
                 scanner.addListener('scan', function(content) {
-                    // check if content like basurl/event/ticket/{uuid}
-                    if (content.includes('event/ticket')) {
-                        const url = content.split('/').pop();
-                        if (!url) {
-                            alert('Invalid QR Code');
-                        } else {
-                            getData(url);
-                        }
-                    } else {
-                        alert('Invalid QR Code');
-                    }
+                    scanTicket(content);
+
                 });
 
                 Instascan.Camera.getCameras().then(function(cameras) {
@@ -88,50 +79,36 @@
                 const url = new URL(window.location.href);
                 const uuid = url.searchParams?.get('uuid');
                 if (uuid) {
-                    getData(uuid);
+                    scanTicket('/event/ticket/' + uuid);
                 }
-            });
 
-            function getData(uuid) {
-                fetch(`/ticket-details/${uuid}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('preview').hidden = true;
-                        document.getElementById('result').hidden = false;
-                        if (data?.status == 'success') {
-                            document.getElementById('success').hidden = false;
-                            document.getElementById('error').hidden = true;
-                            if (data?.remaining_ticket > 0) {
-                                document.getElementById('check_in').hidden = false;
-                            } else {
-                                document.getElementById('error').hidden = false;
-                                document.getElementById('error_message').innerText = "No remaining ticket";
-                                document.getElementById('check_in').hidden = true;
-                            }
+                function scanTicket(content) {
+                    var event_id = $('#event_id').val() ?? null;
+                    var data = {
+                        _token: "{{ csrf_token() }}",
+                        content: content
+                    };
 
-                            document.getElementById('uuid').value = data?.uuid;
-                            document.getElementById('name').innerText = data?.name;
-                            document.getElementById('total').innerText = data?.total_ticket;
-                            document.getElementById('remaining').innerText = data?.remaining_ticket;
-                        } else if (data?.status == 'error') {
-                            document.getElementById('success').hidden = true;
-                            document.getElementById('error').hidden = false;
-                            document.getElementById('check_in').hidden = true;
-                            document.getElementById('error_message').innerText = data?.message;
-                        } else {
-                            document.getElementById('success').hidden = true;
-                            document.getElementById('error').hidden = true;
-                            document.getElementById('check_in').hidden = true;
-                            document.getElementById('error_message').innerText = "Something went wrong! Please try again.";
+                    if (event_id) {
+                        data = {
+                            ...data,
+                            event_id: event_id
+                        };
+                    }
+
+                    $.ajax({
+                        url: "{{ route('ticket-scan') }}",
+                        type: "POST",
+                        data: data,
+                        success: function(res) {
+                            Swal.fire({
+                                icon: res?.status,
+                                title: res?.message,
+                                'showConfirmButton': false,
+                                timer: 2000,
+                            });
                         }
                     });
-            }
-
-            function ScanAgain() {
-                document.getElementById('preview').hidden = false;
-                document.getElementById('result').hidden = true;
-                document.getElementById('success').hidden = true;
-                document.getElementById('error').hidden = true;
-                document.getElementById('check_in').hidden = true;
-            }
+                }
+            });
         </script>

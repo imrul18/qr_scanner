@@ -54,7 +54,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
 
     Route::get('scanner', [ScanController::class, 'scannerPage'])->name('scanner-page');
-    Route::get('ticket-details/{uuid}', [ScanController::class, 'ticketDetails'])->name('ticket-details');
     Route::post('ticket-scan', [ScanController::class, 'ticketScan'])->name('ticket-scan');
 });
 

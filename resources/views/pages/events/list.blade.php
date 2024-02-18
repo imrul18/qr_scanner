@@ -71,6 +71,7 @@
                                             class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
                                             {{ config('status.status')[$event->status] }}
                                         </span>
+                                    </td>
                                     <td class="text-center">
                                         {{ date('h:i A', strtotime($event->updated_at)) }} <br />
                                         {{ date('d M Y', strtotime($event->updated_at)) }}

@@ -108,7 +108,7 @@ class EventController extends Controller
 
     public function eventTicketViewPage($id)
     {
-        $ticket = EventTicket::with('history')->find($id);
+        $ticket = EventTicket::with(['event', 'history'])->find($id);
 
 
         $data = url('/event/ticket/' . $ticket->uuid);
@@ -142,11 +142,14 @@ class EventController extends Controller
         while ($row = fgetcsv($file)) {
             $event->tickets()->create([
                 'uuid' => strtoupper(uniqid()),
-                'name' => $row[0],
-                'price' => $row[1],
-                'total_ticket' => $row[2],
-                'remaining_ticket' => $row[2],
-                'status' => 1,
+                'name_guest' => $row[1],
+                'name_guest_arabic' => $row[2],
+                'guest_category' => $row[3],
+                'guest_category_arabic' => $row[4],
+                'access_permitted' => $row[5],
+
+                'total_ticket' => $row[5],
+                'remaining_ticket' => $row[5],
             ]);
         }
         fclose($file);

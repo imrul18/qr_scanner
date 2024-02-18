@@ -107,7 +107,7 @@ class GooglePassService
         try {
             $object = $this->service->eventticketobject->get("{$this->issuerId}.{$objectSuffix}");
 
-            if($object) {
+            if ($object) {
                 return $object->id;
             }
         } catch (\Google\Service\Exception $ex) {
@@ -160,7 +160,7 @@ class GooglePassService
                             'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
                                 'language' => 'en-US',
                                 'value' => "{$eventName} Main Image"
-                        ])
+                            ])
                         ])
                     ]),
                     'id' => 'IMAGE_MODULE_ID'

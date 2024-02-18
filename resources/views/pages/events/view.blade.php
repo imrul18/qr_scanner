@@ -1,25 +1,30 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Edit Event')
+@section('title', 'View Event')
 
 @section('content')
     <section id="basic-horizontal-layouts">
         <div class="row">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">View event</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">Name</div>
-                            <div class="col-1">:</div>
-                            <div class="col-8">{{ $event->name }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">Status</div>
-                            <div class="col-1">:</div>
-                            <div class="col-8">{{ config('status.status')[$event->status] }}</div>
+                    <div class="card-body text-center">
+                        <h4>Event Information
+                            <hr />
+                        </h4>
+                        <div class="d-flex justify-content-center">
+                            <img src="{{ asset('storage/event/' . $event->logo) }}" alt="QR Code" class="rounded-circle"
+                                height="100" width="100">
+                            <div class="px-1 text-start">
+                                <h5>Name: {{ $event->name . ' ( ' . $event->name_arabic . ' )' }}</h5>
+                                <h5>Date: {{ $event->date . ' ( ' . $event->date_arabic . ' )' }}</h5>
+                                <h5>Venue: {{ $event->venue . ' ( ' . $event->venue_arabic . ' )' }}</h5>
+                                <h5>Status: <span
+                                        class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
+                                        {{ config('status.status')[$event->status] }}
+                                    </span></h5>
+                            </div>
+                            <img src="{{ asset('storage/event/' . $event->logo_arabic) }}" alt="QR Code"
+                                class="rounded-circle" height="100" width="100">
                         </div>
                     </div>
                 </div>
@@ -54,35 +59,46 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>UUID</th>
-                                    <th>Name</th>
-                                    <th class="text-center">Total</th>
+                                    <th class="text-center">UUID</th>
+                                    <th> Guest Name</th>
+                                    <th> Guest Category</th>
+                                    <th>Access Permitted</th>
                                     <th class="text-center">Remaining</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Updated at</th>
-                                    <th class="text-center">Created at</th>
+                                    <th class="text-center"> Last Update </th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tickets as $ticket)
                                     <tr>
+                                        <td class="text-center">
+                                            <span>{{ $ticket->uuid }}</span>
+                                        </td>
                                         <td>
-                                            <span class="fw-bold">{{ $ticket->uuid }}</span>
+                                            <span class="fw-bold">
+                                                {{ $ticket->name_guest }} <br />
+                                                {{ $ticket->name_guest_arabic }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <span class="fw-bold">{{ $ticket->name }}</span>
+                                            <span>
+                                                {{ $ticket->guest_category }} <br />
+                                                {{ $ticket->guest_category_arabic }}
+                                            </span>
                                         </td>
-                                        <td class="text-center">{{ $ticket->total_ticket }}</td>
-                                        <td class="text-center">{{ $ticket->remaining_ticket }}</td>
+                                        <td>
+                                            <span>
+                                                {{ $ticket->access_permitted }} <br />
+                                                {{ $ticket->access_permitted_arabic }}
+                                            </span>
+                                        </td>
+
                                         <td class="text-center">
-                                            {{ config('status.status')[$ticket->status] }}
+                                            {{ $ticket->remaining_ticket . '/' . $ticket->total_ticket }}
                                         </td>
                                         <td class="text-center">
-                                            {{ date('h:i A - d M Y', strtotime($ticket->updated_at)) }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ date('h:i A - d M Y', strtotime($ticket->created_at)) }}
+                                            {{ date('h:i A', strtotime($event->updated_at)) }} <br />
+                                            {{ date('d M Y', strtotime($event->updated_at)) }}
                                         </td>
                                         <td class="text-center">
                                             <div>

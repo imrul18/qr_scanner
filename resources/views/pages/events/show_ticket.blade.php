@@ -12,34 +12,43 @@
         <div class="auth-inner my-2">
             <div class="card mb-0">
                 <div class="card-body">
-                    <a href="#" class="brand-logo">
-                        <h2 class="brand-text text-primary ms-1">Ticket Details</h2>
-                    </a>
-
-                    <h4 class="card-title mb-1">Welcome to QR Scanner! 👋</h4>
-                    <p class="card-text mb-2">This is your ticket details</p>
-
+                    <h2 class="brand-text text-primary text-center">Ticket Details</h2>
                     <div>
                         @if (isset($error))
                             <div class="alert alert-danger" role="alert">
                                 {{ $error }}
                             </div>
                         @else
-                            <div class="row">
-                                <div class="col-3">UUID</div>
-                                <div class="col-1">:</div>
-                                <div class="col-6">{{ $ticket->uuid }}</div>
+                            <div class="text-center">
+                                <img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code">
                             </div>
-                            <div class="row">
-                                <div class="col-3">Name</div>
-                                <div class="col-1">:</div>
-                                <div class="col-6">{{ $ticket->name }}</div>
+                            <div class="text-center py-1">
+                                <img src="{{ asset('storage/event/' . $ticket->event->logo) }}" alt="QR Code"
+                                    class="rounded-circle" height="100" width="100">
+                                <img src="{{ asset('storage/event/' . $ticket->event->logo_arabic) }}" alt="QR Code"
+                                    class="rounded-circle" height="100" width="100">
                             </div>
-                            <div class="row">
-                                <div class="col-3">Status</div>
-                                <div class="col-1">:</div>
-                                <div class="col-6">{{ config('status.status')[$ticket->status] }}</div>
+                            <div class="d-flex justify-content-center">
+                                <div>
+
+                                    <div>UUID: {{ $ticket->uuid }}</div>
+                                    <div>Event Name: {{ $ticket->event->name . ' ( ' . $ticket->event->name_arabic . ' )' }}
+                                    </div>
+                                    <div>Event Date: {{ $ticket->event->date . ' ( ' . $ticket->event->date_arabic . ' )' }}
+                                    </div>
+                                    <div>Event Venue:
+                                        {{ $ticket->event->venue . ' ( ' . $ticket->event->venue_arabic . ' )' }}
+                                    </div>
+                                    <div>Guest Name: {{ $ticket->name_guest . ' ( ' . $ticket->name_guest_arabic . ' )' }}
+                                    </div>
+                                    <div>Guest Category:
+                                        {{ $ticket->guest_category . ' ( ' . $ticket->guest_category_arabic . ' )' }}</div>
+                                    <div>Access Permitted:
+                                        {{ $ticket->access_permitted . ' ( ' . $ticket->access_permitted_arabic . ' )' }}
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="row mt-2">
                                 <div class="col-6 text-center">
                                     {{-- add image named add-to-google which is in currernt directory --}}
@@ -49,6 +58,11 @@
                                 <div class="col-6 text-center">
                                     <img src="{{ asset('./images/pages/add-to-apple-wallet.png') }}" height="40"
                                         class="cursor-pointer" alt="Add to Apple Wallet" onclick="addToApple()" />
+                                </div>
+                                <div class="col-12 text-center mt-1">
+                                    <a href="https://wa.me/?text={{ url('/event/ticket/' . $ticket->uuid) }}"
+                                        target="_blank"><img src="{{ asset('./images/pages/share-button.png') }}"
+                                            height="40" class="cursor-pointer" alt="Add to Apple Wallet" /></a>
                                 </div>
                             </div>
                             <form action="{{ route('add-to-wallet') }}" method="POST">
