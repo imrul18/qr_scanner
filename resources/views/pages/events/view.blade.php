@@ -102,9 +102,16 @@
                                         </td>
                                         <td class="text-center">
                                             <div>
-                                                <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}>
+                                                <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                                                     <i data-feather="eye" class="me-50"></i>
                                                 </a>
+                                                <a class="copy" data href="javascript:void(0)" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Copy NFC Sticker"
+                                                    onclick="copyToClipboard('{{ $ticket->uuid }}')">
+                                                    <i data-feather="copy" class="me-50"></i>
+                                                </a>
+
                                             </div>
                                         </td>
 
@@ -183,5 +190,26 @@
             function resetForm() {
                 document.getElementById('file_name').innerText = 'Drag & Drop files here or click here to choose files';
                 document.getElementById('file_input').value = '';
+            }
+
+            function copyToClipboard(text) {
+                var input = document.createElement('input');
+                var url = window.location.href;
+                // get the base url
+                var baseUrl = url.split('/').slice(0, 3).join('/');
+
+                var finalUrl = baseUrl + '/event/ticket/' + text;
+                input.value = finalUrl;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copied to Clipboard',
+                    text: finalUrl,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         </script>

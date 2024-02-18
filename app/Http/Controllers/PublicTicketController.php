@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\EventTicket;
+use App\Services\ApplePassService;
 use App\Services\GooglePassService;
 use Illuminate\Http\Request;
 
@@ -46,17 +48,29 @@ class PublicTicketController extends Controller
 
     public function addToWallet(Request $request)
     {
+        $method = $request->method;
         $ticket = EventTicket::with('event')->where('uuid', $request->uuid)->first();
         $event = $ticket->event;
 
-        //Collect from Google
+        if (!$ticket) {
+            return response()->json(['error' => 'Invalid ticket!'], 404);
+        }
+
+        if ($method == 'apple') {
+            return $this->addToAppleWallet($ticket, $event);
+        } elseif ($method == 'google') {
+            return $this->addToGoogleWallet($ticket, $event);
+        } else {
+            return response()->json(['error' => 'Invalid method!'], 400);
+        }
+    }
+
+    public function addToGoogleWallet(EventTicket $ticket, Event $event)
+    {
         $issuerId = 3388000000022201265;
         $keyFile = public_path('key.json');
 
-        //Initiate the service
-        $service = new GooglePassService($keyFile, 3388000000022201265);
-
-        //Create class as event
+        $service = new GooglePassService($keyFile, $issuerId);
         $organizerName = $event->name;
         $classId = $service->createClass($event->id, $event->name, $organizerName);
 
@@ -67,5 +81,35 @@ class PublicTicketController extends Controller
         $objectId = $service->createObject($classId, $ticket->uuid . 'test1', $event->name, $description, $heroImage, $mainImage, $ticket->name_guest, $ticket->uuid);
 
         return redirect($service->createLink($classId, $objectId));
+    }
+
+    public function  addToAppleWallet(EventTicket $ticket, Event $event)
+    {
+        $passTypeIdentifier = 'your.pass.type.identifier';
+        $teamIdentifier = 'your.team.identifier';
+        $certificatePath = 'path/to/certificate.p12';
+        $certificatePassword = 'certificate_password';
+
+        $service = new ApplePassService();
+
+        // Define pass data
+        $passData = [
+            'event_name' => $event->name,
+            'description' => $event->description ?? $event->name,
+            'ticket_holder' => $ticket->name_guest,
+            // Add any other relevant data for the pass
+        ];
+
+        // Create the pass
+        $passFilePath = $service->createPass(
+            $passTypeIdentifier,
+            $ticket->uuid,
+            $teamIdentifier,
+            $passData,
+            $certificatePath,
+            $certificatePassword
+        );
+
+        return response()->download($passFilePath, 'ticket_pass.pkpass')->deleteFileAfterSend();
     }
 }

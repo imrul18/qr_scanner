@@ -147,6 +147,7 @@ class EventController extends Controller
                 'guest_category' => $row[3],
                 'guest_category_arabic' => $row[4],
                 'access_permitted' => $row[5],
+                'access_permitted_arabic' => $row[6],
 
                 'total_ticket' => $row[5],
                 'remaining_ticket' => $row[5],
