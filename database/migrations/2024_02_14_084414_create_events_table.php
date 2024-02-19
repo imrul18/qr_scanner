@@ -21,8 +21,12 @@ return new class extends Migration
             $table->string('date_arabic')->nullable();
             $table->string('venue');
             $table->string('venue_arabic')->nullable();
+            $table->string('venue_location')->nullable();
             $table->string('logo')->nullable();
             $table->string('logo_arabic')->nullable();
+            $table->string('bg_image')->nullable();
+            $table->string('font_color')->default('#000000');
+            $table->string('font_family')->default('Arial');
             $table->enum('status', [1, 2])->default(1)->comment('1=Active, 2=Inactive');
             $table->timestamps();
         });

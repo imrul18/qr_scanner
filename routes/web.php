@@ -6,6 +6,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HelperController;
 use App\Http\Controllers\PublicTicketController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
@@ -29,6 +30,8 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 
 Route::get('event/ticket/{uuid}', [PublicTicketController::class, 'showTicket'])->name('show_ticket');
 Route::post('add-to-wallet', [PublicTicketController::class, 'addToWallet'])->name('add-to-wallet');
+
+Route::post('convert-date-to-arabic', [HelperController::class, 'convertDateToArabic'])->name('convert-date-to-arabic');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {

@@ -40,7 +40,10 @@ class PublicTicketController extends Controller
             return view('pages.events.show_ticket', compact('error'));
         }
         if (!auth()->check()) {
-            return view('pages.events.show_ticket', compact('ticket', 'qrCode'));
+            $fontFamily = $ticket->event->font_family;
+            $fontColor = $ticket->event->font_color;
+            $bgImage = $ticket->event->bg_image;
+            return view('pages.events.show_ticket', compact('ticket', 'qrCode', 'fontFamily', 'fontColor', 'bgImage'));
         } else {
             return redirect()->route('scanner-page', 'uuid=' . $ticket->uuid);
         }

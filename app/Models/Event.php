@@ -16,8 +16,12 @@ class Event extends Model
         'date_arabic',
         'venue',
         'venue_arabic',
+        'venue_location',
         'logo',
         'logo_arabic',
+        'bg_image',
+        'font_family',
+        'font_color',
         'status',
     ];
 

@@ -14,7 +14,6 @@ use BaconQrCode\Writer;
 use Imagick;
 use ImagickDraw;
 
-use Chiiya\LaravelPasses\PassBuilder;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
@@ -41,7 +40,7 @@ class EventController extends Controller
             'date' => 'required',
             'venue' => 'required',
         ]);
-        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic']);
+        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic', 'font_color', 'font_family', 'venue_location']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -54,7 +53,12 @@ class EventController extends Controller
             $file->storeAs('public/event', $fileName);
             $data['logo_arabic'] = $fileName;
         }
-
+        if ($request->hasFile('bg_image')) {
+            $file = $request->file('bg_image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['bg_image'] = $fileName;
+        }
 
         $event = Event::create($data);
         if ($event) {
@@ -73,9 +77,31 @@ class EventController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3',
+            'date' => 'required',
+            'venue' => 'required',
             'status' => 'required',
         ]);
-        $data = $request->only(['name', 'status']);
+        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic', 'font_color', 'font_family', 'venue_location', 'status']);
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['logo'] = $fileName;
+        }
+        if ($request->hasFile('logo_arabic')) {
+            $file = $request->file('logo_arabic');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['logo_arabic'] = $fileName;
+        }
+        if ($request->hasFile('bg_image')) {
+            $file = $request->file('bg_image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['bg_image'] = $fileName;
+        }
+
+        info($data);
 
         $event = Event::find($id)->update($data);
         if ($event) {
@@ -119,8 +145,8 @@ class EventController extends Controller
         $writer = new Writer($renderer);
         $qrCodeImage = $writer->writeString($data);
         $qr = new Imagick();
-        $draw = new ImagickDraw();
         $qr->readImageBlob($qrCodeImage);
+        $draw = new ImagickDraw();
         $textMetrics = $qr->queryFontMetrics($draw, $ticket->uuid);
         $textWidth = $textMetrics['textWidth'];
         $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, $ticket->uuid);
