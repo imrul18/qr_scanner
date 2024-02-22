@@ -1,0 +1,25 @@
+{
+    "menu": [
+        {
+            "url": "users",
+            "name": "Users",
+            "icon": "users",
+            "slug": "users",
+            "access": [1]
+        },
+        {
+            "url": "events",
+            "name": "Events",
+            "icon": "book-open",
+            "slug": "events",
+            "access": [1, 2]
+        },
+        {
+            "url": "scanner",
+            "name": "QR Scanner",
+            "icon": "camera",
+            "slug": "scanner",
+            "access": [1, 2, 3]
+        }
+    ]
+}
