@@ -111,7 +111,8 @@
                                                     onclick="copyToClipboard('{{ $ticket->uuid }}')">
                                                     <i data-feather="copy" class="me-50"></i>
                                                 </a>
-
+                                                <a class="" href="#" onclick="ReadSlot()">Test
+                                                </a>
                                             </div>
                                         </td>
 
@@ -211,5 +212,11 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
+            }
+
+            function ReadSlot() {
+                if (!("NDEFReader" in window)) {
+                    alert("NFC is not supported.");
+                }
             }
         </script>

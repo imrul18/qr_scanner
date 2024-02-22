@@ -77,9 +77,7 @@ class GooglePassService
 
             return "{$this->issuerId}.{$classSuffix}";
         } catch (\Google\Service\Exception $ex) {
-            if (empty($ex->getErrors()) || $ex->getErrors()[0]['reason'] != 'classNotFound') {
-                throw $ex;
-            }
+            //
         }
 
         // See link below for more information on required properties

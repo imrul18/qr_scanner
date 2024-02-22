@@ -70,7 +70,7 @@ class PublicTicketController extends Controller
 
     public function addToGoogleWallet(EventTicket $ticket, Event $event)
     {
-        $issuerId = 3388000000022201265;
+        $issuerId = 3388000000022318351;
         $keyFile = public_path('key.json');
 
         $service = new GooglePassService($keyFile, $issuerId);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "954abb568e2c7cee61f7fd51972a7baa",
+    "content-hash": "4ded0061b249253a6f0e6e52b0f9d059",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3189,6 +3189,113 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
+        },
+        {
+            "name": "pharaonic/laravel-hijri",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/laravel-hijri.git",
+                "reference": "5a65fcaf2fd35745b509c6c860612797c854accf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/laravel-hijri/zipball/5a65fcaf2fd35745b509c6c860612797c854accf",
+                "reference": "5a65fcaf2fd35745b509c6c860612797c854accf",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=6.0",
+                "pharaonic/php-hijri": "*",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pharaonic\\Laravel\\Hijri\\HijriServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pharaonic\\Laravel\\Hijri\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moamen Eltouny",
+                    "email": "support@raggitech.com"
+                }
+            ],
+            "description": "Laravel - Hijri DateTime (Islamic)",
+            "keywords": [
+                "hijri",
+                "islamic",
+                "laravel hijri",
+                "laravel islamic",
+                "php hijri",
+                "php islamic"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/laravel-hijri/issues",
+                "source": "https://github.com/Pharaonic/laravel-hijri/tree/1.0"
+            },
+            "time": "2021-05-25T15:29:34+00:00"
+        },
+        {
+            "name": "pharaonic/php-hijri",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/php-hijri.git",
+                "reference": "ae1699afcbd796b86cab4e4f2e6f328cc256c819"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/php-hijri/zipball/ae1699afcbd796b86cab4e4f2e6f328cc256c819",
+                "reference": "ae1699afcbd796b86cab4e4f2e6f328cc256c819",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": ">=1.29.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pharaonic\\Hijri\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moamen Eltouny",
+                    "email": "support@raggitech.com"
+                }
+            ],
+            "description": "PHP - Hijri DateTime (Islamic).",
+            "keywords": [
+                "hijri",
+                "islamic",
+                "php hijri",
+                "php islamic"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/php-hijri/issues",
+                "source": "https://github.com/Pharaonic/php-hijri/tree/1.0.2"
+            },
+            "time": "2022-02-14T10:33:05+00:00"
         },
         {
             "name": "phpoption/phpoption",
