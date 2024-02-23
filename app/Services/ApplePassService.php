@@ -30,9 +30,9 @@ class ApplePassService
             'description' => 'Demo pass',
             'formatVersion' => 1,
             'organizationName' => 'Flight Express',
-            'passTypeIdentifier' => 'pass.com.scholica.flights', // Change this!
+            'passTypeIdentifier' => 'pass.event.ticket.demo', // Change this!
             'serialNumber' => '12345678',
-            'teamIdentifier' => 'KN44X8ZLNC', // Change this!
+            'teamIdentifier' => 'JQ6475PC63', // Change this!
             'boardingPass' => [
                 'primaryFields' => [
                     [
