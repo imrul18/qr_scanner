@@ -14,6 +14,23 @@
                         <form class="form form-horizontal" action="{{ route('event-add') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
+                            <h4 class="form-section"><i data-feather="info"></i> Event Details</h4>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="logo" placeholder="logo"
+                                        value="{{ old('logo') }}" onchange="readURL(this, '#logo')" />
+                                    @error('logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="logo" src="#" alt="logo" class="rounded-circle" height="40"
+                                        width="40" />
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Name</label> <span class="text-danger">*</span>
@@ -22,18 +39,6 @@
                                     <input type="text" class="form-control" name="name" placeholder="Name"
                                         value="{{ old('name') }}" />
                                     @error('name')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Name (Arabic)</label>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="name_arabic"
-                                        placeholder="Name (Arabic)" value="{{ old('name_arabic') }}" />
-                                    @error('name_arabic')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -52,18 +57,6 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Date (Arabic)</label>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="date_arabic" id="date_arabic"
-                                        placeholder="Date (Arabic)" value="{{ old('date_arabic') }}" disabled />
-                                    @error('date_arabic')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
                                     <label class="col-form-label">Venue</label> <span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
@@ -74,18 +67,44 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            {{-- additional details --}}
+                            <h4 class="form-section"><i data-feather="info"></i> Additional Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Venue (Arabic)</label>
+                                    <label class="col-form-label">Partner Logo</label>
                                 </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="venue_arabic"
-                                        placeholder="Vanue (Arabic)" value="{{ old('venue_arabic') }}" />
-                                    @error('venue_arabic')
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="partner_logo"
+                                        placeholder="Partner Logo" value="{{ old('partner_logo') }}"
+                                        onchange="readURL(this, '#partner_logo')" />
+                                    @error('partner_logo')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="partner_logo" src="#" alt="partner_logo" class="rounded-circle"
+                                        height="40" width="40" />
+                                </div>
                             </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Aminity Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="aminity_logo"
+                                        placeholder="Aminity Logo" value="{{ old('aminity_logo') }}"
+                                        onchange="readURL(this, '#aminity_logo')" />
+                                    @error('aminity_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="aminity_logo" src="#" alt="aminity_logo" class="rounded-circle"
+                                        height="40" width="40" />
+                                </div>
+                            </div>
+
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Venue Location</label>
@@ -99,22 +118,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Logo</label>
-                                </div>
-                                <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="logo" placeholder="logo"
-                                        value="{{ old('logo') }}" onchange="readURL(this, '#logo')" />
-                                    @error('logo')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-2 text-center">
-                                    <img id="logo" src="#" alt="logo" class="rounded-circle"
-                                        height="40" width="40" />
-                                </div>
-                            </div>
+
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Logo (Arabic)</label>
@@ -198,8 +202,8 @@
             readURL(this, '#logo');
         });
 
-        $("#logo_arabic").change(function() {
-            readURL(this, '#logo_arabic');
+        $("#partner_logo").change(function() {
+            readURL(this, '#partner_logo');
         });
 
         $("#bg_image").change(function() {

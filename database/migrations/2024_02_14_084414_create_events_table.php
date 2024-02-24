@@ -15,18 +15,21 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->string('logo');
             $table->string('name');
-            $table->string('name_arabic')->nullable();
             $table->string('date');
-            $table->string('date_arabic')->nullable();
             $table->string('venue');
-            $table->string('venue_arabic')->nullable();
+
+            $table->string('partner_logo')->nullable();
+            $table->string('aminity_logo')->nullable();
+            $table->string('entry_message')->nullable();
+            $table->string('people')->nullable();
             $table->string('venue_location')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('logo_arabic')->nullable();
+
             $table->string('bg_image')->nullable();
             $table->string('font_color')->default('#000000');
             $table->string('font_family')->default('Arial');
+
             $table->enum('status', [1, 2])->default(1)->comment('1=Active, 2=Inactive');
             $table->timestamps();
         });

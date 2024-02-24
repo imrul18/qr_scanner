@@ -22,15 +22,5 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
             'type' => 1
         ]);
-
-        Event::create([
-            'name' => 'Event 1',
-            'name_arabic' => 'امتحان',
-            'date' => '2024-02-14',
-            'date_arabic' => '١٢-٠٩-٢٠٢٣',
-            'venue' => 'Test Stadium',
-            'venue_arabic' => 'ملعب الاختبار',
-            'status' => 1
-        ]);
     }
 }

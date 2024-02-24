@@ -33,39 +33,50 @@ class ApplePassService
             'passTypeIdentifier' => 'pass.event.ticket.demo', // Change this!
             'serialNumber' => '12345678',
             'teamIdentifier' => 'JQ6475PC63', // Change this!
-            'boardingPass' => [
+            'eventTicket' => [
                 'primaryFields' => [
                     [
-                        'key' => 'origin',
-                        'label' => 'San Francisco',
-                        'value' => 'SFO',
+                        'key' => 'event',
+                        'label' => 'EVENT',
+                        'value' => 'The Beat Goes On',
                     ],
                     [
-                        'key' => 'destination',
-                        'label' => 'London',
-                        'value' => 'LHR',
+                        'key' => 'location',
+                        'label' => 'LOCATION',
+                        'value' => 'Moscone West',
                     ],
                 ],
                 'secondaryFields' => [
                     [
-                        'key' => 'gate',
-                        'label' => 'Gate',
-                        'value' => 'F12',
+                        'key' => 'date',
+                        'label' => 'DATE',
+                        'value' => '2013-04-15',
                     ],
                     [
-                        'key' => 'date',
-                        'label' => 'Departure date',
-                        'value' => '07/11/2012 10:22',
+                        'key' => 'time',
+                        'label' => 'TIME',
+                        'value' => '10:00',
+                    ],
+                ],
+                'auxiliaryFields' => [
+                    [
+                        'key' => 'row',
+                        'label' => 'ROW',
+                        'value' => 'A',
+                    ],
+                    [
+                        'key' => 'seat',
+                        'label' => 'SEAT',
+                        'value' => '12',
                     ],
                 ],
                 'backFields' => [
                     [
-                        'key' => 'passenger-name',
-                        'label' => 'Passenger',
-                        'value' => 'John Appleseed',
+                        'key' => 'ticket',
+                        'label' => 'TICKET',
+                        'value' => '1234567890',
                     ],
                 ],
-                'transitType' => 'PKTransitTypeAir',
             ],
             'barcode' => [
                 'format' => 'PKBarcodeFormatQR',
@@ -73,7 +84,7 @@ class ApplePassService
                 'messageEncoding' => 'iso-8859-1',
             ],
             'backgroundColor' => 'rgb(32,110,247)',
-            'logoText' => 'Flight info',
+            'logoText' => 'Test Logo',
             'relevantDate' => date('Y-m-d\TH:i:sP')
         ];
         $pass->setData($data);
