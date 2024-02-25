@@ -20,6 +20,12 @@ class PublicTicketController extends Controller
     public function showTicket($uuid)
     {
         $ticket = EventTicket::with('event')->where('uuid', $uuid)->first();
+
+        if (!$ticket) {
+            $error = 'Invalid ticket!';
+            return view('pages.events.show_ticket', compact('error'));
+        }
+
         $data = url('/event/ticket/' . $ticket->uuid);
         $renderer = new ImageRenderer(
             new RendererStyle(200),
@@ -35,10 +41,7 @@ class PublicTicketController extends Controller
         $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, $ticket->uuid);
         $qrCode = $qr->getImageBlob();
 
-        if (!$ticket) {
-            $error = 'Invalid ticket!';
-            return view('pages.events.show_ticket', compact('error'));
-        }
+
         if (!auth()->check()) {
             $fontFamily = $ticket->event->font_family;
             $fontColor = $ticket->event->font_color;

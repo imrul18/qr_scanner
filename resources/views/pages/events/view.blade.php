@@ -8,24 +8,16 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-body text-center">
-                        <h4>Event Information
-                            <hr />
-                        </h4>
-                        <div class="d-flex justify-content-center">
-                            <img src="{{ asset('storage/event/' . $event->logo) }}" alt="QR Code" class="rounded-circle"
-                                height="100" width="100">
-                            <div class="px-1 text-start">
-                                <h5>Name: {{ $event->name . ' ( ' . $event->name_arabic . ' )' }}</h5>
-                                <h5>Date: {{ $event->date . ' ( ' . $event->date_arabic . ' )' }}</h5>
-                                <h5>Venue: {{ $event->venue . ' ( ' . $event->venue_arabic . ' )' }}</h5>
-                                <h5>Status: <span
-                                        class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
-                                        {{ config('status.status')[$event->status] }}
-                                    </span></h5>
-                            </div>
-                            <img src="{{ asset('storage/event/' . $event->logo_arabic) }}" alt="QR Code"
-                                class="rounded-circle" height="100" width="100">
-                        </div>
+                        <h4>Event Information</h4>
+                        <hr />
+                        <img src="{{ asset('storage/event/' . $event->logo) }}" alt="QR Code" class="rounded" height="100">
+                        <h5>{{ $event->name }}</h5>
+                        <h5>Date: {{ $event->date }}</h5>
+                        <h5>Venue: {{ $event->venue }}</h5>
+                        <h5>Status: <span
+                                class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
+                                {{ config('status.status')[$event->status] }}
+                            </span></h5>
                     </div>
                 </div>
             </div>

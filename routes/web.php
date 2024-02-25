@@ -31,8 +31,6 @@ Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout
 Route::get('event/ticket/{uuid}', [PublicTicketController::class, 'showTicket'])->name('show_ticket');
 Route::post('add-to-wallet', [PublicTicketController::class, 'addToWallet'])->name('add-to-wallet');
 
-Route::post('convert-date-to-arabic', [HelperController::class, 'convertDateToArabic'])->name('convert-date-to-arabic');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return redirect()->route('scanner-page');

@@ -37,33 +37,22 @@
                                         @if ($event->logo)
                                             <a href="{{ asset('storage/event/' . $event->logo) }}" target="_new"><img
                                                     src="{{ asset('storage/event/' . $event->logo) }}" alt="event logo"
-                                                    class="rounded-circle" height="40" width="40" /></a>
-                                        @endif
-                                        @if ($event->logo_arabic)
-                                            <a href="{{ asset('storage/event/' . $event->logo_arabic) }}"
-                                                target="_new"><img
-                                                    src="{{ asset('storage/event/' . $event->logo_arabic) }}"
-                                                    alt="event logo" class="rounded-circle" height="40"
-                                                    width="40" /></a>
+                                                    class="rounded" height="40" width="40" /></a>
                                         @endif
                                     </td>
 
                                     <td>
                                         <span class="fw-bold">
-                                            {{ $event->name }} <br />
-                                            {{ $event->name_arabic }}
+                                            {{ $event->name }}
                                         </span>
                                     </td>
                                     <td class="text-center">
                                         <span class="fw-bold">
-                                            {{ $event->date }} <br />
-                                            {{ $event->date_arabic }}
-                                        </span>
+                                            {{ $event->date }}
                                     </td>
                                     <td>
                                         <span>
-                                            {{ $event->venue }} <br />
-                                            {{ $event->venue_arabic }}
+                                            {{ $event->venue }}
                                         </span>
                                     </td>
                                     <td class="text-center">

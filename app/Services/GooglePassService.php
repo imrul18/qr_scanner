@@ -116,17 +116,17 @@ class GooglePassService
             'id' => "{$this->issuerId}.{$objectSuffix}",
             'classId' => $classId,
             'state' => 'ACTIVE',
-            'heroImage' => new Google_Service_Walletobjects_Image([
-                'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-                    'uri' => $heroImage
-                ]),
-                'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
-                    'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-                        'language' => 'en-US',
-                        'value' => "{$eventName} Hero Image"
-                    ])
-                ])
-            ]),
+            // 'heroImage' => new Google_Service_Walletobjects_Image([
+            //     'sourceUri' => new Google_Service_Walletobjects_ImageUri([
+            //         'uri' => $heroImage
+            //     ]),
+            //     'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
+            //         'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+            //             'language' => 'en-US',
+            //             'value' => "{$eventName} Hero Image"
+            //         ])
+            //     ])
+            // ]),
             'textModulesData' => [
                 new Google_Service_Walletobjects_TextModuleData([
                     'header' => $eventName,
@@ -148,22 +148,22 @@ class GooglePassService
                     ])
                 ]
             ]),
-            'imageModulesData' => [
-                new Google_Service_Walletobjects_ImageModuleData([
-                    'mainImage' => new Google_Service_Walletobjects_Image([
-                        'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-                            'uri' => $mainImage
-                        ]),
-                        'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
-                            'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-                                'language' => 'en-US',
-                                'value' => "{$eventName} Main Image"
-                            ])
-                        ])
-                    ]),
-                    'id' => 'IMAGE_MODULE_ID'
-                ])
-            ],
+            // 'imageModulesData' => [
+            //     new Google_Service_Walletobjects_ImageModuleData([
+            //         'mainImage' => new Google_Service_Walletobjects_Image([
+            //             'sourceUri' => new Google_Service_Walletobjects_ImageUri([
+            //                 'uri' => $mainImage
+            //             ]),
+            //             'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
+            //                 'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+            //                     'language' => 'en-US',
+            //                     'value' => "{$eventName} Main Image"
+            //                 ])
+            //             ])
+            //         ]),
+            //         'id' => 'IMAGE_MODULE_ID'
+            //     ])
+            // ],
             'barcode' => new Google_Service_Walletobjects_Barcode([
                 'type' => 'QR_CODE',
                 'value' => 'QR code value'

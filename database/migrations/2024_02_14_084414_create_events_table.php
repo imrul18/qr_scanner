@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('date');
             $table->string('venue');
 
+            $table->string('header')->nullable();
             $table->string('partner_logo')->nullable();
             $table->string('aminity_logo')->nullable();
             $table->string('entry_message')->nullable();
-            $table->string('people')->nullable();
             $table->string('venue_location')->nullable();
 
             $table->string('bg_image')->nullable();

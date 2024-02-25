@@ -15,10 +15,10 @@ class Event extends Model
         'date',
         'venue',
 
+        'header',
         'partner_logo',
         'aminity_logo',
         'entry_message',
-        'people',
         'venue_location',
 
         'bg_image',

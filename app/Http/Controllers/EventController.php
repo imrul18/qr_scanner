@@ -40,18 +40,24 @@ class EventController extends Controller
             'date' => 'required',
             'venue' => 'required',
         ]);
-        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic', 'font_color', 'font_family', 'venue_location']);
+        $data = $request->only(['name', 'date', 'venue', 'header', 'venue_location', 'entry_message', 'people', 'font_color', 'font_family']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/event', $fileName);
             $data['logo'] = $fileName;
         }
-        if ($request->hasFile('logo_arabic')) {
-            $file = $request->file('logo_arabic');
+        if ($request->hasFile('partner_logo')) {
+            $file = $request->file('partner_logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/event', $fileName);
-            $data['logo_arabic'] = $fileName;
+            $data['partner_logo'] = $fileName;
+        }
+        if ($request->hasFile('aminity_logo')) {
+            $file = $request->file('aminity_logo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['aminity_logo'] = $fileName;
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
@@ -81,18 +87,24 @@ class EventController extends Controller
             'venue' => 'required',
             'status' => 'required',
         ]);
-        $data = $request->only(['name', 'name_arabic', 'date', 'date_arabic', 'venue', 'venue_arabic', 'font_color', 'font_family', 'venue_location', 'status']);
+        $data = $request->only(['name', 'date', 'venue', 'header', 'venue_location', 'entry_message', 'people', 'font_color', 'font_family', 'status']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/event', $fileName);
             $data['logo'] = $fileName;
         }
-        if ($request->hasFile('logo_arabic')) {
-            $file = $request->file('logo_arabic');
+        if ($request->hasFile('partner_logo')) {
+            $file = $request->file('partner_logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/event', $fileName);
-            $data['logo_arabic'] = $fileName;
+            $data['partner_logo'] = $fileName;
+        }
+        if ($request->hasFile('aminity_logo')) {
+            $file = $request->file('aminity_logo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/event', $fileName);
+            $data['aminity_logo'] = $fileName;
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');

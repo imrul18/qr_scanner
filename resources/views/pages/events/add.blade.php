@@ -14,7 +14,7 @@
                         <form class="form form-horizontal" action="{{ route('event-add') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <h4 class="form-section"><i data-feather="info"></i> Event Details</h4>
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Logo</label>
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="date" class="form-control" name="date" placeholder="Date"
-                                        id="date" value="{{ old('date') }}" onchange="dateChange()" />
+                                        id="date" value="{{ old('date') }}" />
                                     @error('date')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -69,7 +69,19 @@
                             </div>
 
                             {{-- additional details --}}
-                            <h4 class="form-section"><i data-feather="info"></i> Additional Details</h4>
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Ticket Information</h4>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Ticket Header</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="location" class="form-control" name="header" placeholder="Ticket Header"
+                                        value="{{ old('header') }}" />
+                                    @error('header')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Partner Logo</label>
@@ -104,7 +116,6 @@
                                         height="40" width="40" />
                                 </div>
                             </div>
-
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Venue Location</label>
@@ -118,24 +129,20 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Logo (Arabic)</label>
+                                    <label class="col-form-label">Entry Message</label>
                                 </div>
-                                <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="logo_arabic"
-                                        placeholder="logo Arabic" value="{{ old('logo_arabic') }}"
-                                        onchange="readURL(this, '#logo_arabic')" />
-                                    @error('logo_arabic')
+                                <div class="col-sm-9">
+                                    <input type="location" class="form-control" name="entry_message" placeholder=""
+                                        value="{{ old('entry_message') }}" />
+                                    @error('entry_message')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-sm-2 text-center">
-                                    <img id="logo_arabic" src="#" alt="logo Arabic" class="rounded-circle"
-                                        height="40" width="40" />
-                                </div>
                             </div>
+
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Design Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Background Image</label>
@@ -206,22 +213,11 @@
             readURL(this, '#partner_logo');
         });
 
+        $("#aminity_logo").change(function() {
+            readURL(this, '#aminity_logo');
+        });
+
         $("#bg_image").change(function() {
             readURL(this, '#bg_image');
         });
-
-        function dateChange() {
-            var date = $("#date").val();
-            $.ajax({
-                url: "{{ route('convert-date-to-arabic') }}",
-                type: "POST",
-                data: {
-                    date: date,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    $("#date_arabic").val(response);
-                }
-            });
-        }
     </script>
