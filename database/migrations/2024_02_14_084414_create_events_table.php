@@ -18,13 +18,20 @@ return new class extends Migration
             $table->string('logo');
             $table->string('name');
             $table->string('date');
-            $table->string('venue');
 
-            $table->string('header')->nullable();
+            $table->string('header_1');
+            $table->string('header_2')->nullable();
+            $table->string('header_3')->nullable();
+
+            $table->string('venue_name_1');
+            $table->string('venue_name_2')->nullable();
+            $table->string('venue_location');
+
             $table->string('partner_logo')->nullable();
             $table->string('aminity_logo')->nullable();
-            $table->string('entry_message')->nullable();
-            $table->string('venue_location')->nullable();
+
+            $table->string('access_details_1');
+            $table->string('access_details_2')->nullable();
 
             $table->string('bg_image')->nullable();
             $table->string('font_color')->default('#000000');

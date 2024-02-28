@@ -2,6 +2,11 @@
 
 @section('title', 'Edit Event')
 
+@section('page-style')
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+@endsection
+
 @section('content')
     <section id="basic-horizontal-layouts">
         <div class="row">
@@ -15,20 +20,22 @@
                             enctype="multipart/form-data">
                             @csrf
                             <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Information</h4>
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Logo</label>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="logo" placeholder="logo"
-                                        value="{{ $event->logo }}" onchange="readURL(this, '#logo')" />
+                                        value="{{ asset('storage/event/' . $event->logo) }}"
+                                        onchange="readURL(this, '#logo')" />
                                     @error('logo')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="logo" src="#" alt="logo" class="rounded-circle" height="40"
-                                        width="40" />
+                                    <img id="logo" src="{{ asset('storage/event/' . $event->logo) }}" alt="logo"
+                                        class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -48,77 +55,81 @@
                                     <label class="col-form-label">Date</label> <span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="date" placeholder="Date"
+                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
                                         id="date" value="{{ $event->date }}" />
                                     @error('date')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+
+                            {{-- additional details --}}
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Venue</label> <span class="text-danger">*</span>
+                                    <label class="col-form-label">Event Header 1</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="venue" placeholder="Venue"
-                                        value="{{ $event->venue }}" />
-                                    @error('venue')
+                                    <input type="text" class="form-control" name="header_1" placeholder="Event Header 1"
+                                        value="{{ $event->header_1 }}" />
+                                    @error('header_1')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Event Header 2</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="header_2" placeholder="Event Header 2"
+                                        value="{{ $event->header_2 }}" />
+                                    @error('header_2')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Event Header 3</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="header_3" placeholder="Event Header 3"
+                                        value="{{ $event->header_3 }}" />
+                                    @error('header_3')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            {{-- additional details --}}
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Ticket Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Ticket Header</label>
+                                    <label class="col-form-label">Event Venue 1</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="location" class="form-control" name="header" placeholder="Ticket Header"
-                                        value="{{ $event->header }}" />
-                                    @error('header')
+                                    <input type="text" class="form-control" name="venue_name_1"
+                                        placeholder="Event Venue 1" value="{{ $event->venue_name_1 }}" />
+                                    @error('venue_name_1')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Partner Logo</label>
+                                    <label class="col-form-label">Event Venue 2</label>
                                 </div>
-                                <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="partner_logo"
-                                        placeholder="Partner Logo" value="{{ $event->partner_logo }}"
-                                        onchange="readURL(this, '#partner_logo')" />
-                                    @error('partner_logo')
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="venue_name_2"
+                                        placeholder="Event Venue 2" value="{{ $event->venue_name_2 }}" />
+                                    @error('venue_name_2')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-sm-2 text-center">
-                                    <img id="partner_logo" src="#" alt="partner_logo" class="rounded-circle"
-                                        height="40" width="40" />
-                                </div>
                             </div>
+
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Aminity Logo</label>
-                                </div>
-                                <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="aminity_logo"
-                                        placeholder="Aminity Logo" value="{{ $event->aminity_logo }}"
-                                        onchange="readURL(this, '#aminity_logo')" />
-                                    @error('aminity_logo')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-sm-2 text-center">
-                                    <img id="aminity_logo" src="#" alt="aminity_logo" class="rounded-circle"
-                                        height="40" width="40" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Venue Location</label>
+                                    <label class="col-form-label">Venue Location</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="location" class="form-control" name="venue_location"
@@ -129,14 +140,62 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Entry Message</label>
+                                    <label class="col-form-label">Partner Logo</label><span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="partner_logo"
+                                        placeholder="Partner Logo" value="{{ $event->partner_logo }}"
+                                        onchange="readURL(this, '#partner_logo')" />
+                                    @error('partner_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="partner_logo" src="{{ asset('storage/event/' . $event->partner_logo) }}"
+                                        alt="partner_logo" class="rounded-circle" height="40" width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Aminity Logo</label><span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="aminity logo"
+                                        placeholder="Aminity Logo" value="{{ $event->aminity_logo }}"
+                                        onchange="readURL(this, '#aminity_logo')" />
+                                    @error('aminity_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="aminity_logo" src="{{ asset('storage/event/' . $event->aminity_logo) }}"
+                                        alt="aminity_logo" class="rounded-circle" height="40" width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Access Details 1</label><span
+                                        class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="location" class="form-control" name="entry_message" placeholder=""
-                                        value="{{ $event->entry_message }}" />
-                                    @error('entry_message')
+                                    <input type="location" class="form-control" name="access_details_1" placeholder=""
+                                        value="{{ $event->access_details_1 }}" />
+                                    @error('access_details_1')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Access Details 2</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="location" class="form-control" name="access_details_2" placeholder=""
+                                        value="{{ $event->access_details_2 }}" />
+                                    @error('access_details_2')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -149,14 +208,14 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="bg_image" placeholder="logo Arabic"
-                                        value="{{ old('bg_image') }}" onchange="readURL(this, '#bg_image')" />
+                                        value="{{ $event->bg_image }}" onchange="readURL(this, '#bg_image')" />
                                     @error('bg_image')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="bg_image" src="#" alt="logo Arabic" class="rounded-circle"
-                                        height="40" width="40" />
+                                    <img id="bg_image" src="{{ asset('storage/event/' . $event->bg_image) }}"
+                                        alt="logo Arabic" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -211,6 +270,79 @@
                             </div>
                     </div>
                     </form>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="auth-wrapper auth-basic px-2">
+                    <div class="auth-inner my-2">
+                        <div class="card-body"
+                            style="background-image: url('{{ asset('storage/event/' . $event->bg_image) }}'); z-index: 1000;">
+                            <div class="p-1"
+                                style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
+
+                                <div class="text-center my-1">
+                                    <img src="{{ asset('storage/event/' . $event->logo) }}" alt="logo"
+                                        class="rounded" height="60">
+                                </div>
+
+                                <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
+                                @if ($event->header_2 && $event->header_2 != '')
+                                    <div class="text-center" style="font-size: 18px">{{ $event->header_2 }}</div>
+                                @endif
+                                @if ($event->header_3 && $event->header_3 != '')
+                                    <div class="text-center" style="font-size: 18px">{{ $event->header_3 }}</div>
+                                @endif
+
+                                <div class="text-center mt-2" style="font-size: 24px">{{ $event->name }}</div>
+                                <div class="text-center" style="font-size: 14px">
+                                    {{ date('d-m-Y h:i A', strtotime($event->date)) }}
+                                </div>
+
+                                <div class="text-center mt-1" style="font-size: 22px">{{ $event->venue_name_1 }}</div>
+                                @if ($event->venue_name_2 && $event->venue_name_2 != '')
+                                    <div class="text-center" style="font-size: 18px">{{ $event->venue_name_2 }}</div>
+                                @endif
+                                <div class="text-center mt-1">
+                                    <img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code"
+                                        class="rounded">
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6 text-center">
+                                        <img src="{{ asset('./images/pages/add-to-google-wallet.png') }}" height="45"
+                                            class="cursor-pointer" alt="Add to Google Wallet" />
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <img src="{{ asset('./images/pages/add-to-apple-wallet.png') }}" height="45"
+                                            class="cursor-pointer" alt="Add to Apple Wallet" />
+                                    </div>
+                                    <div class="col-6 text-center mt-1">
+                                        <img src="{{ asset('./images/pages/share-button.png') }}" height="45"
+                                            class="cursor-pointer" alt="Share Ticket" />
+                                    </div>
+                                    <div class="col-6 text-center mt-1">
+                                        <a href="{{ $event->venue_location }}" target="_blank"><img
+                                                src="{{ asset('./images/pages/location.png') }}" height="45"
+                                                class="cursor-pointer" alt="Find Location" /></a>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <img src="{{ asset('storage/event/' . $event->partner_logo) }}" alt="Partner Logo"
+                                        class="rounded" height="40">
+                                    <span>
+                                        <img src="{{ asset('storage/event/' . $event->aminity_logo) }}"
+                                            alt="Aminity Logo" class="rounded" height="40">
+                                    </span>
+                                </div>
+                                <div class="text-end" style="font-size: 16px">
+                                    {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                                @if ($event->access_details_2 && $event->access_details_2 != '')
+                                    <div class="text-end" style="font-size: 14px">
+                                        {{ __($event->access_details_2, ['x' => 5]) }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

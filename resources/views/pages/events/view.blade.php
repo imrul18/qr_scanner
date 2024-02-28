@@ -2,140 +2,178 @@
 
 @section('title', 'View Event')
 
+@section('page-style')
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+@endsection
+
 @section('content')
-    <section id="basic-horizontal-layouts">
-        <div class="row">
-            <div class="col-md-12 col-12">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h4>Event Information</h4>
-                        <hr />
-                        <img src="{{ asset('storage/event/' . $event->logo) }}" alt="QR Code" class="rounded" height="100">
-                        <h5>{{ $event->name }}</h5>
-                        <h5>Date: {{ $event->date }}</h5>
-                        <h5>Venue: {{ $event->venue }}</h5>
-                        <h5>Status: <span
-                                class="badge rounded-pill bg-{{ $event->status == '1' ? 'success' : 'danger' }} text-white">
-                                {{ config('status.status')[$event->status] }}
-                            </span></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12">
-                <div class="card">
-                    <form class="box text-center" method="post" action="{{ route('ticket-upload', $event->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div id="drop_zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="openFileExplorer()">
-                            <p id="file_name">Drag & Drop files here or click here to choose files</p>
-                            <input type="file" id="file_input" name="tickets_file" accept=".csv"
-                                onchange="handleFiles(this.files)">
+    <div class="row">
+        <div class="col-md-4 col-12">
+            <div class="auth-wrapper auth-basic px-2">
+                <div class="auth-inner my-2">
+                    <div class="card-body"
+                        style="background-image: url('{{ asset('storage/event/' . $event->bg_image) }}'); z-index: 1000;">
+                        <div class="p-1" style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
+                            <div class="text-center my-1">
+                                <img src="{{ asset('storage/event/' . $event->logo) }}" alt="logo" class="rounded"
+                                    height="60">
+                            </div>
+
+                            <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
+                            @if ($event->header_2 && $event->header_2 != '')
+                                <div class="text-center" style="font-size: 18px">{{ $event->header_2 }}</div>
+                            @endif
+                            @if ($event->header_3 && $event->header_3 != '')
+                                <div class="text-center" style="font-size: 18px">{{ $event->header_3 }}</div>
+                            @endif
+
+                            <div class="text-center mt-2" style="font-size: 24px">{{ $event->name }}</div>
+                            <div class="text-center" style="font-size: 14px">
+                                {{ date('d-m-Y h:i A', strtotime($event->date)) }}
+                            </div>
+
+                            <div class="text-center mt-1" style="font-size: 22px">{{ $event->venue_name_1 }}</div>
+                            @if ($event->venue_name_2 && $event->venue_name_2 != '')
+                                <div class="text-center" style="font-size: 18px">{{ $event->venue_name_2 }}</div>
+                            @endif
+                            <div class="text-center mt-1">
+                                <img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code"
+                                    class="rounded">
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6 text-center">
+                                    <img src="{{ asset('./images/pages/add-to-google-wallet.png') }}" height="45"
+                                        class="cursor-pointer" alt="Add to Google Wallet" />
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="{{ asset('./images/pages/add-to-apple-wallet.png') }}" height="45"
+                                        class="cursor-pointer" alt="Add to Apple Wallet" />
+                                </div>
+                                <div class="col-6 text-center mt-1">
+                                    <img src="{{ asset('./images/pages/share-button.png') }}" height="45"
+                                        class="cursor-pointer" alt="Share Ticket" />
+                                </div>
+                                <div class="col-6 text-center mt-1">
+                                    <a href="{{ $event->venue_location }}" target="_blank"><img
+                                            src="{{ asset('./images/pages/location.png') }}" height="45"
+                                            class="cursor-pointer" alt="Find Location" /></a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <img src="{{ asset('storage/event/' . $event->partner_logo) }}" alt="Partner Logo"
+                                    class="rounded" height="40">
+                                <span>
+                                    <img src="{{ asset('storage/event/' . $event->aminity_logo) }}" alt="Aminity Logo"
+                                        class="rounded" height="40">
+                                </span>
+                            </div>
+                            <div class="text-end" style="font-size: 16px">
+                                {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                            @if ($event->access_details_2 && $event->access_details_2 != '')
+                                <div class="text-end" style="font-size: 14px">
+                                    {{ __($event->access_details_2, ['x' => 5]) }}
+                                </div>
+                            @endif
                         </div>
-                        @error('tickets_file')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                        <button type="reset" class="btn btn-danger" onclick="resetForm()">Reset</button>
-                        <button type="submit" class="btn btn-primary">Upload Tickets CSV file</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body d-flex justify-content-end">
-                        <a href="{{ route('export-qr-code', $event->id) }}" class="btn btn-primary">Export</a>
+        <div class="col-md-8 col-12">
+            <div class="card">
+                <form class="box text-center" method="post" action="{{ route('ticket-upload', $event->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div id="drop_zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="openFileExplorer()">
+                        <p id="file_name">Drag & Drop files here or click here to choose files</p>
+                        <input type="file" id="file_input" name="tickets_file" accept=".csv"
+                            onchange="handleFiles(this.files)">
+
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+                    @error('tickets_file')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <button type="reset" class="btn btn-danger" onclick="resetForm()">Reset</button>
+                    <button type="submit" class="btn btn-primary">Upload Tickets CSV file</button>
+                </form>
+            </div>
+            <div class="card">
+                <div class="card-body d-flex justify-content-end">
+                    <a href="{{ route('export-qr-code', $event->id) }}" class="btn btn-primary">Export</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">UUID</th>
+                                <th>Name/Category</th>
+                                <th class="text-center">Children/Total</th>
+                                <th class="text-center">Available</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tickets as $ticket)
                                 <tr>
-                                    <th class="text-center">UUID</th>
-                                    <th> Guest Name</th>
-                                    <th> Guest Category</th>
-                                    <th>Access Permitted</th>
-                                    <th class="text-center">Remaining</th>
-                                    <th class="text-center"> Last Update </th>
-                                    <th class="text-center">Action</th>
+                                    <td class="text-center">
+                                        <span>{{ $ticket->uuid }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold">
+                                            {{ $ticket->guest_name }} <br />
+                                            {{ $ticket->guest_category }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $ticket->children_access_permitted . '/' . $ticket->total_access_permitted }}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{ $ticket->remaining_ticket }}
+                                    </td>
+                                    <td class="text-center">
+                                        <div>
+                                            <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                                                <i data-feather="eye" class="me-50"></i>
+                                            </a>
+                                            <a class="copy" data href="javascript:void(0)" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Copy NFC Sticker"
+                                                onclick="copyToClipboard('{{ $ticket->uuid }}')">
+                                                <i data-feather="copy" class="me-50"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tickets as $ticket)
-                                    <tr>
-                                        <td class="text-center">
-                                            <span>{{ $ticket->uuid }}</span>
-                                        </td>
-                                        <td>
-                                            <span class="fw-bold">
-                                                {{ $ticket->name_guest }} <br />
-                                                {{ $ticket->name_guest_arabic }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                {{ $ticket->guest_category }} <br />
-                                                {{ $ticket->guest_category_arabic }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                {{ $ticket->access_permitted }} <br />
-                                                {{ $ticket->access_permitted_arabic }}
-                                            </span>
-                                        </td>
-
-                                        <td class="text-center">
-                                            {{ $ticket->remaining_ticket . '/' . $ticket->total_ticket }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ date('h:i A', strtotime($event->updated_at)) }} <br />
-                                            {{ date('d M Y', strtotime($event->updated_at)) }}
-                                        </td>
-                                        <td class="text-center">
-                                            <div>
-                                                <a class="" href={{ route('event-ticket-view-page', $ticket->id) }}
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                                                    <i data-feather="eye" class="me-50"></i>
-                                                </a>
-                                                <a class="copy" data href="javascript:void(0)" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Copy NFC Sticker"
-                                                    onclick="copyToClipboard('{{ $ticket->uuid }}')">
-                                                    <i data-feather="copy" class="me-50"></i>
-                                                </a>
-                                                <a class="" href="#" onclick="ReadSlot()">Test
-                                                </a>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mx-1 d-flex justify-content-end">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination mt-2">
-                                    <li class="page-item prev"><a class="page-link"
-                                            style="pointer-events: {{ $tickets->currentPage() == 1 ? 'none' : '' }}"
-                                            href="{{ $tickets->url($tickets->currentPage() - 1) }}"></a>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="mx-1 d-flex justify-content-end">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mt-2">
+                                <li class="page-item prev"><a class="page-link"
+                                        style="pointer-events: {{ $tickets->currentPage() == 1 ? 'none' : '' }}"
+                                        href="{{ $tickets->url($tickets->currentPage() - 1) }}"></a>
+                                </li>
+                                @for ($i = 1; $i <= $tickets->lastPage(); $i++)
+                                    <li class="page-item {{ $i == $tickets->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $tickets->url($i) }}">{{ $i }}</a>
                                     </li>
-                                    @for ($i = 1; $i <= $tickets->lastPage(); $i++)
-                                        <li class="page-item {{ $i == $tickets->currentPage() ? 'active' : '' }}">
-                                            <a class="page-link" href="{{ $tickets->url($i) }}">{{ $i }}</a>
-                                        </li>
-                                    @endfor
-                                    <li class="page-item next" disabled><a class="page-link"
-                                            style="pointer-events: {{ $tickets->currentPage() == $tickets->lastPage() ? 'none' : '' }}"
-                                            href="{{ $tickets->url($tickets->currentPage() + 1) }}"></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                                @endfor
+                                <li class="page-item next" disabled><a class="page-link"
+                                        style="pointer-events: {{ $tickets->currentPage() == $tickets->lastPage() ? 'none' : '' }}"
+                                        href="{{ $tickets->url($tickets->currentPage() + 1) }}"></a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection
 
 @push('page-style')
@@ -204,11 +242,5 @@
                     showConfirmButton: false,
                     timer: 1500
                 });
-            }
-
-            function ReadSlot() {
-                if (!("NDEFReader" in window)) {
-                    alert("NFC is not supported.");
-                }
             }
         </script>

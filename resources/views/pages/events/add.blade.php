@@ -14,7 +14,7 @@
                         <form class="form form-horizontal" action="{{ route('event-add') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Information</h4>
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Logo</label>
@@ -48,43 +48,95 @@
                                     <label class="col-form-label">Date</label> <span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="date" placeholder="Date"
+                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
                                         id="date" value="{{ old('date') }}" />
                                     @error('date')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+
+                            {{-- additional details --}}
+                            <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Venue</label> <span class="text-danger">*</span>
+                                    <label class="col-form-label">Event Header 1</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="venue" placeholder="Venue"
-                                        value="{{ old('venue') }}" />
-                                    @error('venue')
+                                    <input type="text" class="form-control" name="header_1" placeholder="Event Header 1"
+                                        value="{{ old('header_1') }}" />
+                                    @error('header_1')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Event Header 2</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="header_2" placeholder="Event Header 2"
+                                        value="{{ old('header_2') }}" />
+                                    @error('header_2')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Event Header 3</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="header_3" placeholder="Event Header 3"
+                                        value="{{ old('header_3') }}" />
+                                    @error('header_3')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            {{-- additional details --}}
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Ticket Information</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Ticket Header</label>
+                                    <label class="col-form-label">Event Venue 1</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="location" class="form-control" name="header" placeholder="Ticket Header"
-                                        value="{{ old('header') }}" />
-                                    @error('header')
+                                    <input type="text" class="form-control" name="venue_name_1"
+                                        placeholder="Event Venue 1" value="{{ old('venue_name_1') }}" />
+                                    @error('venue_name_1')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Partner Logo</label>
+                                    <label class="col-form-label">Event Venue 2</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="venue_name_2"
+                                        placeholder="Event Venue 2" value="{{ old('venue_name_2') }}" />
+                                    @error('venue_name_2')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Venue Location</label><span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="location" class="form-control" name="venue_location"
+                                        placeholder="https://maps.app.goo.gl/Qfw65wySmM62oNzQ7"
+                                        value="{{ old('venue_location') }}" />
+                                    @error('venue_location')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Partner Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="partner_logo"
@@ -101,10 +153,10 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Aminity Logo</label>
+                                    <label class="col-form-label">Aminity Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input type="file" class="form-control" name="aminity_logo"
+                                    <input type="file" class="form-control" name="aminity logo"
                                         placeholder="Aminity Logo" value="{{ old('aminity_logo') }}"
                                         onchange="readURL(this, '#aminity_logo')" />
                                     @error('aminity_logo')
@@ -118,25 +170,25 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Venue Location</label>
+                                    <label class="col-form-label">Access Details 1</label><span
+                                        class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="location" class="form-control" name="venue_location"
-                                        placeholder="https://maps.app.goo.gl/Qfw65wySmM62oNzQ7"
-                                        value="{{ old('venue_location') }}" />
-                                    @error('venue_location')
+                                    <input type="location" class="form-control" name="access_details_1" placeholder=""
+                                        value="{{ old('access_details_1') }}" />
+                                    @error('access_details_1')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Entry Message</label>
+                                    <label class="col-form-label">Access Details 2</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input type="location" class="form-control" name="entry_message" placeholder=""
-                                        value="{{ old('entry_message') }}" />
-                                    @error('entry_message')
+                                    <input type="location" class="form-control" name="access_details_2" placeholder=""
+                                        value="{{ old('access_details_2') }}" />
+                                    @error('access_details_2')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>

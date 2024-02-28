@@ -77,14 +77,15 @@ class PublicTicketController extends Controller
         $keyFile = public_path('key.json');
 
         $service = new GooglePassService($keyFile, $issuerId);
+
         $organizerName = $event->name;
         $classId = $service->createClass($event->id, $event->name, $organizerName);
 
-        $description = $event->description ?? $event->name;
+        $description = $event->header_1;
 
-        $heroImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkZFfXe8EsJYiYzFOm9jCakTaEitpwrzAbPurTAYwVog&s';
-        $mainImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR70RnqeZDZHL6ruAMUnHWr_0-JOXchWaHDICEnGARoSw&s';
-        $objectId = $service->createObject($classId, $ticket->uuid . 'test1', $event->name, $description, $heroImage, $mainImage, $ticket->name_guest, $ticket->uuid);
+        $qrCode = url('/event/ticket/' . $ticket->uuid);
+
+        $objectId = $service->createObject($classId, $ticket->uuid, $event->venue_name_1, $event->name, $qrCode, $description, $ticket->guest_name, $ticket->uuid);
 
         return redirect($service->createLink($classId, $objectId));
     }
@@ -101,8 +102,8 @@ class PublicTicketController extends Controller
         // Define pass data
         $passData = [
             'event_name' => $event->name,
-            'description' => $event->description ?? $event->name,
-            'ticket_holder' => $ticket->name_guest,
+            'description' => $event->header_1,
+            'ticket_holder' => $ticket->guest_guest,
             // Add any other relevant data for the pass
         ];
 
@@ -113,7 +114,12 @@ class PublicTicketController extends Controller
             $teamIdentifier,
             $passData,
             $certificatePath,
-            $certificatePassword
+            $certificatePassword,
+            $event->venue_name_1,
+            $event->name,
+            $event->date,
+            asset('storage/event/' . $event->logo),
+            url('/event/ticket/' . $ticket->uuid)
         );
 
         return response()->download($passFilePath, 'ticket_pass.pkpass')->deleteFileAfterSend();

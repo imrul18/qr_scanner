@@ -13,13 +13,20 @@ class Event extends Model
         'logo',
         'name',
         'date',
-        'venue',
 
-        'header',
+        'header_1',
+        'header_2',
+        'header_3',
+
+        'venue_name_1',
+        'venue_name_2',
+        'venue_location',
+
         'partner_logo',
         'aminity_logo',
-        'entry_message',
-        'venue_location',
+
+        'access_details_1',
+        'access_details_2',
 
         'bg_image',
         'font_family',

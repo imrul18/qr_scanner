@@ -22,9 +22,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center"> Logo </th>
-                                <th> Name </th>
+                                <th> Name/Vanue </th>
                                 <th class="text-center"> Date </th>
-                                <th> Vanue </th>
                                 <th class="text-center"> Status </th>
                                 <th class="text-center"> Last Update </th>
                                 <th class="text-center"> Action </th>
@@ -40,20 +39,15 @@
                                                     class="rounded" height="40" width="40" /></a>
                                         @endif
                                     </td>
-
                                     <td>
                                         <span class="fw-bold">
-                                            {{ $event->name }}
+                                            {{ $event->name }} <br />
+                                            {{ $event->venue_name_1 }}
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="fw-bold">
-                                            {{ $event->date }}
-                                    </td>
-                                    <td>
-                                        <span>
-                                            {{ $event->venue }}
-                                        </span>
+                                        {{ date('h:i A', strtotime($event->date)) }} <br />
+                                        {{ date('d M Y', strtotime($event->date)) }}
                                     </td>
                                     <td class="text-center">
                                         <span

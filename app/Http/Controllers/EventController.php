@@ -13,6 +13,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Imagick;
 use ImagickDraw;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -38,9 +39,16 @@ class EventController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'date' => 'required',
-            'venue' => 'required',
+            'header_1' => 'required',
+            'venue_name_1' => 'required',
+            'venue_location' => 'required',
+            'access_details_1' => 'required',
+            'logo' => 'required|file',
+            'partner_logo' => 'required|file',
+            'aminity_logo' => 'required|file',
         ]);
-        $data = $request->only(['name', 'date', 'venue', 'header', 'venue_location', 'entry_message', 'people', 'font_color', 'font_family']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color']);
+
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -76,7 +84,23 @@ class EventController extends Controller
     public function eventEditPage($id)
     {
         $event = Event::find($id);
-        return view('pages.events.edit', compact('event'));
+
+        $data = "testing QR code";
+        $renderer = new ImageRenderer(
+            new RendererStyle(200),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrCodeImage = $writer->writeString($data);
+        $qr = new Imagick();
+        $draw = new ImagickDraw();
+        $qr->readImageBlob($qrCodeImage);
+        $textMetrics = $qr->queryFontMetrics($draw, Str::random(12));
+        $textWidth = $textMetrics['textWidth'];
+        $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, Str::random(12));
+        $qrCode = $qr->getImageBlob();
+
+        return view('pages.events.edit', compact('event', 'qrCode'));
     }
 
     public function eventEdit(Request $request, string $id)
@@ -84,10 +108,13 @@ class EventController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'date' => 'required',
-            'venue' => 'required',
+            'header_1' => 'required',
+            'venue_name_1' => 'required',
+            'venue_location' => 'required',
+            'access_details_1' => 'required',
             'status' => 'required',
         ]);
-        $data = $request->only(['name', 'date', 'venue', 'header', 'venue_location', 'entry_message', 'people', 'font_color', 'font_family', 'status']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'status']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -113,11 +140,10 @@ class EventController extends Controller
             $data['bg_image'] = $fileName;
         }
 
-        info($data);
 
         $event = Event::find($id)->update($data);
         if ($event) {
-            return redirect()->route('event-list-page')->with('success', 'Event update successfully!');
+            return redirect()->back()->with('success', 'Event update successfully!');
         }
         return redirect()->back()->with('error', 'Something wents wrong!')->withInput();
     }
@@ -141,7 +167,22 @@ class EventController extends Controller
         }
         $tickets = $tickets->paginate('10');
 
-        return view('pages.events.view', compact('event', 'tickets'));
+        $data = "testing QR code";
+        $renderer = new ImageRenderer(
+            new RendererStyle(200),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrCodeImage = $writer->writeString($data);
+        $qr = new Imagick();
+        $draw = new ImagickDraw();
+        $qr->readImageBlob($qrCodeImage);
+        $textMetrics = $qr->queryFontMetrics($draw, Str::random(12));
+        $textWidth = $textMetrics['textWidth'];
+        $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, Str::random(12));
+        $qrCode = $qr->getImageBlob();
+
+        return view('pages.events.view', compact('event', 'tickets', 'qrCode'));
     }
 
     public function eventTicketViewPage($id)
@@ -172,27 +213,26 @@ class EventController extends Controller
         $request->validate([
             'tickets_file' => 'required|file|mimes:csv|max:2048',
         ]);
-        $file = $request->file('tickets_file');
-        $event = Event::find($id);
+        try {
+            $file = $request->file('tickets_file');
+            $event = Event::find($id);
 
-        $file = fopen($file, 'r');
-        $header = fgetcsv($file);
-        while ($row = fgetcsv($file)) {
-            $event->tickets()->create([
-                'uuid' => strtoupper(uniqid()),
-                'name_guest' => $row[1],
-                'name_guest_arabic' => $row[2],
-                'guest_category' => $row[3],
-                'guest_category_arabic' => $row[4],
-                'access_permitted' => $row[5],
-                'access_permitted_arabic' => $row[6],
-
-                'total_ticket' => $row[5],
-                'remaining_ticket' => $row[5],
-            ]);
+            $file = fopen($file, 'r');
+            $header = fgetcsv($file);
+            while ($row = fgetcsv($file)) {
+                $event->tickets()->create([
+                    'uuid' => strtoupper(uniqid()),
+                    'guest_name' => $row[1],
+                    'guest_category' => $row[2],
+                    'total_access_permitted' => $row[3],
+                    'children_access_permitted' => $row[4],
+                    'remaining_ticket' => $row[3],
+                ]);
+            }
+            fclose($file);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something wents wrong!');
         }
-        fclose($file);
-
         return redirect()->back()->with('success', 'Ticket uploaded successfully!');
     }
 

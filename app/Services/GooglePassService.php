@@ -100,7 +100,7 @@ class GooglePassService
         return $response->id;
     }
 
-    public function createObject(string $classId, string $objectSuffix, string $eventName, string $eventDescription, string $heroImage, string $mainImage, string $ticketHolder, string|int $ticketNumber)
+    public function createObject(string $classId, string $objectSuffix, string $vanue, string $eventName, string $qrCode, string $eventDescription, string $ticketHolder, string|int $ticketNumber)
     {
         try {
             $object = $this->service->eventticketobject->get("{$this->issuerId}.{$objectSuffix}");
@@ -137,15 +137,15 @@ class GooglePassService
             'linksModuleData' => new Google_Service_Walletobjects_LinksModuleData([
                 'uris' => [
                     new Google_Service_Walletobjects_Uri([
-                        'uri' => 'http://maps.google.com/',
+                        'uri' => $qrCode,
                         'description' => 'Link module URI description',
                         'id' => 'LINK_MODULE_URI_ID'
                     ]),
-                    new Google_Service_Walletobjects_Uri([
-                        'uri' => 'tel:6505555555',
-                        'description' => 'Link module tel description',
-                        'id' => 'LINK_MODULE_TEL_ID'
-                    ])
+                    // new Google_Service_Walletobjects_Uri([
+                    //     'uri' => 'tel:6505555555',
+                    //     'description' => 'Link module tel description',
+                    //     'id' => 'LINK_MODULE_TEL_ID'
+                    // ])
                 ]
             ]),
             // 'imageModulesData' => [
@@ -166,7 +166,7 @@ class GooglePassService
             // ],
             'barcode' => new Google_Service_Walletobjects_Barcode([
                 'type' => 'QR_CODE',
-                'value' => 'QR code value'
+                'value' => $qrCode
             ]),
             'locations' => [
                 new Google_Service_Walletobjects_LatLongPoint([
@@ -175,22 +175,22 @@ class GooglePassService
                 ])
             ],
             'seatInfo' => new Google_Service_Walletobjects_EventSeat([
-                'seat' => new Google_Service_Walletobjects_LocalizedString([
-                    'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-                        'language' => 'en-US',
-                        'value' => '42'
-                    ])
-                ]),
-                'row' => new Google_Service_Walletobjects_LocalizedString([
-                    'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-                        'language' => 'en-US',
-                        'value' => 'G3'
-                    ])
-                ]),
+                // 'seat' => new Google_Service_Walletobjects_LocalizedString([
+                //     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+                //         'language' => 'en-US',
+                //         'value' => '42'
+                //     ])
+                // ]),
+                // 'row' => new Google_Service_Walletobjects_LocalizedString([
+                //     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+                //         'language' => 'en-US',
+                //         'value' => 'G3'
+                //     ])
+                // ]),
                 'section' => new Google_Service_Walletobjects_LocalizedString([
                     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
                         'language' => 'en-US',
-                        'value' => '5'
+                        'value' => $vanue
                     ])
                 ])
             ]),

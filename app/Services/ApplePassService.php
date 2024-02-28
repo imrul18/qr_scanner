@@ -23,7 +23,7 @@ class ApplePassService
      *
      * @return string Path to the created pass file.
      */
-    public function createPass(string $passTypeIdentifier, string $serialNumber, string $teamIdentifier, array $data, string $certificatePath, string $certificatePassword)
+    public function createPass(string $passTypeIdentifier, string $serialNumber, string $teamIdentifier, array $data, string $certificatePath, string $certificatePassword, string $vanue, string $eventName, $date, $eventLogo, $qrCode)
     {
         $pass = new PKPass(public_path('Certificates.p12'), '123456');
         $data = [
@@ -31,14 +31,14 @@ class ApplePassService
             'formatVersion' => 1,
             'organizationName' => 'Flight Express',
             'passTypeIdentifier' => 'pass.event.ticket.demo', // Change this!
-            'serialNumber' => '12345678',
+            'serialNumber' => $serialNumber,
             'teamIdentifier' => 'JQ6475PC63', // Change this!
             'eventTicket' => [
                 'primaryFields' => [
                     [
                         'key' => 'event',
                         'label' => 'EVENT',
-                        'value' => 'The Beat Goes On',
+                        'value' => $eventName,
                     ],
                     [
                         'key' => 'location',
@@ -50,41 +50,36 @@ class ApplePassService
                     [
                         'key' => 'date',
                         'label' => 'DATE',
-                        'value' => '2013-04-15',
+                        'value' => date('Y-m-d', strtotime($date)),
                     ],
                     [
                         'key' => 'time',
                         'label' => 'TIME',
-                        'value' => '10:00',
+                        'value' => date('H:i A', strtotime($date)),
                     ],
                 ],
                 'auxiliaryFields' => [
                     [
-                        'key' => 'row',
-                        'label' => 'ROW',
-                        'value' => 'A',
-                    ],
-                    [
-                        'key' => 'seat',
-                        'label' => 'SEAT',
-                        'value' => '12',
-                    ],
+                        'key' => 'section',
+                        'label' => 'SECTION',
+                        'value' => $vanue
+                    ]
                 ],
                 'backFields' => [
                     [
                         'key' => 'ticket',
                         'label' => 'TICKET',
-                        'value' => '1234567890',
+                        'value' => $serialNumber,
                     ],
                 ],
             ],
             'barcode' => [
                 'format' => 'PKBarcodeFormatQR',
-                'message' => 'Flight-GateF12-ID6643679AH7B',
+                'message' => $qrCode,
                 'messageEncoding' => 'iso-8859-1',
             ],
             'backgroundColor' => 'rgb(32,110,247)',
-            'logoText' => 'Test Logo',
+            // 'logoText' => $eventLogo,
             'relevantDate' => date('Y-m-d\TH:i:sP')
         ];
         $pass->setData($data);

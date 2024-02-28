@@ -19,16 +19,29 @@
         @else
             <div class="card-body" style="background-image: url('{{ asset('storage/event/' . $bgImage) }}');">
                 <div class="p-1" style="font-family: {{ $fontFamily }}; color: {{ $fontColor }}">
-                    <div class="text-center" style="font-size: 18px">{{ $ticket->event->header }}</div>
 
                     <div class="text-center my-1">
                         <img src="{{ asset('storage/event/' . $ticket->event->logo) }}" alt="logo" class="rounded"
                             height="60">
                     </div>
-                    <div class="text-center" style="font-size: 24px">{{ $ticket->event->name }}</div>
 
-                    <div class="text-center mt-2" style="font-size: 14px">{{ $ticket->event->date }}</div>
-                    <div class="text-center" style="font-size: 18 px">{{ $ticket->event->venue }}</div>
+                    <div class="text-center" style="font-size: 22px">{{ $ticket->event->header_1 }}</div>
+                    @if ($ticket->event->header_2 && $ticket->event->header_2 != '')
+                        <div class="text-center" style="font-size: 18px">{{ $ticket->event->header_2 }}</div>
+                    @endif
+                    @if ($ticket->event->header_3 && $ticket->event->header_3 != '')
+                        <div class="text-center" style="font-size: 18px">{{ $ticket->event->header_3 }}</div>
+                    @endif
+
+                    <div class="text-center mt-2" style="font-size: 24px">{{ $ticket->event->name }}</div>
+                    <div class="text-center" style="font-size: 14px">
+                        {{ date('d-m-Y h:i A', strtotime($ticket->event->date)) }}
+                    </div>
+
+                    <div class="text-center mt-1" style="font-size: 22px">{{ $ticket->event->venue_name_1 }}</div>
+                    @if ($ticket->event->venue_name_2 && $ticket->event->venue_name_2 != '')
+                        <div class="text-center" style="font-size: 18px">{{ $ticket->event->venue_name_2 }}</div>
+                    @endif
                     <div class="text-center mt-1">
                         <img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code" class="rounded">
                     </div>
@@ -41,24 +54,31 @@
                             <img src="{{ asset('./images/pages/add-to-apple-wallet.png') }}" height="45"
                                 class="cursor-pointer" alt="Add to Apple Wallet" onclick="addToApple()" />
                         </div>
-                        <div class="col-12 text-center mt-1">
+                        <div class="col-6 text-center mt-1">
                             <a href="https://wa.me/?text={{ url('/event/ticket/' . $ticket->uuid) }}" target="_blank"><img
                                     src="{{ asset('./images/pages/share-button.png') }}" height="45"
-                                    class="cursor-pointer" alt="Add to Apple Wallet" /></a>
+                                    class="cursor-pointer" alt="Share Ticket" /></a>
                         </div>
-                        <div class="col-12 text-center mt-1">
+                        <div class="col-6 text-center mt-1">
                             <a href="{{ $ticket->event->venue_location }}" target="_blank"><img
                                     src="{{ asset('./images/pages/location.png') }}" height="45" class="cursor-pointer"
-                                    alt="Add to Apple Wallet" /></a>
+                                    alt="Find Location" /></a>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mt-1">
                         <img src="{{ asset('storage/event/' . $ticket->event->partner_logo) }}" alt="Partner Logo"
                             class="rounded" height="40">
-                        <img src="{{ asset('storage/event/' . $ticket->event->aminity_logo) }}" alt="Aminity Logo"
-                            class="rounded" height="40">
+                        <span>
+                            <img src="{{ asset('storage/event/' . $ticket->event->aminity_logo) }}" alt="Aminity Logo"
+                                class="rounded" height="40">
+                        </span>
                     </div>
-                    <div class="text-end mt-1">{{ __($ticket->event->entry_message, ['count' => 5]) }}</div>
+                    <div class="text-end" style="font-size: 16px">
+                        {{ __($ticket->event->access_details_1, ['x' => $ticket->total_access_permitted]) }}</div>
+                    @if ($ticket->event->access_details_2 && $ticket->event->access_details_2 != '' && $ticket->children_access_permitted)
+                        <div class="text-end" style="font-size: 14px">
+                            {{ __($ticket->event->access_details_2, ['x' => $ticket->children_access_permitted]) }}</div>
+                    @endif
 
                     <form action="{{ route('add-to-wallet') }}" method="POST">
                         @csrf
@@ -82,7 +102,6 @@
 @section('page-script')
     <script>
         function addToGoogle() {
-            console.log("🚀 ~ addToGoogle ~ uuid:")
             document.getElementById('method').value = 'google';
             document.querySelector('form').submit();
         }
