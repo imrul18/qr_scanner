@@ -144,6 +144,11 @@
                                                 onclick="copyToClipboard('{{ $ticket->uuid }}')">
                                                 <i data-feather="copy" class="me-50"></i>
                                             </a>
+                                            <a class="" href={{ route('nfc-set', $ticket->id) }}
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                                <i data-feather="edit-2" class="me-50"></i>
+                                            </a>
+
                                         </div>
                                     </td>
 

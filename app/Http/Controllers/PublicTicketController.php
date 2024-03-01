@@ -84,8 +84,11 @@ class PublicTicketController extends Controller
         $description = $event->header_1;
 
         $qrCode = url('/event/ticket/' . $ticket->uuid);
+        $heroimage = asset('storage/event/' . $event->logo);
+        // TODO - Add a default image if the event logo is not available
+        $heroimage = "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg";
 
-        $objectId = $service->createObject($classId, $ticket->uuid, $event->venue_name_1, $event->name, $qrCode, $description, $ticket->guest_name, $ticket->uuid);
+        $objectId = $service->createObject($classId, $ticket->uuid, $event->venue_name_1, $event->name, $qrCode, $description, $ticket->guest_name, $ticket->uuid, $heroimage, $event->venue_location);
 
         return redirect($service->createLink($classId, $objectId));
     }
@@ -107,6 +110,12 @@ class PublicTicketController extends Controller
             // Add any other relevant data for the pass
         ];
 
+
+        $qrCode = url('/event/ticket/' . $ticket->uuid);
+        // TODO - Add a default image if the event logo is not available
+        // $heroimage = asset('storage/event/' . $event->logo);
+        $heroimage = "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg";
+
         // Create the pass
         $passFilePath = $service->createPass(
             $passTypeIdentifier,
@@ -118,8 +127,9 @@ class PublicTicketController extends Controller
             $event->venue_name_1,
             $event->name,
             $event->date,
-            asset('storage/event/' . $event->logo),
-            url('/event/ticket/' . $ticket->uuid)
+            $event->venue_location,
+            $heroimage,
+            $qrCode
         );
 
         return response()->download($passFilePath, 'ticket_pass.pkpass')->deleteFileAfterSend();

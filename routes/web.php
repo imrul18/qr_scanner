@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('export-ticket/{id}', [EventController::class, 'ExportQrCode'])->name('export-qr-code');
     Route::get('view-event-ticket/{id}', [EventController::class, 'eventTicketViewPage'])->name('event-ticket-view-page');
     Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
+    Route::get('nfc-set/{id}', [EventController::class, 'nfcSet'])->name('nfc-set');
 
     Route::get('scanner', [ScanController::class, 'scannerPage'])->name('scanner-page');
     Route::post('ticket-scan', [ScanController::class, 'ticketScan'])->name('ticket-scan');

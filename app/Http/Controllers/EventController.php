@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Event;
 use App\Models\EventTicket;
-
+use App\Services\NFCService;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -265,5 +265,24 @@ class EventController extends Controller
             $zip->close();
         }
         return response()->download($zipFileName)->deleteFileAfterSend(true);
+    }
+
+    public function nfcSet($id)
+    {
+        $serial = new NFCService();
+
+        // Open serial connection
+        $serial->deviceSet("/dev/ttyACM0");
+        $serial->confBaudRate(115200);
+        $serial->confParity("none");
+        $serial->confCharacterLength(8);
+        $serial->confStopBits(1);
+        $serial->deviceOpen();
+
+        // Main loop to read NFC tags
+        while (true) {
+            $tag = $serial->readPort();
+            echo $tag;
+        }
     }
 }

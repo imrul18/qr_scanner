@@ -100,7 +100,7 @@ class GooglePassService
         return $response->id;
     }
 
-    public function createObject(string $classId, string $objectSuffix, string $vanue, string $eventName, string $qrCode, string $eventDescription, string $ticketHolder, string|int $ticketNumber)
+    public function createObject(string $classId, string $objectSuffix, string $vanue, string $eventName, string $qrCode, string $eventDescription, string $ticketHolder, string|int $ticketNumber, $heroImage, string $location)
     {
         try {
             $object = $this->service->eventticketobject->get("{$this->issuerId}.{$objectSuffix}");
@@ -116,17 +116,17 @@ class GooglePassService
             'id' => "{$this->issuerId}.{$objectSuffix}",
             'classId' => $classId,
             'state' => 'ACTIVE',
-            // 'heroImage' => new Google_Service_Walletobjects_Image([
-            //     'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-            //         'uri' => $heroImage
-            //     ]),
-            //     'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
-            //         'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-            //             'language' => 'en-US',
-            //             'value' => "{$eventName} Hero Image"
-            //         ])
-            //     ])
-            // ]),
+            'heroImage' => new Google_Service_Walletobjects_Image([
+                'sourceUri' => new Google_Service_Walletobjects_ImageUri([
+                    'uri' => $heroImage
+                ]),
+                'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
+                    'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+                        'language' => 'en-US',
+                        'value' => "{$eventName} Hero Image"
+                    ])
+                ])
+            ]),
             'textModulesData' => [
                 new Google_Service_Walletobjects_TextModuleData([
                     'header' => $eventName,
@@ -137,7 +137,7 @@ class GooglePassService
             'linksModuleData' => new Google_Service_Walletobjects_LinksModuleData([
                 'uris' => [
                     new Google_Service_Walletobjects_Uri([
-                        'uri' => $qrCode,
+                        'uri' => $location,
                         'description' => 'Link module URI description',
                         'id' => 'LINK_MODULE_URI_ID'
                     ]),
@@ -148,22 +148,22 @@ class GooglePassService
                     // ])
                 ]
             ]),
-            // 'imageModulesData' => [
-            //     new Google_Service_Walletobjects_ImageModuleData([
-            //         'mainImage' => new Google_Service_Walletobjects_Image([
-            //             'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-            //                 'uri' => $mainImage
-            //             ]),
-            //             'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
-            //                 'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
-            //                     'language' => 'en-US',
-            //                     'value' => "{$eventName} Main Image"
-            //                 ])
-            //             ])
-            //         ]),
-            //         'id' => 'IMAGE_MODULE_ID'
-            //     ])
-            // ],
+            'imageModulesData' => [
+                new Google_Service_Walletobjects_ImageModuleData([
+                    'mainImage' => new Google_Service_Walletobjects_Image([
+                        'sourceUri' => new Google_Service_Walletobjects_ImageUri([
+                            'uri' => $heroImage
+                        ]),
+                        'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
+                            'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+                                'language' => 'en-US',
+                                'value' => "{$eventName} Main Image"
+                            ])
+                        ])
+                    ]),
+                    'id' => 'IMAGE_MODULE_ID'
+                ])
+            ],
             'barcode' => new Google_Service_Walletobjects_Barcode([
                 'type' => 'QR_CODE',
                 'value' => $qrCode
@@ -174,6 +174,17 @@ class GooglePassService
                     'longitude' =>  -122.09259560000001
                 ])
             ],
+            // 'backgroundImage' => new Google_Service_Walletobjects_Image([
+            //     'sourceUri' => new Google_Service_Walletobjects_ImageUri([
+            //         'uri' => $heroImage
+            //     ]),
+            //     'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
+            //         'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
+            //             'language' => 'en-US',
+            //             'value' => "{$eventName} Background Image"
+            //         ])
+            //     ])
+            // ]),
             'seatInfo' => new Google_Service_Walletobjects_EventSeat([
                 // 'seat' => new Google_Service_Walletobjects_LocalizedString([
                 //     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
@@ -195,7 +206,8 @@ class GooglePassService
                 ])
             ]),
             'ticketHolderName' => $ticketHolder,
-            'ticketNumber' => $ticketNumber
+            'ticketNumber' => $ticketNumber,
+
         ]);
 
         $response = $this->service->eventticketobject->insert($newObject);

@@ -23,16 +23,19 @@ class ApplePassService
      *
      * @return string Path to the created pass file.
      */
-    public function createPass(string $passTypeIdentifier, string $serialNumber, string $teamIdentifier, array $data, string $certificatePath, string $certificatePassword, string $vanue, string $eventName, $date, $eventLogo, $qrCode)
+    public function createPass(string $passTypeIdentifier, string $serialNumber, string $teamIdentifier, array $data, string $certificatePath, string $certificatePassword, string $vanue, string $eventName, $date, $venueLocation, $eventLogo, $qrCode)
     {
         $pass = new PKPass(public_path('Certificates.p12'), '123456');
         $data = [
             'description' => 'Demo pass',
             'formatVersion' => 1,
-            'organizationName' => 'Flight Express',
+            'organizationName' => 'Test Company',
             'passTypeIdentifier' => 'pass.event.ticket.demo', // Change this!
             'serialNumber' => $serialNumber,
             'teamIdentifier' => 'JQ6475PC63', // Change this!
+
+
+
             'eventTicket' => [
                 'primaryFields' => [
                     [
@@ -43,7 +46,7 @@ class ApplePassService
                     [
                         'key' => 'location',
                         'label' => 'LOCATION',
-                        'value' => 'Moscone West',
+                        'value' => $venueLocation,
                     ],
                 ],
                 'secondaryFields' => [
@@ -61,9 +64,9 @@ class ApplePassService
                 'auxiliaryFields' => [
                     [
                         'key' => 'section',
-                        'label' => 'SECTION',
+                        'label' => 'VENUE',
                         'value' => $vanue
-                    ]
+                    ],
                 ],
                 'backFields' => [
                     [
@@ -72,17 +75,35 @@ class ApplePassService
                         'value' => $serialNumber,
                     ],
                 ],
+
+                'headerFields' => [
+                    [
+                        'key' => 'logo',
+                        'label' => 'Logo',
+                        'value' => $eventLogo,
+                        'url' => $eventLogo,
+                        'file' => $eventLogo
+                    ]
+                ],
             ],
+
+
             'barcode' => [
                 'format' => 'PKBarcodeFormatQR',
                 'message' => $qrCode,
                 'messageEncoding' => 'iso-8859-1',
             ],
-            'backgroundColor' => 'rgb(32,110,247)',
-            // 'logoText' => $eventLogo,
-            'relevantDate' => date('Y-m-d\TH:i:sP')
+
+            'backgroundImage' => base64_encode(file_get_contents($eventLogo)),
+
+            'backgroundColor' => 'rgb(255,0,0)', // Change this!
+            'foregroundColor' => 'rgb(0,0,0)',
+            'relevantDate' => date('Y-m-d\TH:i:sP'),
+
         ];
         $pass->setData($data);
+
+
         $pass->addFile(public_path('images/icon.png'));
         $pass->addFile(public_path('images/avatars/2.png'));
         $pass->addFile(public_path('images/avatars/3.png'));
