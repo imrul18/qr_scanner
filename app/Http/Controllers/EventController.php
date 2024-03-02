@@ -112,22 +112,30 @@ class EventController extends Controller
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'status']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            Storage::delete($event->logo);
+            if ($event->logo && Storage::exists($event->logo)) {
+                Storage::delete($event->logo);
+            }
             $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png');
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            Storage::delete($event->logo);
+            if ($event->partner_logo && Storage::exists($event->partner_logo)) {
+                Storage::delete($event->partner_logo);
+            }
             $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png');
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
-            Storage::delete($event->logo);
+            if ($event->aminity_logo && Storage::exists($event->aminity_logo)) {
+                Storage::delete($event->aminity_logo);
+            }
             $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png');
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
-            Storage::delete($event->logo);
+            if ($event->bg_image && Storage::exists($event->bg_image)) {
+                Storage::delete($event->bg_image);
+            }
             $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png');
         }
         $event->update($data);

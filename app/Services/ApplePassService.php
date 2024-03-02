@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\EventTicket;
+use App\Models\MasterSetting;
 use Illuminate\Support\Facades\Storage;
 use PKPass\PKPass;
 
@@ -13,12 +14,13 @@ class ApplePassService
 
     public function __construct()
     {
-        $this->pass = new PKPass(public_path('Certificates.p12'), '123456');
+        $setting = MasterSetting::get();
+        $this->pass = new PKPass(Storage::path($setting->where('key', 'certificatePath')->first()->value), $setting->where('key', 'certificatePassword')->first()->value);
         $this->data = [
             'formatVersion' => 1,
-            'organizationName' => 'Test Company',
-            'passTypeIdentifier' => 'pass.event.ticket.demo',
-            'teamIdentifier' => 'JQ6475PC63',
+            'organizationName' => $setting->where('key', 'organizationName')->first()->value,
+            'passTypeIdentifier' => $setting->where('key', 'passTypeIdentifier')->first()->value,
+            'teamIdentifier' => $setting->where('key', 'teamIdentifier')->first()->value,
         ];
     }
 
@@ -41,7 +43,7 @@ class ApplePassService
 
         $data = [
             ...$this->data,
-            'description' => $event->header_1,
+            'description' => $event->name,
             'serialNumber' => $ticket->uuid,
             'eventTicket' => [
                 'primaryFields' => [
@@ -53,7 +55,7 @@ class ApplePassService
                     [
                         'key' => 'location',
                         'label' => 'VENUE',
-                        'value' => $event->venue_name_1,
+                        'value' => $event->name,
                     ],
                 ],
                 'secondaryFields' => [
@@ -72,6 +74,16 @@ class ApplePassService
                     [
                         'key' => 'section',
                         'label' => 'VENUE',
+                        'value' => $event->venue_name_1
+                    ],
+                    [
+                        'key' => 'seat',
+                        'label' => 'VENUE2',
+                        'value' => $event->venue_name_1
+                    ],
+                    [
+                        'key' => 'row',
+                        'label' => 'VENUE3',
                         'value' => $event->venue_name_1
                     ],
                 ],
@@ -97,18 +109,10 @@ class ApplePassService
         ];
         $this->pass->setData($data);
 
-        info(public_path('images/icon.png'));
-        info(public_path('images/logo.png'));
-        info(storage_path('app/' . $event->partner_logo));
-        info(Storage::path($event->partner_logo));
-
         $this->pass->addFile(public_path('images/icon.png'));
-        $this->pass->addFile(public_path('images/thumbnail.png'));
-        $this->pass->addFile(public_path('images/logo.png'));
-        $this->pass->addFile(public_path('images/background.png'));
-        // $this->pass->addFile(storage_path('app/'.$event->logo));
-        // $this->pass->addFile(Storage::path($event->bg_image));
-        // $this->pass->addFile(Storage::path($event->partner_logo));
+        $this->pass->addFile(Storage::path($event->logo));
+        $this->pass->addFile(Storage::path($event->bg_image));
+        $this->pass->addFile(Storage::path($event->partner_logo));
 
         return $this->pass->create(true);
     }

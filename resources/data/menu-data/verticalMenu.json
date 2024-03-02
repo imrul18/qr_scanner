@@ -20,6 +20,13 @@
             "icon": "camera",
             "slug": "scanner",
             "access": [1, 2, 3]
+        },
+        {
+            "url": "settings",
+            "name": "Settings",
+            "icon": "settings",
+            "slug": "settings",
+            "access": [1]
         }
     ]
 }
