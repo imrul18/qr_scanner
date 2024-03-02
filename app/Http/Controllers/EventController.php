@@ -57,6 +57,7 @@ class EventController extends Controller
         if (!File::exists($directory)) {
             File::makeDirectory($directory, 0777, true);
         }
+        chmod($directory, 0777);
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
