@@ -16,6 +16,7 @@ class ApplePassService
     {
         $setting = MasterSetting::get();
         $this->pass = new PKPass(Storage::path($setting->where('key', 'certificatePath')->first()->value), $setting->where('key', 'certificatePassword')->first()->value);
+        $this->pass->addFile(Storage::path($setting->where('key', 'appleWalletIcon')->first()->value));
         $this->data = [
             'formatVersion' => 1,
             'organizationName' => $setting->where('key', 'organizationName')->first()->value,
@@ -52,11 +53,6 @@ class ApplePassService
                         'label' => 'EVENT',
                         'value' => $event->name,
                     ],
-                    [
-                        'key' => 'location',
-                        'label' => 'VENUE',
-                        'value' => $event->name,
-                    ],
                 ],
                 'secondaryFields' => [
                     [
@@ -74,16 +70,6 @@ class ApplePassService
                     [
                         'key' => 'section',
                         'label' => 'VENUE',
-                        'value' => $event->venue_name_1
-                    ],
-                    [
-                        'key' => 'seat',
-                        'label' => 'VENUE2',
-                        'value' => $event->venue_name_1
-                    ],
-                    [
-                        'key' => 'row',
-                        'label' => 'VENUE3',
                         'value' => $event->venue_name_1
                     ],
                 ],
@@ -109,7 +95,6 @@ class ApplePassService
         ];
         $this->pass->setData($data);
 
-        $this->pass->addFile(public_path('images/icon.png'));
         $this->pass->addFile(Storage::path($event->logo));
         $this->pass->addFile(Storage::path($event->bg_image));
         $this->pass->addFile(Storage::path($event->partner_logo));

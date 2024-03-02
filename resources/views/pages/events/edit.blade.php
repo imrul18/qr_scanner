@@ -19,7 +19,6 @@
                         <form class="form form-horizontal" action={{ route('event-edit', $event->id) }} method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Information</h4>
                             <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">

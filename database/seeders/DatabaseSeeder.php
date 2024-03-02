@@ -52,5 +52,23 @@ class DatabaseSeeder extends Seeder
             'label' => 'Apple wallet Certificate',
             'value' => 'public/files/Certificates.p12'
         ]);
+        MasterSetting::create([
+            'key' => 'appleWalletIcon',
+            'type' => 2,
+            'label' => 'Apple wallet Icon',
+            'value' => 'public/files/icon.png'
+        ]);
+
+        MasterSetting::create([
+            'key' => 'issuerId',
+            'label' => 'Google Issuer ID',
+            'value' => '3388000000022318351'
+        ]);
+        MasterSetting::create([
+            'key' => 'keyFilePath',
+            'type' => 2,
+            'label' => 'Google Key File Path',
+            'value' => 'public/files/key.json'
+        ]);
     }
 }

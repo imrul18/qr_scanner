@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventTicket;
+use App\Models\MasterSetting;
 use App\Services\ApplePassService;
 use App\Services\GooglePassService;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Storage;
 use Imagick;
 use ImagickDraw;
 
@@ -64,31 +66,18 @@ class PublicTicketController extends Controller
         if ($method == 'apple') {
             return $this->addToAppleWallet($ticket->id);
         } elseif ($method == 'google') {
-            return $this->addToGoogleWallet($ticket->id, $ticket->event);
+            return $this->addToGoogleWallet($ticket->id);
         } else {
             return response()->json(['error' => 'Invalid method!'], 400);
         }
     }
 
-    public function addToGoogleWallet(EventTicket $ticket, Event $event)
+    public function addToGoogleWallet($ticket_id)
     {
-        $issuerId = 3388000000022318351;
-        // $keyFile = storage_path(/app/public/key)
-        $keyFile = public_path('key.json');
+        $service = new GooglePassService($ticket_id);
 
-        $service = new GooglePassService($keyFile, $issuerId);
-
-        $organizerName = $event->name;
-        $classId = $service->createClass($event->id, $event->name, $organizerName);
-
-        $description = $event->header_1;
-
-        $qrCode = url('/event/ticket/' . $ticket->uuid);
-        $heroimage = asset('storage/event/' . $event->logo);
-        // TODO - Add a default image if the event logo is not available
-        $heroimage = "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg";
-
-        $objectId = $service->createObject($classId, $ticket->uuid, $event->venue_name_1, $event->name, $qrCode, $description, $ticket->guest_name, $ticket->uuid, $heroimage, $event->venue_location);
+        $classId = $service->createClass();
+        $objectId = $service->createObject($classId);
 
         return redirect($service->createLink($classId, $objectId));
     }

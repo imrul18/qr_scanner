@@ -31,9 +31,6 @@
                                             </div>
                                         </div>
                                     @endif
-                                @endforeach
-
-                                @foreach ($settings as $setting)
                                     @if ($setting->type == 2)
                                         <div class="col-12">
                                             <div class="mb-1 row">
@@ -43,8 +40,7 @@
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <input type="file" id="first-name" class="form-control"
-                                                        name="{{ $setting->key }}" placeholder="{{ $setting->label }}"
-                                                        value="{{ $setting->value }}" />
+                                                        name="{{ $setting->key }}" placeholder="{{ $setting->label }}" />
                                                 </div>
                                             </div>
                                         </div>
