@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Event;
 use App\Models\EventTicket;
-
+use App\Services\NFCService;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -43,38 +43,31 @@ class EventController extends Controller
             'venue_name_1' => 'required',
             'venue_location' => 'required',
             'access_details_1' => 'required',
-            'logo' => 'required|file',
-            'partner_logo' => 'required|file',
-            'aminity_logo' => 'required|file',
+            'logo' => 'required|file|mimes:png',
+            'partner_logo' => 'required|file|mimes:png',
+            'aminity_logo' => 'required|file|mimes:png',
         ]);
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color']);
 
+        $event = Event::create($data);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['logo'] = $fileName;
+            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png');
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['partner_logo'] = $fileName;
+            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png');
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['aminity_logo'] = $fileName;
+            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png');
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['bg_image'] = $fileName;
+            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png');
         }
+        $event->save();
 
-        $event = Event::create($data);
         if ($event) {
             return redirect()->route('event-list-page')->with('success', 'Event added successfully!');
         }
@@ -114,34 +107,31 @@ class EventController extends Controller
             'access_details_1' => 'required',
             'status' => 'required',
         ]);
+
+        $event = Event::find($id);
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'status']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['logo'] = $fileName;
+            Storage::delete($event->logo);
+            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png');
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['partner_logo'] = $fileName;
+            Storage::delete($event->logo);
+            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png');
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['aminity_logo'] = $fileName;
+            Storage::delete($event->logo);
+            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png');
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/event', $fileName);
-            $data['bg_image'] = $fileName;
+            Storage::delete($event->logo);
+            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png');
         }
+        $event->update($data);
 
-
-        $event = Event::find($id)->update($data);
         if ($event) {
             return redirect()->back()->with('success', 'Event update successfully!');
         }
@@ -265,5 +255,24 @@ class EventController extends Controller
             $zip->close();
         }
         return response()->download($zipFileName)->deleteFileAfterSend(true);
+    }
+
+    public function nfcSet($id)
+    {
+        $serial = new NFCService();
+
+        // Open serial connection
+        $serial->deviceSet("/dev/ttyACM0");
+        $serial->confBaudRate(115200);
+        $serial->confParity("none");
+        $serial->confCharacterLength(8);
+        $serial->confStopBits(1);
+        $serial->deviceOpen();
+
+        // Main loop to read NFC tags
+        while (true) {
+            $tag = $serial->readPort();
+            echo $tag;
+        }
     }
 }

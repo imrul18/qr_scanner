@@ -27,14 +27,13 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="logo" placeholder="logo"
-                                        value="{{ asset('storage/event/' . $event->logo) }}"
-                                        onchange="readURL(this, '#logo')" />
+                                        value="{{ Storage::url($event->logo) }}" onchange="readURL(this, '#logo')" />
                                     @error('logo')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="logo" src="{{ asset('storage/event/' . $event->logo) }}" alt="logo"
+                                    <img id="logo" src="{{ Storage::url($event->logo) }}" alt="logo"
                                         class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
@@ -154,7 +153,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="partner_logo" src="{{ asset('storage/event/' . $event->partner_logo) }}"
+                                    <img id="partner_logo" src="{{ Storage::url($event->partner_logo) }}"
                                         alt="partner_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
@@ -171,7 +170,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="aminity_logo" src="{{ asset('storage/event/' . $event->aminity_logo) }}"
+                                    <img id="aminity_logo" src="{{ Storage::url($event->aminity_logo) }}"
                                         alt="aminity_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
@@ -214,8 +213,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="bg_image" src="{{ asset('storage/event/' . $event->bg_image) }}"
-                                        alt="logo Arabic" class="rounded-circle" height="40" width="40" />
+                                    <img id="bg_image" src="{{ Storage::url($event->bg_image) }}" alt="logo Arabic"
+                                        class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -276,13 +275,13 @@
                 <div class="auth-wrapper auth-basic px-2">
                     <div class="auth-inner my-2">
                         <div class="card-body"
-                            style="background-image: url('{{ asset('storage/event/' . $event->bg_image) }}'); z-index: 1000;">
+                            style="background-image: url('{{ Storage::url($event->bg_image) }}'); z-index: 1000;">
                             <div class="p-1"
                                 style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
                                 <div class="text-center my-1">
-                                    <img src="{{ asset('storage/event/' . $event->logo) }}" alt="logo"
-                                        class="rounded" height="60">
+                                    <img src="{{ Storage::url($event->logo) }}" alt="logo" class="rounded"
+                                        height="60">
                                 </div>
 
                                 <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
@@ -326,11 +325,11 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-1">
-                                    <img src="{{ asset('storage/event/' . $event->partner_logo) }}" alt="Partner Logo"
+                                    <img src="{{ Storage::url($event->partner_logo) }}" alt="Partner Logo"
                                         class="rounded" height="40">
                                     <span>
-                                        <img src="{{ asset('storage/event/' . $event->aminity_logo) }}"
-                                            alt="Aminity Logo" class="rounded" height="40">
+                                        <img src="{{ Storage::url($event->aminity_logo) }}" alt="Aminity Logo"
+                                            class="rounded" height="40">
                                     </span>
                                 </div>
                                 <div class="text-end" style="font-size: 16px">

@@ -13,12 +13,11 @@
             <div class="auth-wrapper auth-basic px-2">
                 <div class="auth-inner my-2">
                     <div class="card-body"
-                        style="background-image: url('{{ asset('storage/event/' . $event->bg_image) }}'); z-index: 1000;">
+                        style="background-image: url('{{ Storage::url($event->bg_image) }}'); z-index: 1000;">
                         <div class="p-1" style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
                             <div class="text-center my-1">
-                                <img src="{{ asset('storage/event/' . $event->logo) }}" alt="logo" class="rounded"
-                                    height="60">
+                                <img src="{{ Storage::url($event->logo) }}" alt="logo" class="rounded" height="60">
                             </div>
 
                             <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
@@ -62,11 +61,11 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mt-1">
-                                <img src="{{ asset('storage/event/' . $event->partner_logo) }}" alt="Partner Logo"
-                                    class="rounded" height="40">
+                                <img src="{{ Storage::url($event->partner_logo) }}" alt="Partner Logo" class="rounded"
+                                    height="40">
                                 <span>
-                                    <img src="{{ asset('storage/event/' . $event->aminity_logo) }}" alt="Aminity Logo"
-                                        class="rounded" height="40">
+                                    <img src="{{ Storage::url($event->aminity_logo) }}" alt="Aminity Logo" class="rounded"
+                                        height="40">
                                 </span>
                             </div>
                             <div class="text-end" style="font-size: 16px">
@@ -144,6 +143,11 @@
                                                 onclick="copyToClipboard('{{ $ticket->uuid }}')">
                                                 <i data-feather="copy" class="me-50"></i>
                                             </a>
+                                            <a class="" href={{ route('nfc-set', $ticket->id) }}
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                                <i data-feather="edit-2" class="me-50"></i>
+                                            </a>
+
                                         </div>
                                     </td>
 
