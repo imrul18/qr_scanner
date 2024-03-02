@@ -126,13 +126,14 @@ class GooglePassService
             //
         }
 
+
         $newObject = new Google_Service_Walletobjects_EventTicketObject([
             'id' => "{$this->issuerId}.{$this->ticket->uuid}",
             'classId' => $classId,
             'state' => 'ACTIVE',
             'heroImage' => new Google_Service_Walletobjects_Image([
                 'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-                    'uri' => Storage::url($this->event->partner_logo)
+                    'uri' => asset(Storage::url($this->event->partner_logo))
                 ]),
                 'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
                     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
