@@ -9,6 +9,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\PublicTicketController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -57,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('scanner', [ScanController::class, 'scannerPage'])->name('scanner-page');
     Route::post('ticket-scan', [ScanController::class, 'ticketScan'])->name('ticket-scan');
+
+    Route::get('settings', [SettingsController::class, 'settingsPage'])->name('settings-page');
+    Route::post('settings-update', [SettingsController::class, 'settingsupdate'])->name('settings-update');
 });
 
 // Route Components
