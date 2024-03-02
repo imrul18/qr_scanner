@@ -291,6 +291,9 @@ class EventController extends Controller
                 } else if (strpos($url, 'http://') !== false) {
                     $record1 = 'http://';
                     $record2 = str_replace('http://', '', $url);
+                } else if (strpos($url, 'https://') !== false) {
+                    $record1 = 'https://www';
+                    $record2 = str_replace('https://', '', $url);
                 } else {
                     $record1 = '';
                     $record2 = '';
