@@ -34,9 +34,9 @@
                                 <tr>
                                     <td class="text-center">
                                         @if ($event->logo)
-                                            <a href="{{ Storage::url($event->logo) }}" target="_new"><img
-                                                    src="{{ Storage::url($event->logo) }}" alt="event logo" class="rounded"
-                                                    height="40" width="40" /></a>
+                                            <a href="{{ Storage::url($event->logo) }}?{{ time() }}"
+                                                target="_new"><img src="{{ Storage::url($event->logo) }}" alt="event logo"
+                                                    class="rounded" height="40" width="40" /></a>
                                         @endif
                                     </td>
                                     <td>
