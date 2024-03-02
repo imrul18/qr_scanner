@@ -12,6 +12,7 @@ use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\File;
 use Imagick;
 use ImagickDraw;
 use Illuminate\Support\Str;
@@ -52,6 +53,11 @@ class EventController extends Controller
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color']);
 
         $event = Event::create($data);
+        $directory = 'public/event/' . $event->id;
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0777, true);
+        }
+
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             // storeas and add option for folder visibility and make it public
