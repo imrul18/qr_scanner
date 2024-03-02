@@ -21,6 +21,8 @@ class Event extends Model
         'venue_name_1',
         'venue_name_2',
         'venue_location',
+        'venue_lat',
+        'venue_lon',
 
         'partner_logo',
         'aminity_logo',

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Event;
 use App\Models\EventTicket;
+use App\Models\FontStyle;
 use App\Services\NFCService;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
@@ -31,7 +32,8 @@ class EventController extends Controller
 
     public function eventAddPage()
     {
-        return view('pages.events.add');
+        $font_lists = FontStyle::all();
+        return view('pages.events.add', compact('font_lists'));
     }
 
     public function eventAdd(Request $request)
@@ -47,24 +49,25 @@ class EventController extends Controller
             'partner_logo' => 'required|file|mimes:png',
             'aminity_logo' => 'required|file|mimes:png',
         ]);
-        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color']);
 
         $event = Event::create($data);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png');
+            // storeas and add option for folder visibility and make it public
+            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png');
+            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
-            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png');
+            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
-            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png');
+            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png', ['visibility' => 'public']);
         }
         $event->save();
 
@@ -93,7 +96,8 @@ class EventController extends Controller
         $qr->annotateImage($draw, 100 - ($textWidth / 2), 195, 0, Str::random(12));
         $qrCode = $qr->getImageBlob();
 
-        return view('pages.events.edit', compact('event', 'qrCode'));
+        $font_lists = FontStyle::all();
+        return view('pages.events.edit', compact('event', 'qrCode', 'font_lists'));
     }
 
     public function eventEdit(Request $request, string $id)
@@ -109,34 +113,34 @@ class EventController extends Controller
         ]);
 
         $event = Event::find($id);
-        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'status']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'status']);
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             if ($event->logo && Storage::exists($event->logo)) {
                 Storage::delete($event->logo);
             }
-            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png');
+            $event->logo = $file->storeAs('public/event/' . $event->id, 'thumbnail.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
             if ($event->partner_logo && Storage::exists($event->partner_logo)) {
                 Storage::delete($event->partner_logo);
             }
-            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png');
+            $event->partner_logo = $file->storeAs('public/event/' . $event->id, 'logo.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
             if ($event->aminity_logo && Storage::exists($event->aminity_logo)) {
                 Storage::delete($event->aminity_logo);
             }
-            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png');
+            $event->aminity_logo = $file->storeAs('public/event/' . $event->id, 'aminity_logo.png', ['visibility' => 'public']);
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
             if ($event->bg_image && Storage::exists($event->bg_image)) {
                 Storage::delete($event->bg_image);
             }
-            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png');
+            $event->bg_image = $file->storeAs('public/event/' . $event->id, 'background.png', ['visibility' => 'public']);
         }
         $event->update($data);
 
@@ -265,22 +269,34 @@ class EventController extends Controller
         return response()->download($zipFileName)->deleteFileAfterSend(true);
     }
 
-    public function nfcSet($id)
+    public function ExportURLjson($id)
     {
-        $serial = new NFCService();
+        $event = Event::find($id);
+        $tickets = $event->tickets;
+        $zip = new \ZipArchive();
+        $zipFileName = 'json_' . $event->name . '.zip';
+        if ($zip->open($zipFileName, \ZipArchive::CREATE) === TRUE) {
+            foreach ($tickets as $ticket) {
+                $url = url('/event/ticket/' . $ticket->uuid);
+                if (strpos($url, 'https://www.') !== false) {
+                    $record1 = 'https://www.';
+                    $record2 = str_replace('https://www.', '', $url);
+                    return $record2;
+                } else if (strpos($url, 'http://') !== false) {
+                    $record1 = 'http://';
+                    $record2 = str_replace('http://', '', $url);
+                } else {
+                    $record1 = '';
+                    $record2 = '';
+                }
+                $string = '{"ntgui_version":16,"data":[{"kRecordDescription": "' . $url . '","kRecordField2":"' . $record2 . '","kRecordSelection":1,"kRecordField1":"' . $record1 . '","kRecordSize":13,"kRecordObject":{"kTnf":1,"kChunked":false,"kType":[85],"kId":[],"kPayload":[1,102,97,99,101,98,111,111,107,46,99,111,109]}}]}';
 
-        // Open serial connection
-        $serial->deviceSet("/dev/ttyACM0");
-        $serial->confBaudRate(115200);
-        $serial->confParity("none");
-        $serial->confCharacterLength(8);
-        $serial->confStopBits(1);
-        $serial->deviceOpen();
-
-        // Main loop to read NFC tags
-        while (true) {
-            $tag = $serial->readPort();
-            echo $tag;
+                $fileName = $ticket->uuid . '.json';
+                Storage::disk('local')->put('public/json/' . $fileName, $string);
+                $zip->addFile(storage_path('app/public/json/' . $fileName), $fileName);
+            }
+            $zip->close();
         }
+        return response()->download($zipFileName)->deleteFileAfterSend(true);
     }
 }

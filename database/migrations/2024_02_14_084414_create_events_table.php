@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('venue_name_1');
             $table->string('venue_name_2')->nullable();
             $table->string('venue_location');
+            $table->string('venue_lat')->nullable();
+            $table->string('venue_lon')->nullable();
 
             $table->string('partner_logo')->nullable();
             $table->string('aminity_logo')->nullable();

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Event;
+use App\Models\FontStyle;
 use App\Models\MasterSetting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -69,6 +70,18 @@ class DatabaseSeeder extends Seeder
             'type' => 2,
             'label' => 'Google Key File Path',
             'value' => 'public/files/key.json'
+        ]);
+        FontStyle::create([
+            'name' => 'Arial',
+            'font_family' => 'Arial, sans-serif'
+        ]);
+        FontStyle::create([
+            'name' => 'Times New Roman',
+            'font_family' => 'Times New Roman, serif'
+        ]);
+        FontStyle::create([
+            'name' => 'Courier New',
+            'font_family' => 'Courier New, monospace'
         ]);
     }
 }

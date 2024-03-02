@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('delete-event/{id}', [EventController::class, 'eventDelete'])->name('event-delete');
     Route::get('view-event/{id}', [EventController::class, 'eventViewPage'])->name('event-view-page');
     Route::get('export-ticket/{id}', [EventController::class, 'ExportQrCode'])->name('export-qr-code');
+    Route::get('export-ticket-url/{id}', [EventController::class, 'ExportURLjson'])->name('export-url-json');
     Route::get('view-event-ticket/{id}', [EventController::class, 'eventTicketViewPage'])->name('event-ticket-view-page');
     Route::post('upload-ticket/{id}', [EventController::class, 'TicketUpload'])->name('ticket-upload');
 

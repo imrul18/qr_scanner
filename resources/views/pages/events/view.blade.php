@@ -100,7 +100,8 @@
             </div>
             <div class="card">
                 <div class="card-body d-flex justify-content-end">
-                    <a href="{{ route('export-qr-code', $event->id) }}" class="btn btn-primary">Export</a>
+                    <a href="{{ route('export-url-json', $event->id) }}" class="btn btn-primary me-1">Export URL</a>
+                    <a href="{{ route('export-qr-code', $event->id) }}" class="btn btn-primary">Export QR code</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">

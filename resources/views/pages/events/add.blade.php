@@ -133,6 +133,23 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Venue Lat/Lon</label><span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="venue_lat"
+                                                placeholder="Latitude" value="{{ old('venue_lat') }}" />
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="venue_lon"
+                                                placeholder="Longitude" value="{{ old('venue_lon') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row mb-1">
                                 <div class="col-sm-3">
@@ -216,17 +233,15 @@
                                     <label class="col-form-label">Font Family</label>
                                 </div>
                                 <div class="col-sm-5">
-                                    <select class="form-select" name="font_family" class="form-select">
-                                        <option value="Arial" {{ old('font_family') == 'Arial' ? 'selected' : '' }}>Arial
-                                        </option>
-                                        <option value="monospace"
-                                            {{ old('font_family') == 'monospace' ? 'selected' : '' }}>Courier New</option>
-                                        <option value="Courier New"
-                                            {{ old('font_family') == 'Courier New' ? 'selected' : '' }}>Courier New
-                                        </option>
-                                        <option value="Verdana" {{ old('font_family') == 'Verdana' ? 'selected' : '' }}>
-                                            Verdana
-                                        </option>
+                                    <select class="hide-search form-select" name="font_family">
+                                        @foreach ($font_lists as $font)
+                                            <option value="{{ $font->font_family }}"
+                                                {{ old('font_family') == $font->font_family ? 'selected' : '' }}>
+                                                <span style="font-family: {{ $font->font_family }}">
+                                                    {{ $font->name }}
+                                                </span>
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-sm-2 d-flex align-items-center">

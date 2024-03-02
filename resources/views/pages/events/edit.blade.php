@@ -141,6 +141,24 @@
 
                             <div class="row mb-1">
                                 <div class="col-sm-3">
+                                    <label class="col-form-label">Venue Lat/Lon</label><span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="venue_lat"
+                                                placeholder="Latitude" value="{{ $event->venue_lat }}" />
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="venue_lon"
+                                                placeholder="Longitude" value="{{ $event->venue_lon }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
                                     <label class="col-form-label">Partner Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
@@ -221,18 +239,14 @@
                                     <label class="col-form-label">Font Family</label>
                                 </div>
                                 <div class="col-sm-5">
-                                    <select class="form-select" name="font_family" class="form-select">
-                                        <option value="Arial" {{ $event->font_family == 'Arial' ? 'selected' : '' }}>
-                                            Arial
-                                        </option>
-                                        <option value="monospace"
-                                            {{ $event->font_family == 'monospace' ? 'selected' : '' }}>Courier New</option>
-                                        <option value="Courier New"
-                                            {{ $event->font_family == 'Courier New' ? 'selected' : '' }}>Courier New
-                                        </option>
-                                        <option value="Verdana" {{ $event->font_family == 'Verdana' ? 'selected' : '' }}>
-                                            Verdana
-                                        </option>
+                                    <select class="hide-search form-select" name="font_family">
+                                        @foreach ($font_lists as $font)
+                                            <option value="{{ $font->font_family }}"
+                                                {{ $event->font_family == $font->font_family ? 'selected' : '' }}
+                                                style="font-family: {{ $font->font_family }}">
+                                                {{ $font->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-sm-2 d-flex align-items-center">
@@ -258,13 +272,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-9 offset-sm-3">
-                                @if (session('error'))
-                                    <div class="text-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                <button type="submit" class="btn btn-primary me-1">Submit</button>
+                            <div class="row mt-1">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <button type="submit" class="btn btn-primary me-1">Update</button>
+                                </div>
                             </div>
                     </div>
                     </form>
