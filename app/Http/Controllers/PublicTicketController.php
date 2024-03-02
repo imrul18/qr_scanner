@@ -56,16 +56,15 @@ class PublicTicketController extends Controller
     {
         $method = $request->method;
         $ticket = EventTicket::with('event')->where('uuid', $request->uuid)->first();
-        $event = $ticket->event;
 
         if (!$ticket) {
             return response()->json(['error' => 'Invalid ticket!'], 404);
         }
 
         if ($method == 'apple') {
-            return $this->addToAppleWallet($ticket, $event);
+            return $this->addToAppleWallet($ticket->id);
         } elseif ($method == 'google') {
-            return $this->addToGoogleWallet($ticket, $event);
+            return $this->addToGoogleWallet($ticket->id, $ticket->event);
         } else {
             return response()->json(['error' => 'Invalid method!'], 400);
         }
@@ -74,6 +73,7 @@ class PublicTicketController extends Controller
     public function addToGoogleWallet(EventTicket $ticket, Event $event)
     {
         $issuerId = 3388000000022318351;
+        // $keyFile = storage_path(/app/public/key)
         $keyFile = public_path('key.json');
 
         $service = new GooglePassService($keyFile, $issuerId);
@@ -93,44 +93,10 @@ class PublicTicketController extends Controller
         return redirect($service->createLink($classId, $objectId));
     }
 
-    public function  addToAppleWallet(EventTicket $ticket, Event $event)
+    public function  addToAppleWallet($ticket_id)
     {
-        $passTypeIdentifier = 'your.pass.type.identifier';
-        $teamIdentifier = 'your.team.identifier';
-        $certificatePath = 'path/to/certificate.p12';
-        $certificatePassword = 'certificate_password';
-
         $service = new ApplePassService();
-
-        // Define pass data
-        $passData = [
-            'event_name' => $event->name,
-            'description' => $event->header_1,
-            'ticket_holder' => $ticket->guest_guest,
-            // Add any other relevant data for the pass
-        ];
-
-
-        $qrCode = url('/event/ticket/' . $ticket->uuid);
-        // TODO - Add a default image if the event logo is not available
-        // $heroimage = asset('storage/event/' . $event->logo);
-        $heroimage = "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg";
-
-        // Create the pass
-        $passFilePath = $service->createPass(
-            $passTypeIdentifier,
-            $ticket->uuid,
-            $teamIdentifier,
-            $passData,
-            $certificatePath,
-            $certificatePassword,
-            $event->venue_name_1,
-            $event->name,
-            $event->date,
-            $event->venue_location,
-            $heroimage,
-            $qrCode
-        );
+        $passFilePath = $service->createPass($ticket_id);
 
         return response()->download($passFilePath, 'ticket_pass.pkpass')->deleteFileAfterSend();
     }

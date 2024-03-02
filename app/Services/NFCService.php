@@ -65,7 +65,7 @@ class NFCService
             } else {
                 trigger_error("No stty availible, unable to run.", E_USER_ERROR);
             }
-        } elseif (substr($sysname, 0, 7) === "Windows") {
+        } elseif (substr($sysname, 0, 7) == "Windows") {
             $this->_os = "windows";
             register_shutdown_function(array($this, "deviceClose"));
         } else {
@@ -119,6 +119,8 @@ class NFCService
                     $this->_dState = SERIAL_DEVICE_SET;
                     return true;
                 }
+                trigger_error("This is for windows only");
+                return false;
             }
 
             trigger_error("Specified serial port is not valid", E_USER_WARNING);
