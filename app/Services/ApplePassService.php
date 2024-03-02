@@ -93,13 +93,6 @@ class ApplePassService
             'foregroundColor' => $event->font_color,
             'relevantDate' => date('Y-m-d\TH:i:sP'),
 
-            'locations' => [
-                [
-                    'latitude' => $event->venue_lat,
-                    'longitude' => $event->venue_lon,
-                ],
-            ],
-
         ];
         $this->pass->setData($data);
 
