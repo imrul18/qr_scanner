@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('logo')->nullable();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('date');
 
             $table->string('header_1');

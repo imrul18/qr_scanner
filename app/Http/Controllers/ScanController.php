@@ -16,6 +16,13 @@ class ScanController extends Controller
 
     public function ticketScan(Request $request)
     {
+        if ($request->has('event_id')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Please Select an Event!',
+            ]);
+        }
+
         $content = $request->content;
         if (strlen($content) < 1) {
             return response()->json([
@@ -33,11 +40,7 @@ class ScanController extends Controller
                     'message' => 'Invalid QR Code!',
                 ]);
             } else {
-                $ticket = EventTicket::query();
-                if ($request->has('event_id')) {
-                    $ticket = $ticket->where('event_id', $request->event_id);
-                }
-                $ticket = $ticket->where('uuid', $url)->first();
+                $ticket = EventTicket::where('event_id', $request->event_id)->where('uuid', $url)->first();
                 if (!$ticket) {
                     return response()->json([
                         'status' => 'error',
