@@ -40,7 +40,7 @@ class EventController extends Controller
     public function eventAdd(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required|unique:events,name|min:3',
             'date' => 'required',
             'header_1' => 'required',
             'venue_name_1' => 'required',
@@ -109,7 +109,7 @@ class EventController extends Controller
     public function eventEdit(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required|unique:events,name,' . $id . '|min:3',
             'date' => 'required',
             'header_1' => 'required',
             'venue_name_1' => 'required',

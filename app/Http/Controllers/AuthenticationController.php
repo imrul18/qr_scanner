@@ -26,7 +26,11 @@ class AuthenticationController extends Controller
                 return redirect()->route('login')
                     ->with('loginError', 'Account is deactived')->withInput();
             }
-            return redirect('/');
+            if (Auth::user()->type == 3) {
+                return redirect('/scanner');
+            } else {
+                return redirect('/events');
+            }
         }
         return redirect()->route('login')
             ->with('loginError', 'Invalid login credentials')->withInput();
