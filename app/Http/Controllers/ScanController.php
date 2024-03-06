@@ -16,7 +16,7 @@ class ScanController extends Controller
 
     public function ticketScan(Request $request)
     {
-        if ($request->has('event_id')) {
+        if (!$request->has('event_id')) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Please Select an Event!',

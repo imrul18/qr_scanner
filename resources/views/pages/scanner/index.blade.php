@@ -13,7 +13,7 @@
                             <option value="{{ null }}" selected>Select an Event</option>
                             @foreach ($events as $event)
                                 <option value="{{ $event->id }}">
-                                    {{ $event->name . ' ( ' . $event->name_arabic . ' )' }}
+                                    {{ $event->name }}
                                 </option>
                             @endforeach
                         </select>

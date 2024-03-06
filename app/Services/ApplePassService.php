@@ -66,6 +66,11 @@ class ApplePassService
                         'label' => 'TIME',
                         'value' => date('H:i A', strtotime($event->date)),
                     ],
+                    [
+                        'key' => 'gate',
+                        'label' => 'GATE',
+                        'value' => "7 Gate",
+                    ],
                 ],
                 'auxiliaryFields' => [
                     [
@@ -97,7 +102,9 @@ class ApplePassService
         $this->pass->setData($data);
 
         $this->pass->addFile(Storage::path($event->logo));
+
         $this->pass->addFile(Storage::path($event->bg_image));
+
         $this->pass->addFile(Storage::path($event->partner_logo));
         // $this->pass->addFile(public_path('images/logo.png'));
         // $this->pass->addFile(public_path('images/thumbnail.png'));

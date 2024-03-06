@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('bg_image')->nullable();
             $table->string('font_color')->default('#000000');
             $table->string('font_family')->default('Arial');
+            $table->string('background_color')->default('#FFFFFF');
 
             $table->enum('status', [1, 2])->default(1)->comment('1=Active, 2=Inactive');
             $table->timestamps();

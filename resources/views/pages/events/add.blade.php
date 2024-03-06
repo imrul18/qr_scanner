@@ -244,8 +244,22 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Font Color</label>
+                                </div>
                                 <div class="col-sm-2 d-flex align-items-center">
                                     <input type="color" name="font_color" value="{{ old('font_color') }}" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Background Color</label>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <input type="color" name="background_color"
+                                        value="{{ old('background_color') }}" />
                                 </div>
                             </div>
                             <div class="row mt-1">
