@@ -30,10 +30,7 @@ class SettingsController extends Controller
                 if ($request->hasFile($setting->key)) {
                     $filename = explode('/', $setting->value);
                     $file = $request->file($setting->key);
-                    if ($setting->value && Storage::exists($setting->value)) {
-                        Storage::delete($setting->value);
-                    }
-                    $file->storeAs('public/files', end($filename));
+                    $file->move('file/files', end($filename));
                 }
             }
         }

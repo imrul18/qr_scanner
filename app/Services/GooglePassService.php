@@ -62,14 +62,14 @@ class GooglePassService
 
         $this->credentials = new ServiceAccountCredentials(
             $scope,
-            Storage::path($this->keyFilePath)
+            public_path($this->keyFilePath)
         );
 
         // Initialize Google Wallet API service
         $this->client = new Google_Client();
         $this->client->setApplicationName(config('app.name'));
         $this->client->setScopes($scope);
-        $this->client->setAuthConfig(Storage::path($this->keyFilePath));
+        $this->client->setAuthConfig(public_path($this->keyFilePath));
 
         $this->service = new Google_Service_Walletobjects($this->client);
     }
@@ -133,7 +133,8 @@ class GooglePassService
             'state' => 'ACTIVE',
             'heroImage' => new Google_Service_Walletobjects_Image([
                 'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-                    'uri' => asset(Storage::url($this->event->partner_logo))
+                    'uri' => 'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg'
+                    // 'uri' => asset(url($this->event->partner_logo))
                 ]),
                 'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
                     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([
@@ -212,7 +213,7 @@ class GooglePassService
     public function createLink($classId, $objectId)
     {
         // The service account credentials are used to sign the JWT
-        $serviceAccount = json_decode(file_get_contents(Storage::path($this->keyFilePath)), true);
+        $serviceAccount = json_decode(file_get_contents(public_path($this->keyFilePath)), true);
 
         // Create the JWT as an array of key/value pairs
         $claims = [

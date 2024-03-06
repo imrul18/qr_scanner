@@ -48,14 +48,12 @@ class EventController extends Controller
             'logo' => 'required|file|mimes:png',
             'partner_logo' => 'required|file|mimes:png',
             'aminity_logo' => 'required|file|mimes:png',
+            'bg_image' => 'required|file|mimes:png',
         ]);
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'background_color']);
 
         $event = Event::create($data);
         $directory = 'file/event/' . $event->id;
-        if (!File::exists(__DIR__ . '/' . $directory)) {
-            File::makeDirectory(__DIR__ . '/' . $directory, 0777, true);
-        }
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
@@ -128,33 +126,21 @@ class EventController extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            // if (file_exists($event->logo)) {
-            //     unlink($event->logo);
-            // }
             $file->move($directory, 'thumbnail.png');
             $event->logo = $directory . "/thumbnail.png";
         }
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            if (Storage::disk('public')->exists($event->partner_logo)) {
-                Storage::disk('public')->delete($event->partner_logo);
-            }
             $file->move($directory, 'logo.png');
             $event->partner_logo = $directory . "/logo.png";
         }
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
-            if (Storage::disk('public')->exists($event->aminity_logo)) {
-                Storage::disk('public')->delete($event->aminity_logo);
-            }
             $file->move($directory, 'aminity_logo.png');
             $event->aminity_logo = $directory . "/aminity_logo.png";
         }
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
-            if (Storage::disk('public')->exists($event->bg_image)) {
-                Storage::disk('public')->delete($event->bg_image);
-            }
             $file->move($directory, 'background.png');
             $event->bg_image = $directory . "/background.png";
         }

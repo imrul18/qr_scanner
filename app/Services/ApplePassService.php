@@ -15,8 +15,8 @@ class ApplePassService
     public function __construct()
     {
         $setting = MasterSetting::get();
-        $this->pass = new PKPass(Storage::path($setting->where('key', 'certificatePath')->first()->value), $setting->where('key', 'certificatePassword')->first()->value);
-        $this->pass->addFile(Storage::path($setting->where('key', 'appleWalletIcon')->first()->value));
+        $this->pass = new PKPass(public_path($setting->where('key', 'certificatePath')->first()->value), $setting->where('key', 'certificatePassword')->first()->value);
+        $this->pass->addFile(public_path($setting->where('key', 'appleWalletIcon')->first()->value));
         // $this->pass->addFile(public_path('images/icon.png'));
         $this->data = [
             'formatVersion' => 1,
@@ -48,28 +48,25 @@ class ApplePassService
             'description' => $event->name,
             'serialNumber' => $ticket->uuid,
             'eventTicket' => [
+                'headerFields' => [
+                    [
+                        'key' => 'date',
+                        'label' => 'Date',
+                        'value' => date('Y-m-d H:i A', strtotime($event->date)),
+                    ],
+                ],
                 'primaryFields' => [
                     [
                         'key' => 'event',
-                        'label' => 'EVENT',
+                        'label' => 'EVENT NAME',
                         'value' => $event->name,
                     ],
                 ],
                 'secondaryFields' => [
                     [
                         'key' => 'date',
-                        'label' => 'DATE',
-                        'value' => date('Y-m-d', strtotime($event->date)),
-                    ],
-                    [
-                        'key' => 'time',
-                        'label' => 'TIME',
-                        'value' => date('H:i A', strtotime($event->date)),
-                    ],
-                    [
-                        'key' => 'gate',
-                        'label' => 'GATE',
-                        'value' => "7 Gate",
+                        'label' => 'HEADER',
+                        'value' => $event->header_1,
                     ],
                 ],
                 'auxiliaryFields' => [
@@ -85,6 +82,18 @@ class ApplePassService
                         'label' => 'TICKET',
                         'value' => $ticket->uuid,
                     ],
+                    [
+                        'key' => 'locations',
+                        'label' => 'LOCATION',
+                        'value' => $event->venue_location,
+                    ]
+                ],
+
+                'locations' => [
+                    [
+                        'latitude' => $event->venue_lat,
+                        'longitude' => $event->venue_lon,
+                    ]
                 ],
             ],
 
@@ -95,20 +104,17 @@ class ApplePassService
                 'messageEncoding' => 'iso-8859-1',
             ],
 
+
+            'backgroundColor' => $event->background_color,
             'foregroundColor' => $event->font_color,
+            'labelColor' => $event->font_color,
             'relevantDate' => date('Y-m-d\TH:i:sP'),
 
         ];
         $this->pass->setData($data);
 
-        $this->pass->addFile(Storage::path($event->logo));
-
-        $this->pass->addFile(Storage::path($event->bg_image));
-
-        $this->pass->addFile(Storage::path($event->partner_logo));
-        // $this->pass->addFile(public_path('images/logo.png'));
-        // $this->pass->addFile(public_path('images/thumbnail.png'));
-        // $this->pass->addFile(public_path('images/background.png'));
+        $this->pass->addFile(public_path($event->logo));
+        $this->pass->addFile(public_path($event->partner_logo));
 
 
         return $this->pass->create(true);
