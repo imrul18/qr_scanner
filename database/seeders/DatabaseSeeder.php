@@ -51,13 +51,13 @@ class DatabaseSeeder extends Seeder
             'key' => 'certificatePath',
             'type' => 2,
             'label' => 'Apple wallet Certificate',
-            'value' => 'public/files/Certificates.p12'
+            'value' => 'file/files/Certificates.p12'
         ]);
         MasterSetting::create([
             'key' => 'appleWalletIcon',
             'type' => 2,
             'label' => 'Apple wallet Icon',
-            'value' => 'public/files/icon.png'
+            'value' => 'file/files/icon.png'
         ]);
 
         MasterSetting::create([
@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'key' => 'keyFilePath',
             'type' => 2,
             'label' => 'Google Key File Path',
-            'value' => 'public/files/key.json'
+            'value' => 'file/files/key.json'
         ]);
         FontStyle::create([
             'name' => 'Arial',
