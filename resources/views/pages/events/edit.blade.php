@@ -176,7 +176,7 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Aminity Logo</label><span class="text-danger">*</span>
+                                    <label class="col-form-label">Aminity Logo</label>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="aminity logo"
@@ -194,8 +194,7 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Access Details 1</label><span
-                                        class="text-danger">*</span>
+                                    <label class="col-form-label">Access Details 1</label>
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="location" class="form-control" name="access_details_1" placeholder=""
