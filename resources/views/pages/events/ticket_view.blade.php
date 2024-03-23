@@ -14,7 +14,7 @@
                 <div class="auth-wrapper auth-basic px-2">
                     <div class="auth-inner my-2">
                         <div class="card-body"
-                            style="background-image: url('{{ url($ticket->event->bg_image) }}?{{ time() }}'); z-index: 1000;">
+                            style="background-image: url('{{ $ticket->event->bg_image ? url($ticket->event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
                             <div class="p-1"
                                 style="font-family: {{ $ticket->event->font_family }}; color: {{ $ticket->event->font_color }}">
 

@@ -44,6 +44,11 @@ class PublicTicketController extends Controller
         $qrCode = $qr->getImageBlob();
 
 
+        $fontFamily = $ticket->event->font_family;
+        $fontColor = $ticket->event->font_color;
+        $bgImage = $ticket->event->bg_image;
+        return view('pages.events.show_ticket', compact('ticket', 'qrCode', 'fontFamily', 'fontColor', 'bgImage'));
+
         if (!auth()->check()) {
             $fontFamily = $ticket->event->font_family;
             $fontColor = $ticket->event->font_color;
