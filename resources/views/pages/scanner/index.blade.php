@@ -52,12 +52,15 @@
 
                 scanner.addListener('scan', function(content) {
                     scanTicket(content);
-
                 });
 
                 Instascan.Camera.getCameras().then(function(cameras) {
                     if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
+                        let selectedCamera = cameras.find(camera => camera.name.includes('back'));
+                        if (!selectedCamera) {
+                            selectedCamera = cameras[0];
+                        }
+                        scanner.start(selectedCamera);
                     } else {
                         alert('No cameras found.');
                     }

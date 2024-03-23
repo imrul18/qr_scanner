@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('partner_logo')->nullable();
             $table->string('aminity_logo')->nullable();
 
-            $table->string('access_details_1');
+            $table->string('access_details_1')->nullable();
             $table->string('access_details_2')->nullable();
 
             $table->string('bg_image')->nullable();
