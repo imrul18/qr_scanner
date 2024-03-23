@@ -13,12 +13,12 @@
             <div class="auth-wrapper auth-basic px-2">
                 <div class="auth-inner my-2">
                     <div class="card-body"
-                        style="background-image: url('{{ url($event->bg_image) }}?{{ time() }}'); z-index: 1000;">
+                        style="background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
                         <div class="p-1" style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
                             <div class="text-center my-1">
-                                <img src="{{ url($event->logo) }}?{{ time() }}" alt="logo"
-                                    class="rounded" height="60">
+                                <img src="{{ url($event->logo) }}?{{ time() }}" alt="logo" class="rounded"
+                                    height="60">
                             </div>
 
                             <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
@@ -65,12 +65,16 @@
                                 <img src="{{ url($event->partner_logo) }}?{{ time() }}" alt="Partner Logo"
                                     class="rounded" height="40">
                                 <span>
-                                    <img src="{{ url($event->aminity_logo) }}?{{ time() }}"
-                                        alt="Aminity Logo" class="rounded" height="40">
+                                    @if ($event->aminity_logo && $event->aminity_logo != '')
+                                        <img src="{{ url($event->aminity_logo) }}?{{ time() }}" alt="Aminity Logo"
+                                            class="rounded" height="40">
+                                    @endif
                                 </span>
                             </div>
-                            <div class="text-end" style="font-size: 16px">
-                                {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                            @if ($event->access_details_1 && $event->access_details_1 != '')
+                                <div class="text-end" style="font-size: 16px">
+                                    {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                            @endif
                             @if ($event->access_details_2 && $event->access_details_2 != '')
                                 <div class="text-end" style="font-size: 14px">
                                     {{ __($event->access_details_2, ['x' => 5]) }}

@@ -176,25 +176,25 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Aminity Logo</label><span class="text-danger">*</span>
+                                    <label class="col-form-label">Aminity Logo</label>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="aminity logo"
-                                        placeholder="Aminity Logo" value="{{ $event->aminity_logo }}"
+                                        placeholder="Aminity Logo" value="{{ $event->aminity_logo ?? null }}"
                                         onchange="readURL(this, '#aminity_logo')" />
                                     @error('aminity_logo')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="aminity_logo" src="{{ url($event->aminity_logo) }}" alt="aminity_logo"
-                                        class="rounded-circle" height="40" width="40" />
+                                    <img id="aminity_logo"
+                                        src="{{ $event->aminity_logo ? url($event->aminity_logo) : null }}"
+                                        alt="aminity_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Access Details 1</label><span
-                                        class="text-danger">*</span>
+                                    <label class="col-form-label">Access Details 1</label>
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="location" class="form-control" name="access_details_1" placeholder=""
@@ -230,8 +230,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="bg_image" src="{{ url($event->bg_image) }}" alt="logo Arabic"
-                                        class="rounded-circle" height="40" width="40" />
+                                    <img id="bg_image" src="{{ $event->bg_image ? url($event->bg_image) : null }}"
+                                        alt="logo Arabic" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -299,7 +299,7 @@
                 <div class="auth-wrapper auth-basic px-2">
                     <div class="auth-inner my-2">
                         <div class="card-body"
-                            style="background-image: url('{{ url($event->bg_image) }}?{{ time() }}'); z-index: 1000;">
+                            style="background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
                             <div class="p-1"
                                 style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
@@ -352,12 +352,16 @@
                                     <img src="{{ url($event->partner_logo) }}?{{ time() }}" alt="Partner Logo"
                                         class="rounded" height="40">
                                     <span>
-                                        <img src="{{ url($event->aminity_logo) }}?{{ time() }}"
-                                            alt="Aminity Logo" class="rounded" height="40">
+                                        @if ($event->aminity_logo && $event->aminity_logo != '')
+                                            <img src="{{ url($event->aminity_logo) }}?{{ time() }}"
+                                                alt="Aminity Logo" class="rounded" height="40">
+                                        @endif
                                     </span>
                                 </div>
-                                <div class="text-end" style="font-size: 16px">
-                                    {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                                @if ($event->access_details_1 && $event->access_details_1 != '')
+                                    <div class="text-end" style="font-size: 16px">
+                                        {{ __($event->access_details_1, ['x' => 10]) }}</div>
+                                @endif
                                 @if ($event->access_details_2 && $event->access_details_2 != '')
                                     <div class="text-end" style="font-size: 14px">
                                         {{ __($event->access_details_2, ['x' => 5]) }}

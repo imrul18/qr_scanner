@@ -17,12 +17,13 @@
                     </div>
             </div>
         @else
-            <div class="card-body" style="background-image: url('{{ url($bgImage) }}?{{ time() }}');">
+            <div class="card-body"
+                style="background-image: url('{{ $bgImage ? url($bgImage) : null }}?{{ time() }}');">
                 <div class="p-1" style="font-family: {{ $fontFamily }}; color: {{ $fontColor }}">
 
                     <div class="text-center my-1">
-                        <img src="{{ url($ticket->event->logo) }}?{{ time() }}" alt="logo"
-                            class="rounded" height="60">
+                        <img src="{{ url($ticket->event->logo) }}?{{ time() }}" alt="logo" class="rounded"
+                            height="60">
                     </div>
 
                     <div class="text-center" style="font-size: 22px">{{ $ticket->event->header_1 }}</div>
@@ -69,12 +70,17 @@
                         <img src="{{ url($ticket->event->partner_logo) }}?{{ time() }}" alt="Partner Logo"
                             class="rounded" height="40">
                         <span>
-                            <img src="{{ url($ticket->event->aminity_logo) }}?{{ time() }}"
-                                alt="Aminity Logo" class="rounded" height="40">
+                            @if ($ticket->event->aminity_logo && $ticket->event->aminity_logo != '')
+                                <img src="{{ url($ticket->event->aminity_logo) }}?{{ time() }}" alt="Aminity Logo"
+                                    class="rounded" height="40">
+                            @endif
                         </span>
                     </div>
-                    <div class="text-end" style="font-size: 16px">
-                        {{ __($ticket->event->access_details_1, ['x' => $ticket->total_access_permitted]) }}</div>
+
+                    @if ($ticket->event->access_details_1 && $ticket->event->access_details_1 != '')
+                        <div class="text-end" style="font-size: 16px">
+                            {{ __($ticket->event->access_details_1, ['x' => $ticket->total_access_permitted]) }}</div>
+                    @endif
                     @if ($ticket->event->access_details_2 && $ticket->event->access_details_2 != '' && $ticket->children_access_permitted)
                         <div class="text-end" style="font-size: 14px">
                             {{ __($ticket->event->access_details_2, ['x' => $ticket->children_access_permitted]) }}</div>

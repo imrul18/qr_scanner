@@ -58,21 +58,21 @@ class ApplePassService
                 'primaryFields' => [
                     [
                         'key' => 'event',
-                        'label' => 'EVENT NAME',
+                        'label' => '',
                         'value' => $event->name,
                     ],
                 ],
                 'secondaryFields' => [
                     [
                         'key' => 'date',
-                        'label' => 'HEADER',
+                        'label' => '',
                         'value' => $event->header_1,
                     ],
                 ],
                 'auxiliaryFields' => [
                     [
                         'key' => 'section',
-                        'label' => 'VENUE',
+                        'label' => '',
                         'value' => $event->venue_name_1
                     ],
                 ],

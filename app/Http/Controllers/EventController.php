@@ -44,11 +44,8 @@ class EventController extends Controller
             'header_1' => 'required',
             'venue_name_1' => 'required',
             'venue_location' => 'required',
-            'access_details_1' => 'required',
             'logo' => 'required|file|mimes:png',
             'partner_logo' => 'required|file|mimes:png',
-            'aminity_logo' => 'required|file|mimes:png',
-            'bg_image' => 'required|file|mimes:png',
         ]);
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'background_color']);
 
@@ -114,7 +111,6 @@ class EventController extends Controller
             'header_1' => 'required',
             'venue_name_1' => 'required',
             'venue_location' => 'required',
-            'access_details_1' => 'required',
             'status' => 'required',
         ]);
 

@@ -69,13 +69,18 @@
                                     <img src="{{ url($ticket->event->partner_logo) }}?{{ time() }}"
                                         alt="Partner Logo" class="rounded" height="40">
                                     <span>
-                                        <img src="{{ url($ticket->event->aminity_logo) }}?{{ time() }}"
-                                            alt="Aminity Logo" class="rounded" height="40">
+                                        @if ($ticket->event->aminity_logo && $ticket->event->aminity_logo != '')
+                                            <img src="{{ url($ticket->event->aminity_logo) }}?{{ time() }}"
+                                                alt="Aminity Logo" class="rounded" height="40">
+                                        @endif
                                     </span>
                                 </div>
-                                <div class="text-end" style="font-size: 16px">
-                                    {{ __($ticket->event->access_details_1, ['x' => $ticket->total_access_permitted]) }}
-                                </div>
+
+                                @if ($ticket->event->access_details_1 && $ticket->event->access_details_1 != '')
+                                    <div class="text-end" style="font-size: 16px">
+                                        {{ __($ticket->event->access_details_1, ['x' => $ticket->total_access_permitted]) }}
+                                    </div>
+                                @endif
                                 @if ($ticket->event->access_details_2 && $ticket->event->access_details_2 != '')
                                     <div class="text-end" style="font-size: 14px">
                                         {{ __($ticket->event->access_details_2, ['x' => $ticket->children_access_permitted]) }}
