@@ -76,6 +76,11 @@ class ApplePassService
                         'label' => '',
                         'value' => $event->venue_name_1,
                     ],
+                    [
+                        'key' => 'section2',
+                        'label' => '',
+                        'value' => $event->venue_name_2 ?? "",
+                    ],
                 ],
                 'backFields' => [
                     [

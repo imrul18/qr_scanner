@@ -35,8 +35,8 @@
                                     <td class="text-center">
                                         @if ($event->logo)
                                             <a href="{{ url($event->logo) }}?{{ time() }}" target="_new"><img
-                                                    src="{{ url($event->logo) }}" alt="event logo" class="rounded"
-                                                    height="40" width="40" /></a>
+                                                    src="{{ url($event->logo) }}?{{ time() }}" alt="event logo"
+                                                    class="rounded" height="40" width="40" /></a>
                                         @endif
                                     </td>
                                     <td>
