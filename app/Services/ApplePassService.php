@@ -114,7 +114,7 @@ class ApplePassService
             'backgroundColor' => $event->background_color,
             'foregroundColor' => $event->wallet_font_color,
             'labelColor' => $event->wallet_font_color,
-            'relevantDate' => date('Y-m-d\TH:i:sP'),
+            'relevantDate' => date('Y-m-d\TH:i:sP', strtotime($event->date)),
 
         ];
         $this->pass->setData($data);
