@@ -16,8 +16,9 @@ class ApplePassService
     {
         $setting = MasterSetting::get();
         $this->pass = new PKPass(base_path('/public_html/' . $setting->where('key', 'certificatePath')->first()->value), $setting->where('key', 'certificatePassword')->first()->value);
+        // $this->pass = new PKPass(public_path() . '/' . $setting->where('key', 'certificatePath')->first()->value, $setting->where('key', 'certificatePassword')->first()->value);
         $this->pass->addFile(base_path('/public_html/' . $setting->where('key', 'appleWalletIcon')->first()->value));
-        // $this->pass->addFile(base_path('/public_html/' . 'images/icon.png'));
+        // $this->pass->addFile(public_path() . '/' . $setting->where('key', 'appleWalletIcon')->first()->value);
         $this->data = [
             'formatVersion' => 1,
             'organizationName' => $setting->where('key', 'organizationName')->first()->value,
@@ -57,23 +58,23 @@ class ApplePassService
                 ],
                 'primaryFields' => [
                     [
-                        'key' => 'event',
+                        'key' => 'event-name',
                         'label' => '',
                         'value' => $event->name,
                     ],
                 ],
                 'secondaryFields' => [
                     [
-                        'key' => 'date',
+                        'key' => 'header',
                         'label' => '',
                         'value' => $event->header_1,
-                    ],
+                    ]
                 ],
                 'auxiliaryFields' => [
                     [
                         'key' => 'section',
                         'label' => '',
-                        'value' => $event->venue_name_1
+                        'value' => $event->venue_name_1,
                     ],
                 ],
                 'backFields' => [
@@ -106,15 +107,17 @@ class ApplePassService
 
 
             'backgroundColor' => $event->background_color,
-            'foregroundColor' => $event->font_color,
-            'labelColor' => $event->font_color,
+            'foregroundColor' => $event->wallet_font_color,
+            'labelColor' => $event->wallet_font_color,
             'relevantDate' => date('Y-m-d\TH:i:sP'),
 
         ];
         $this->pass->setData($data);
 
         $this->pass->addFile(base_path('/public_html/' . $event->logo));
+        // $this->pass->addFile(public_path() . '/' . $event->logo);
         $this->pass->addFile(base_path('/public_html/' . $event->partner_logo));
+        // $this->pass->addFile(public_path() . '/' . $event->partner_logo);
 
 
         return $this->pass->create(true);
