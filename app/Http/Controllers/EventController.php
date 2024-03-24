@@ -45,7 +45,9 @@ class EventController extends Controller
             'venue_name_1' => 'required',
             'venue_location' => 'required',
             'logo' => 'required|file|mimes:png',
+            'wallet_logo' => 'required|file|mimes:png',
             'partner_logo' => 'required|file|mimes:png',
+            'wallet_partner_logo' => 'required|file|mimes:png',
         ]);
         $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'wallet_font_color', 'background_color']);
 
@@ -54,19 +56,34 @@ class EventController extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $file->move($directory, 'thumbnail.png');
-            $event->logo = $directory . "/thumbnail.png";
+            $file->move($directory, 'mainlogo.png');
+            $event->logo = $directory . "/mainlogo.png";
         }
+
+        if ($request->hasFile('wallet_logo')) {
+            $file = $request->file('wallet_logo');
+            $file->move($directory, 'thumbnail.png');
+            $event->wallet_logo = $directory . "/thumbnail.png";
+        }
+
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            $file->move($directory, 'logo.png');
-            $event->partner_logo = $directory . "/logo.png";
+            $file->move($directory, 'partner_logo.png');
+            $event->partner_logo = $directory . "/partner_logo.png";
         }
+
+        if ($request->hasFile('wallet_partner_logo')) {
+            $file = $request->file('wallet_partner_logo');
+            $file->move($directory, 'logo.png');
+            $event->wallet_partner_logo = $directory . "/logo.png";
+        }
+
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
             $file->move($directory, 'aminity_logo.png');
             $event->aminity_logo = $directory . "/aminity_logo.png";
         }
+
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
             $file->move($directory, 'background.png');
@@ -122,19 +139,34 @@ class EventController extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $file->move($directory, 'thumbnail.png');
-            $event->logo = $directory . "/thumbnail.png";
+            $file->move($directory, 'mainlogo.png');
+            $event->logo = $directory . "/mainlogo.png";
         }
+
+        if ($request->hasFile('wallet_logo')) {
+            $file = $request->file('wallet_logo');
+            $file->move($directory, 'thumbnail.png');
+            $event->wallet_logo = $directory . "/thumbnail.png";
+        }
+
         if ($request->hasFile('partner_logo')) {
             $file = $request->file('partner_logo');
-            $file->move($directory, 'logo.png');
-            $event->partner_logo = $directory . "/logo.png";
+            $file->move($directory, 'partner_logo.png');
+            $event->partner_logo = $directory . "/partner_logo.png";
         }
+
+        if ($request->hasFile('wallet_partner_logo')) {
+            $file = $request->file('wallet_partner_logo');
+            $file->move($directory, 'logo.png');
+            $event->wallet_partner_logo = $directory . "/logo.png";
+        }
+
         if ($request->hasFile('aminity_logo')) {
             $file = $request->file('aminity_logo');
             $file->move($directory, 'aminity_logo.png');
             $event->aminity_logo = $directory . "/aminity_logo.png";
         }
+
         if ($request->hasFile('bg_image')) {
             $file = $request->file('bg_image');
             $file->move($directory, 'background.png');

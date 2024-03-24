@@ -22,7 +22,7 @@
                             <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Logo</label>
+                                    <label class="col-form-label">Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="logo" placeholder="logo"
@@ -34,6 +34,23 @@
                                 <div class="col-sm-2 text-center">
                                     <img id="logo" src="{{ url($event->logo) }}" alt="logo" class="rounded-circle"
                                         height="40" width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Wallet Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="wallet_logo" placeholder="wallet logo"
+                                        value="{{ $event->wallet_logo ? url($event->wallet_logo) : null }}"
+                                        onchange="readURL(this, '#wallet_logo')" />
+                                    @error('wallet_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="wallet_logo" src="{{ $event->wallet_logo ? url($event->wallet_logo) : null }}"
+                                        alt="wallet_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -171,6 +188,26 @@
                                 <div class="col-sm-2 text-center">
                                     <img id="partner_logo" src="{{ url($event->partner_logo) }}" alt="partner_logo"
                                         class="rounded-circle" height="40" width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Wallet Partner Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="wallet_partner_logo"
+                                        placeholder="Wallet Partner Logo"
+                                        value="{{ $event->wallet_partner_logo ?? null }}"
+                                        onchange="readURL(this, '#wallet_partner_logo')" />
+                                    @error('wallet_partner_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="wallet_partner_logo"
+                                        src="{{ $event->wallet_partner_logo ? url($event->wallet_partner_logo) : null }}"
+                                        alt="wallet_partner_logo" class="rounded-circle" height="40"
+                                        width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -401,8 +438,16 @@
             readURL(this, '#logo');
         });
 
+        $("#wallet_logo").change(function() {
+            readURL(this, '#wallet_logo');
+        });
+
         $("#partner_logo").change(function() {
             readURL(this, '#partner_logo');
+        });
+
+        $("#wallet_partner_logo").change(function() {
+            readURL(this, '#wallet_partner_logo');
         });
 
         $("#aminity_logo").change(function() {

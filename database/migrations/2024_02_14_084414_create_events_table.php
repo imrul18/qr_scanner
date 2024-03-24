@@ -16,13 +16,12 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('logo')->nullable();
+            $table->string('wallet_logo')->nullable();
             $table->string('name')->unique();
-            $table->string('date');
-
             $table->string('header_1');
             $table->string('header_2')->nullable();
             $table->string('header_3')->nullable();
-
+            $table->string('date');
             $table->string('venue_name_1');
             $table->string('venue_name_2')->nullable();
             $table->string('venue_location');
@@ -30,6 +29,7 @@ return new class extends Migration
             $table->string('venue_lon')->nullable();
 
             $table->string('partner_logo')->nullable();
+            $table->string('wallet_partner_logo')->nullable();
             $table->string('aminity_logo')->nullable();
 
             $table->string('access_details_1')->nullable();
