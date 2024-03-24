@@ -37,6 +37,7 @@ return new class extends Migration
 
             $table->string('bg_image')->nullable();
             $table->string('font_color')->default('#000000');
+            $table->string('wallet_font_color')->default('#000000');
             $table->string('font_family')->default('Arial');
             $table->string('background_color')->default('#FFFFFF');
 

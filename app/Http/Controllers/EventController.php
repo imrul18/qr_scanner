@@ -47,7 +47,7 @@ class EventController extends Controller
             'logo' => 'required|file|mimes:png',
             'partner_logo' => 'required|file|mimes:png',
         ]);
-        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'background_color']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'wallet_font_color', 'background_color']);
 
         $event = Event::create($data);
         $directory = 'file/event/' . $event->id;
@@ -115,7 +115,7 @@ class EventController extends Controller
         ]);
 
         $event = Event::find($id);
-        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'background_color', 'status']);
+        $data = $request->only(['name', 'date', 'header_1', 'header_2', 'header_3', 'venue_name_1', 'venue_name_2', 'venue_location', 'venue_lat', 'venue_lon', 'access_details_1', 'access_details_2', 'font_family', 'font_color', 'wallet_font_color',  'background_color', 'status']);
 
 
         $directory = 'file/event/' . $event->id;

@@ -18,7 +18,7 @@
             </div>
         @else
             <div class="card-body"
-                style="background-image: url('{{ $bgImage ? url($bgImage) : null }}?{{ time() }}');">
+                style="background-color: white; background-image: url('{{ $bgImage ? url($bgImage) : null }}?{{ time() }}');">
                 <div class="p-1" style="font-family: {{ $fontFamily }}; color: {{ $fontColor }}">
 
                     <div class="text-center my-1">
@@ -26,6 +26,7 @@
                             height="60">
                     </div>
 
+                    <div class="text-center mb-2" style="font-size: 24px">{{ $ticket->event->name }}</div>
                     <div class="text-center" style="font-size: 22px">{{ $ticket->event->header_1 }}</div>
                     @if ($ticket->event->header_2 && $ticket->event->header_2 != '')
                         <div class="text-center" style="font-size: 18px">{{ $ticket->event->header_2 }}</div>
@@ -34,7 +35,6 @@
                         <div class="text-center" style="font-size: 18px">{{ $ticket->event->header_3 }}</div>
                     @endif
 
-                    <div class="text-center mt-2" style="font-size: 24px">{{ $ticket->event->name }}</div>
                     <div class="text-center" style="font-size: 14px">
                         {{ date('d-m-Y h:i A', strtotime($ticket->event->date)) }}
                     </div>

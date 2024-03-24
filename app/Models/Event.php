@@ -33,6 +33,7 @@ class Event extends Model
         'bg_image',
         'font_family',
         'font_color',
+        'wallet_font_color',
         'background_color',
 
         'status',

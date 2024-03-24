@@ -48,21 +48,9 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Date</label> <span class="text-danger">*</span>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
-                                        id="date" value="{{ $event->date }}" />
-                                    @error('date')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             {{-- additional details --}}
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4>
+                            {{-- <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4> --}}
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Event Header 1</label><span class="text-danger">*</span>
@@ -99,7 +87,18 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Date</label> <span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
+                                        id="date" value="{{ $event->date }}" />
+                                    @error('date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Event Venue 1</label><span class="text-danger">*</span>
@@ -260,6 +259,15 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
+                                    <label class="col-form-label">Wallet Font Color</label>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <input type="color" name="wallet_font_color"
+                                        value="{{ $event->wallet_font_color }}" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
                                     <label class="col-form-label">Background Color</label>
                                 </div>
                                 <div class="col-sm-2 d-flex align-items-center">
@@ -299,7 +307,7 @@
                 <div class="auth-wrapper auth-basic px-2">
                     <div class="auth-inner my-2">
                         <div class="card-body"
-                            style="background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
+                            style="background-color: white; background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
                             <div class="p-1"
                                 style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
@@ -308,6 +316,7 @@
                                         class="rounded" height="60">
                                 </div>
 
+                                <div class="text-center mb-2" style="font-size: 24px">{{ $event->name }}</div>
                                 <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
                                 @if ($event->header_2 && $event->header_2 != '')
                                     <div class="text-center" style="font-size: 18px">{{ $event->header_2 }}</div>
@@ -316,7 +325,6 @@
                                     <div class="text-center" style="font-size: 18px">{{ $event->header_3 }}</div>
                                 @endif
 
-                                <div class="text-center mt-2" style="font-size: 24px">{{ $event->name }}</div>
                                 <div class="text-center" style="font-size: 14px">
                                     {{ date('d-m-Y h:i A', strtotime($event->date)) }}
                                 </div>

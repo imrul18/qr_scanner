@@ -13,7 +13,7 @@
             <div class="auth-wrapper auth-basic px-2">
                 <div class="auth-inner my-2">
                     <div class="card-body"
-                        style="background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
+                        style="background-color: white; background-image: url('{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}'); z-index: 1000;">
                         <div class="p-1" style="font-family: {{ $event->font_family }}; color: {{ $event->font_color }}">
 
                             <div class="text-center my-1">
@@ -21,6 +21,7 @@
                                     height="60">
                             </div>
 
+                            <div class="text-center mb-2" style="font-size: 24px">{{ $event->name }}</div>
                             <div class="text-center" style="font-size: 22px">{{ $event->header_1 }}</div>
                             @if ($event->header_2 && $event->header_2 != '')
                                 <div class="text-center" style="font-size: 18px">{{ $event->header_2 }}</div>
@@ -29,7 +30,6 @@
                                 <div class="text-center" style="font-size: 18px">{{ $event->header_3 }}</div>
                             @endif
 
-                            <div class="text-center mt-2" style="font-size: 24px">{{ $event->name }}</div>
                             <div class="text-center" style="font-size: 14px">
                                 {{ date('d-m-Y h:i A', strtotime($event->date)) }}
                             </div>

@@ -43,21 +43,9 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Date</label> <span class="text-danger">*</span>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
-                                        id="date" value="{{ old('date') }}" />
-                                    @error('date')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             {{-- additional details --}}
-                            <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4>
+                            {{-- <h4 class="form-section"><i class="fa fa-paperclip"></i>Event Information</h4> --}}
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Event Header 1</label><span class="text-danger">*</span>
@@ -94,7 +82,18 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Date</label> <span class="text-danger">*</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="datetime-local" class="form-control" name="date" placeholder="Date"
+                                        id="date" value="{{ old('date') }}" />
+                                    @error('date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Event Venue 1</label><span class="text-danger">*</span>
@@ -250,6 +249,15 @@
                                 </div>
                                 <div class="col-sm-2 d-flex align-items-center">
                                     <input type="color" name="font_color" value="{{ old('font_color') }}" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Wallet Font Color</label>
+                                </div>
+                                <div class="col-sm-2 d-flex align-items-center">
+                                    <input type="color" name="wallet_font_color"
+                                        value="{{ old('wallet_font_color') }}" />
                                 </div>
                             </div>
                             <div class="row mb-1">
