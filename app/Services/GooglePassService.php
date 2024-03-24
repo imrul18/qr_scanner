@@ -133,8 +133,7 @@ class GooglePassService
             'state' => 'ACTIVE',
             'heroImage' => new Google_Service_Walletobjects_Image([
                 'sourceUri' => new Google_Service_Walletobjects_ImageUri([
-                    // 'uri' => 'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg'
-                    'uri' => asset(url($this->event->partner_logo))
+                    'uri' => asset(url($this->event->wallet_partner_logo))
                 ]),
                 'contentDescription' => new Google_Service_Walletobjects_LocalizedString([
                     'defaultValue' => new Google_Service_Walletobjects_TranslatedString([

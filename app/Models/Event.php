@@ -11,13 +11,12 @@ class Event extends Model
 
     protected $fillable = [
         'logo',
+        'wallet_logo',
         'name',
-        'date',
-
         'header_1',
         'header_2',
         'header_3',
-
+        'date',
         'venue_name_1',
         'venue_name_2',
         'venue_location',
@@ -25,6 +24,7 @@ class Event extends Model
         'venue_lon',
 
         'partner_logo',
+        'wallet_partner_logo',
         'aminity_logo',
 
         'access_details_1',

@@ -17,7 +17,7 @@
                             <h4 class="form-section"><i class="fa fa-paperclip"></i> Event Details</h4>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Logo</label>
+                                    <label class="col-form-label">Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="logo" placeholder="logo"
@@ -29,6 +29,22 @@
                                 <div class="col-sm-2 text-center">
                                     <img id="logo" src="#" alt="logo" class="rounded-circle" height="40"
                                         width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="wallet_logo" placeholder="logo"
+                                        value="{{ old('wallet_logo') }}" onchange="readURL(this, '#wallet_logo')" />
+                                    @error('wallet_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="wallet_logo" src="#" alt="wallet_logo" class="rounded-circle"
+                                        height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -169,6 +185,23 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
+                                    <label class="col-form-label">Wallet Partner Logo</label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="file" class="form-control" name="wallet_partner_logo"
+                                        placeholder="Partner Logo" value="{{ old('wallet_partner_logo') }}"
+                                        onchange="readURL(this, '#wallet_partner_logo')" />
+                                    @error('wallet_partner_logo')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <img id="wallet_partner_logo" src="#" alt="wallet_partner_logo"
+                                        class="rounded-circle" height="40" width="40" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-3">
                                     <label class="col-form-label">Aminity Logo</label>
                                 </div>
                                 <div class="col-sm-7">
@@ -297,8 +330,16 @@
             readURL(this, '#logo');
         });
 
+        $("#wallet_logo").change(function() {
+            readURL(this, '#wallet_logo');
+        });
+
         $("#partner_logo").change(function() {
             readURL(this, '#partner_logo');
+        });
+
+        $("#wallet_partner_logo").change(function() {
+            readURL(this, '#wallet_partner_logo');
         });
 
         $("#aminity_logo").change(function() {

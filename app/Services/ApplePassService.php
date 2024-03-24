@@ -114,10 +114,10 @@ class ApplePassService
         ];
         $this->pass->setData($data);
 
-        $this->pass->addFile(base_path('/public_html/' . $event->logo));
-        // $this->pass->addFile(public_path() . '/' . $event->logo);
-        $this->pass->addFile(base_path('/public_html/' . $event->partner_logo));
-        // $this->pass->addFile(public_path() . '/' . $event->partner_logo);
+        $this->pass->addFile(base_path('/public_html/' . $event->wallet_logo));
+        // $this->pass->addFile(public_path() . '/' . $event->wallet_logo);
+        $this->pass->addFile(base_path('/public_html/' . $event->wallet_partner_logo));
+        // $this->pass->addFile(public_path() . '/' . $event->wallet_partner_logo);
 
 
         return $this->pass->create(true);
