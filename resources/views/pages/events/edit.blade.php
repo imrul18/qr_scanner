@@ -32,8 +32,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="logo" src="{{ url($event->logo) }}" alt="logo" class="rounded-circle"
-                                        height="40" width="40" />
+                                    <img id="logo" src="{{ url($event->logo) }}?{{ time() }}" alt="logo"
+                                        class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -49,7 +49,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="wallet_logo" src="{{ $event->wallet_logo ? url($event->wallet_logo) : null }}"
+                                    <img id="wallet_logo"
+                                        src="{{ $event->wallet_logo ? url($event->wallet_logo) : null }}?{{ time() }}"
                                         alt="wallet_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
@@ -186,8 +187,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="partner_logo" src="{{ url($event->partner_logo) }}" alt="partner_logo"
-                                        class="rounded-circle" height="40" width="40" />
+                                    <img id="partner_logo" src="{{ url($event->partner_logo) }}?{{ time() }}"
+                                        alt="partner_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -206,7 +207,7 @@
                                 </div>
                                 <div class="col-sm-2 text-center">
                                     <img id="wallet_partner_logo"
-                                        src="{{ $event->wallet_partner_logo ? url($event->wallet_partner_logo) : null }}"
+                                        src="{{ $event->wallet_partner_logo ? url($event->wallet_partner_logo) : null }}?{{ time() }}"
                                         alt="wallet_partner_logo" class="rounded-circle" height="40"
                                         width="40" />
                                 </div>
@@ -225,7 +226,7 @@
                                 </div>
                                 <div class="col-sm-2 text-center">
                                     <img id="aminity_logo"
-                                        src="{{ $event->aminity_logo ? url($event->aminity_logo) : null }}"
+                                        src="{{ $event->aminity_logo ? url($event->aminity_logo) : null }}?{{ time() }}"
                                         alt="aminity_logo" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
@@ -267,7 +268,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2 text-center">
-                                    <img id="bg_image" src="{{ $event->bg_image ? url($event->bg_image) : null }}"
+                                    <img id="bg_image"
+                                        src="{{ $event->bg_image ? url($event->bg_image) : null }}?{{ time() }}"
                                         alt="logo Arabic" class="rounded-circle" height="40" width="40" />
                                 </div>
                             </div>
