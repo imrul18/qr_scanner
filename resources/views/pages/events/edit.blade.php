@@ -38,7 +38,7 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Wallet Logo</label>
+                                    <label class="col-form-label">Wallet Logo</label><span class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="wallet_logo" placeholder="wallet logo"
@@ -192,7 +192,8 @@
                             </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Wallet Partner Logo</label>
+                                    <label class="col-form-label">Wallet Partner Logo</label><span
+                                        class="text-danger">*</span>
                                 </div>
                                 <div class="col-sm-7">
                                     <input type="file" class="form-control" name="wallet_partner_logo"
