@@ -15,8 +15,9 @@
     <div class="auth-wrapper auth-cover">
         <div class="auth-inner row m-0">
             <!-- Brand logo-->
-            <a class="brand-logo" href="#">
-                <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            <a class="brand-logo flex item-center justify-center" href="#">
+                <img src="{{ asset('images/pages/logo.png') }}" height="120px" />
+                {{-- <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" height="28">
                     <defs>
                         <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%"
@@ -48,8 +49,7 @@
                             </g>
                         </g>
                     </g>
-                </svg>
-                <h2 class="brand-text text-primary ms-1">QR Scaner</h2>
+                </svg> --}}
             </a>
             <!-- /Brand logo-->
 
@@ -68,7 +68,7 @@
             <!-- Login-->
             <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                    <h2 class="card-title fw-bold mb-1">Welcome to QR Scanner! 👋</h2>
+                    <h2 class="card-title fw-bold mb-1">Welcome to FORWAD Group! 👋</h2>
                     <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
                     <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
                         @csrf

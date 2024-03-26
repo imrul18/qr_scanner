@@ -43,7 +43,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <h2 class="brand-text mb-0">QR Scanner</h2>
+                        <h2 class="brand-text mb-0">FORWAD Group</h2>
                     </a>
                 </li>
             </ul>
@@ -123,10 +123,10 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                     <h6 class="dropdown-header">Manage Profile</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item"
+                    {{-- <a class="dropdown-item"
                         href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0)' }}">
                         <i class="me-50" data-feather="user"></i> Profile
-                    </a>
+                    </a> --}}
                     @if (Auth::check())
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

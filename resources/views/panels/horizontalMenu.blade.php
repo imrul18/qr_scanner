@@ -51,7 +51,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <h2 class="brand-text mb-0">QR Scanner</h2>
+                        <h2 class="brand-text mb-0">FORWAD Group</h2>
                     </a>
                 </li>
                 <li class="nav-item nav-toggle">
